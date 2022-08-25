@@ -1,0 +1,19 @@
+#OpenParEMmodes 1.0
+
+File
+   name=coax.FCStd
+EndFile
+
+Path
+   name=V1
+   point=(0.000406,0.0)
+   point=(0.00148,0.0)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=voltage
+   path=V1
+EndMode
+

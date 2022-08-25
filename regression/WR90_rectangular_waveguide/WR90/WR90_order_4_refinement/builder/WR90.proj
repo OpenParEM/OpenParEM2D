@@ -1,0 +1,32 @@
+#OpenParEM2Dproject 1.0
+
+// template settings: change as needed
+
+project.save.fields               true
+mesh.file                         WR90.msh
+mesh.order                        4
+mode.definition.file              WR90_modes.txt
+materials.global.path             ../../../../
+materials.global.name             global_materials.txt
+materials.local.path              
+materials.local.name               // change to point at the project materials file
+refinement.frequency              highlow
+refinement.variable               |gamma|
+refinement.iteration.min          1
+refinement.iteration.max          50
+refinement.required.passes        1
+refinement.tolerance              1e-9
+frequency.plan.linear             9e9,10e9,1e9
+solution.modes                    5
+solution.temperature              20
+solution.tolerance                1e-12
+solution.iteration.limit          10000
+solution.modes.buffer             10
+solution.impedance.definition     PV
+solution.impedance.calculation    modal
+solution.shift.invert             true
+solution.use.initial.guess        true
+output.show.refining.mesh         false
+output.show.postprocessing        false
+output.show.iterations            false
+output.show.license               false

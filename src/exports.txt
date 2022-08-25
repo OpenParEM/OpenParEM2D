@@ -1,0 +1,9 @@
+
+export HYPRE_DIR=$HOME/Desktop/hypre
+export PETSC_DIR=$HOME/Desktop/petsc
+export PETSC_ARCH=arch-linux-c-debug
+export SLEPC_DIR=$HOME/Desktop/slepc
+export MFEM_DIR=$HOME/Desktop/mfem
+export EIGEN_DIR=/usr/include/eigen3/Eigen/src/misc
+export METIS_DIR=$HOME/Desktop/metis
+

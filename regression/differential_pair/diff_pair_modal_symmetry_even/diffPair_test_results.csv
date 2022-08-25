@@ -1,0 +1,2 @@
+#frequency,iteration,mesh size,matrix size,converged,final error,elapsed time (s),modal impedance calculation,mode count,alpha[1] db/m,beta[1]/ko,real(Z[1;1]),imag(Z[1;1]),
+52000000000,16,761,20102,1,0.00065702164850299,38.465536,1,1,-4.71563094552462e-10,2.98193419843023,56.0743484927977,-8.44387515155959e-13,

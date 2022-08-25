@@ -1,0 +1,903 @@
+OpenParEM2D Copyright (C) 2022 Brian Young
+
+This program comes with ABSOLUTELY NO WARRANTY.  This is free software,
+and you are welcome to distribute it under certain conditions. To see
+the full license, set
+  output.show.license true
+in the setup file.
+
+Setting up ...
+   loading project file "PartFilled_relaxed_run.proj"
+   loading materials file "../../global_materials.txt"
+   loading materials file "../local_materials.txt"
+Loading mesh and assigning materials ...
+Mesh::GeneratePartitioning(...): edgecut = 23
+Frequency: 6e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            number of iterations: 135
+         post processing ...
+         null space eigenvalue count: 4
+         solve elapsed time: 1.80753 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1            6e+09    4.0538199e-25        328.16649   -8.0064988e-14   -6.3669615e-13
+          2            6e+09    2.4061019e-27        2385.8463   -6.1683275e-15   -4.9052033e-14
+          3            6e+09    1.1064243e-28        2667.2843   -1.3227302e-15   -1.0518671e-14
+          4            6e+09    2.9571979e-26        2947.4334    2.1624726e-14    1.7196505e-13
+          5            6e+09    1.2909682e-27        2995.9855   -4.5182285e-15   -3.5930046e-14
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 1.81126 s
+Frequency: 6.25e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 5
+         post processing ...
+         null space eigenvalue count: 7
+         solve elapsed time: 0.34317 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         6.25e+09      0.036619759    5.9724197e-13      0.025066686        0.1913629
+          2         6.25e+09    6.2543768e-32        2353.1181   -3.2759043e-17   -2.5008752e-16
+          3         6.25e+09    2.4469656e-31        2633.5777    6.4796733e-17    4.9466813e-16
+          4         6.25e+09    6.9769019e-29        2914.0154    1.0941339e-15    8.3527851e-15
+          5         6.25e+09    3.7538537e-31        2966.0167   -8.0256063e-17   -6.1268701e-16
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 2.15667 s
+Frequency: 6.5e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 3
+         post processing ...
+         null space eigenvalue count: 6
+         solve elapsed time: 0.363849 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1          6.5e+09       0.14990425   -1.0905534e-13      0.052744781        0.3871747
+          2          6.5e+09    4.5778583e-34        2318.3359    -2.914766e-18    -2.139593e-17
+          3          6.5e+09    4.4400541e-31         2597.971    9.0775083e-17    6.6633731e-16
+          4          6.5e+09    7.9531335e-29        2878.9923   -1.2149032e-15   -8.9180343e-15
+          5          6.5e+09    5.7352376e-31        2934.4466    1.0316876e-16    7.5731351e-16
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 2.52297 s
+Frequency: 6.75e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 5
+         post processing ...
+         null space eigenvalue count: 5
+         solve elapsed time: 0.395381 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         6.75e+09       0.25160176   -3.0099954e-13      0.070961008       0.50159921
+          2         6.75e+09    6.0753302e-32        2281.3747   -3.4869674e-17   -2.4648185e-16
+          3         6.75e+09    3.7386427e-32        2560.3777    2.7353942e-17     1.933557e-16
+          4         6.75e+09    1.3662005e-29        2842.3286    5.2290182e-16    3.6962149e-15
+          5         6.75e+09    6.8722594e-32        2901.2166    3.7086232e-17    2.6214994e-16
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 2.92065 s
+Frequency: 7e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 4
+         post processing ...
+         null space eigenvalue count: 4
+         solve elapsed time: 0.34558 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1            7e+09       0.34337682    2.0448867e-12      0.085969161       0.58598363
+          2            7e+09    1.0336264e-29        2242.0929    -4.716708e-16    -3.215006e-15
+          3            7e+09    3.4027356e-32        2520.7013    2.7062712e-17    1.8446505e-16
+          4            7e+09    4.3132319e-30        2803.9852    3.0469029e-16    2.0768322e-15
+          5            7e+09    3.1751211e-30        2866.2621   -2.6141912e-16   -1.7818869e-15
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 3.26854 s
+Frequency: 7.25e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 6
+         post processing ...
+         null space eigenvalue count: 4
+         solve elapsed time: 0.353925 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         7.25e+09       0.42661269   -7.4903876e-12      0.099246239       0.65315595
+          2         7.25e+09    5.1348183e-31        2200.3303   -1.0888291e-16   -7.1657647e-16
+          3         7.25e+09    1.2151984e-31        2478.8337   -5.2968877e-17   -3.4859696e-16
+          4         7.25e+09    6.6854376e-28        2763.9195   -3.9288196e-15   -2.5856213e-14
+          5         7.25e+09    2.9746796e-30        2829.5123    2.6206998e-16     1.724726e-15
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 3.625 s
+Frequency: 7.5e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 6
+         post processing ...
+         null space eigenvalue count: 4
+         solve elapsed time: 0.363409 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1          7.5e+09       0.50246662   -2.5841248e-09       0.11142279        0.7088488
+          2          7.5e+09    2.3584961e-33        2155.9037   -7.6337514e-18    -4.856435e-17
+          3          7.5e+09    3.8999858e-26        2434.6534    3.1042161e-14    1.9748382e-13
+          4          7.5e+09    7.4124796e-25        2722.0846   -1.3533252e-13   -8.6095758e-13
+          5          7.5e+09    3.9844789e-25        2790.8888    9.9221593e-14    6.3122729e-13
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 3.99086 s
+Frequency: 7.75e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 7
+         post processing ...
+         null space eigenvalue count: 4
+         solve elapsed time: 0.366656 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         7.75e+09       0.57191269     3.359755e-12       0.12283602       0.75624909
+          2         7.75e+09     8.316744e-33        2108.6034   -1.4812813e-17   -9.1196184e-17
+          3         7.75e+09    1.1975498e-29        2388.0231    5.6209233e-16    3.4605633e-15
+          4         7.75e+09    5.0014921e-28        2678.4284   -3.6325421e-15   -2.2364016e-14
+          5         7.75e+09    4.4531095e-30         2750.305    3.4276191e-16    2.1102392e-15
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 4.35977 s
+Frequency: 8e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 8
+         post processing ...
+         null space eigenvalue count: 4
+         solve elapsed time: 0.375327 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1            8e+09       0.63577549   -5.2433789e-12       0.13369065       0.79735531
+          2            8e+09    1.0228239e-29        2058.1867   -5.3622812e-16   -3.1981618e-15
+          3            8e+09    4.3802659e-30        2338.7869    3.5091294e-16    2.0929085e-15
+          4            8e+09    5.5558857e-29        2632.8935   -1.2497576e-15   -7.4537814e-15
+          5            8e+09    1.8601546e-29        2707.6646    7.2314215e-16     4.312951e-15
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 4.73749 s
+Frequency: 8.25e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 8
+         post processing ...
+         null space eigenvalue count: 4
+         solve elapsed time: 0.383194 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         8.25e+09       0.69475672   -4.0533054e-12       0.14412174       0.83352068
+          2         8.25e+09    2.8219303e-29        2004.3708    9.1851501e-16    5.3121844e-15
+          3         8.25e+09    1.5316672e-29        2286.7667    6.7669867e-16     3.913652e-15
+          4         8.25e+09    7.7660494e-29        2585.4155   -1.5237481e-15   -8.8125192e-15
+          5         8.25e+09    1.6463982e-29        2662.8604    7.0158543e-16    4.0575833e-15
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 5.12309 s
+Frequency: 8.5e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 9
+         post processing ...
+         null space eigenvalue count: 4
+         solve elapsed time: 0.387217 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1          8.5e+09       0.74945632    2.1168616e-12       0.15422375       0.86571146
+          2          8.5e+09     6.754032e-30        1946.8232    4.6297725e-16    2.5988521e-15
+          3          8.5e+09    5.0864488e-31        2231.7574    1.2705315e-16    7.1319344e-16
+          4          8.5e+09     2.193629e-28        2535.9224   -2.6385157e-15   -1.4810905e-14
+          5          8.5e+09    9.0370646e-31        2615.7723   -1.6935257e-16   -9.5063477e-16
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 5.51269 s
+Frequency: 8.75e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 7
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.386166 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         8.75e+09       0.80038951   -7.8096036e-11       0.16406574       0.89464491
+          2         8.75e+09    5.5452925e-29        1885.1478    1.3656187e-15     7.446672e-15
+          3         8.75e+09    5.0901067e-30         2173.521     -4.13743e-16   -2.2561265e-15
+          4         8.75e+09    2.0808604e-26        2484.3329   -2.6453838e-14   -1.4425188e-13
+          5         8.75e+09     1.959073e-28        2566.2652     2.566803e-15    1.3996689e-14
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 5.90125 s
+Frequency: 9e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 8
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.379482 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1            9e+09       0.84800043    3.3302825e-10       0.17369996       0.92086939
+          2            9e+09    1.2276918e-27         1818.867    6.6091614e-15    3.5038434e-14
+          3            9e+09    1.1235476e-27        2111.7791   -6.3226247e-15   -3.3519361e-14
+          4            9e+09     1.374705e-23        2430.5546    -6.993691e-13   -3.7077015e-12
+          5            9e+09    3.0358166e-24        2514.1866    3.2865439e-13    1.7423595e-12
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 6.28307 s
+Frequency: 9.25e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 10
+         post processing ...
+         null space eigenvalue count: 4
+         solve elapsed time: 0.417971 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         9.25e+09       0.89267329    6.3706833e-09       0.18316697       0.94481389
+          2         9.25e+09    6.7712663e-28        1747.3952   -5.0447058e-15   -2.6021657e-14
+          3         9.25e+09    3.6435019e-26        2046.2022    3.7004999e-14    1.9087959e-13
+          4         9.25e+09    2.2758672e-22         2374.482   -2.9246531e-12   -1.5085978e-11
+          5         9.25e+09    2.5494005e-22         2459.363    3.0954225e-12    1.5966842e-11
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 6.70338 s
+Frequency: 9.5e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 8
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.390375 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1          9.5e+09       0.93474145    4.2155976e-12       0.19249902       0.96682028
+          2          9.5e+09    3.1236897e-22        1670.0003   -3.5189793e-12   -1.7673963e-11
+          3          9.5e+09    5.6326654e-27        1976.3954   -1.4943067e-14   -7.5051085e-14
+          4          9.5e+09    1.5756209e-23        2315.9933    7.9033032e-13    3.9694092e-12
+          5          9.5e+09    1.2695154e-23        2401.5958   -7.0941728e-13    -3.563026e-12
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 7.09642 s
+Frequency: 9.75e+09
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 9
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.397987 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         9.75e+09       0.97449486    2.1734551e-11       0.20172214       0.98716506
+          2         9.75e+09    7.1310069e-22        1585.7453    5.4568147e-12    2.6703945e-11
+          3         9.75e+09    2.4982879e-25        1901.8795    1.0213745e-13    4.9982876e-13
+          4         9.75e+09    7.2043789e-24        2254.9476   -5.4848159e-13   -2.6840974e-12
+          5         9.75e+09    5.0924577e-24        2340.6557    4.6113437e-13    2.2566474e-12
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 7.49695 s
+Frequency: 1e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 9
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.415071 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1            1e+10        1.0121862    2.4963901e-11       0.21085766        1.0060747
+          2            1e+10    9.6852109e-32        1493.3946    6.5224943e-17    3.1121071e-16
+          3            1e+10    5.6018185e-32        1822.0621    4.9604798e-17    2.3668161e-16
+          4            1e+10    1.2649057e-26        2191.1795   -2.3571555e-14   -1.1246803e-13
+          5            1e+10    3.2894267e-27        2276.2762     1.202041e-14    5.7353524e-14
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 7.91497 s
+Frequency: 1.025e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 10
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.483521 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1        1.025e+10        1.0480361       5.2897e-11       0.21992326        1.0237364
+          2        1.025e+10    3.1227519e-28        1391.2563   -3.7962235e-15    -1.767131e-14
+          3        1.025e+10    1.6400489e-27        1736.1965   -8.6998433e-15   -4.0497517e-14
+          4        1.025e+10    9.3609646e-26         2124.494   -6.5726928e-14   -3.0595693e-13
+          5        1.025e+10    3.1525168e-26        2208.1443    3.8142727e-14    1.7755328e-13
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 8.40094 s
+Frequency: 1.05e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 10
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.408116 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         1.05e+10        1.0822373    -1.053961e-10       0.22893369        1.0403063
+          2         1.05e+10    1.0775746e-22        1276.8971    2.2843999e-12    1.0380629e-11
+          3         1.05e+10     8.554202e-22        1643.3181   -6.4363287e-12   -2.9247567e-11
+          4         1.05e+10    1.7850603e-22        2054.6583    2.9401867e-12    1.3360615e-11
+          5         1.05e+10    1.2265898e-22        2135.8879   -2.4372391e-12   -1.1075152e-11
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 8.81156 s
+Frequency: 1.075e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 10
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.409745 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1        1.075e+10         1.114958   -2.1578046e-09       0.23790134        1.0559157
+          2        1.075e+10    4.1608789e-25        1146.5704    1.4533164e-13    6.4504875e-13
+          3        1.075e+10    5.9171614e-24        1542.1419   -5.4805525e-13   -2.4325216e-12
+          4        1.075e+10    3.3129232e-20        1981.3918   -4.1008446e-11   -1.8201437e-10
+          5        1.075e+10     1.620689e-20         2059.059    2.8682531e-11    1.2730629e-10
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 9.22374 s
+Frequency: 1.1e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 11
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.42991 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1          1.1e+10        1.1463455   -3.3170353e-09       0.24683664        1.0706753
+          2          1.1e+10    5.7741204e-23        993.90725    1.7518413e-12    7.5987633e-12
+          3          1.1e+10    4.3220819e-22         1430.889    4.7928998e-12    2.0789617e-11
+          4          1.1e+10    3.6777991e-22        1904.3517   -4.4212579e-12   -1.9177589e-11
+          5          1.1e+10    1.8913747e-22        1977.1104    3.1705941e-12    1.3752726e-11
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 9.65805 s
+Frequency: 1.125e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 11
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.433999 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1        1.125e+10        1.1765284    1.7441672e-08       0.25574838        1.0846789
+          2        1.125e+10    2.3269013e-24        806.18974   -3.5966706e-13   -1.5254184e-12
+          3        1.125e+10    4.3538515e-24        1306.9663    4.9198119e-13    2.0865885e-12
+          4        1.125e+10    1.8415856e-21        1823.1132   -1.0118302e-11   -4.2913699e-11
+          5        1.125e+10    2.9494357e-21        1889.3604    1.2805046e-11    5.4308707e-11
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 10.0945 s
+Frequency: 1.15e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 12
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.448117 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         1.15e+10        1.2056186    1.5827468e-11       0.26464395        1.0980066
+          2         1.15e+10    1.4056829e-25        548.35609    9.0365089e-14    3.7492437e-13
+          3         1.15e+10    3.3268248e-26        1166.3172   -4.3961446e-14   -1.8239586e-13
+          4         1.15e+10    8.5885861e-21        1737.1414     2.233664e-11    9.2674625e-11
+          5         1.15e+10    5.9090375e-21         1794.942   -1.8527438e-11   -7.6870264e-11
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 10.5451 s
+Frequency: 1.175e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 13
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.496429 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1        1.175e+10        1.2337137     1.086939e-11       0.27352954        1.1107267
+          2        1.175e+10      0.013131483   -3.6043893e-09        0.0282198       0.11459268
+          3        1.175e+10    4.0845208e-26        1001.8923    4.9769994e-14    2.0210198e-13
+          4        1.175e+10    3.4698774e-23        1645.7484   -1.4506215e-12   -5.8905665e-12
+          5        1.175e+10    2.8782047e-23         1692.722    1.3211675e-12    5.3648902e-12
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 11.044 s
+Frequency: 1.2e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 13
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.445301 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1          1.2e+10        1.2608985    6.2653724e-11       0.28241026        1.1228974
+          2          1.2e+10      0.090644084   -4.4015328e-09       0.07571992       0.30107156
+          3          1.2e+10    6.4884583e-26        799.11051   -6.4063575e-14   -2.5472452e-13
+          4          1.2e+10    2.6737659e-23         1548.028   -1.3004753e-12    -5.170847e-12
+          5          1.2e+10    7.2456053e-23        1581.1686    2.1408081e-12    8.5121122e-12
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 11.4918 s
+Frequency: 1.225e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 14
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.479228 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1        1.225e+10        1.2872464    4.7661901e-11       0.29129034        1.1345688
+          2        1.225e+10       0.16427002   -4.5117183e-09       0.10405774       0.40530238
+          3        1.225e+10    1.4930156e-21        514.39586     -9.92036e-12    -3.863956e-11
+          4        1.225e+10    1.3295706e-20          1442.75    2.9604038e-11    1.1530701e-10
+          5        1.225e+10    2.3645365e-20         1458.118   -3.9479193e-11    -1.537705e-10
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 11.9735 s
+Frequency: 1.25e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 14
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.451813 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         1.25e+10        1.3128207   -1.6058127e-09       0.30017318        1.1457839
+          2         1.25e+10       0.23431421    6.2655384e-09       0.12681438       0.48406013
+          3         1.25e+10       0.02282648    4.3355472e-10      0.039581173       0.15108435
+          4         1.25e+10    8.4146621e-22        1320.3682   -7.5995437e-12   -2.9008037e-11
+          5         1.25e+10    8.4730467e-22        1328.1383    7.6258626e-12    2.9108498e-11
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 12.4277 s
+Frequency: 1.275e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 14
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.4528 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1        1.275e+10        1.3376761   -6.3342181e-09       0.30906145        1.1565795
+          2        1.275e+10       0.30104936   -1.4008103e-08       0.14661831       0.54867965
+          3        1.275e+10       0.09464645    3.7926756e-10      0.082209407       0.30764663
+          4        1.275e+10    8.1258517e-23        1162.6051    2.4088169e-12    9.0143506e-12
+          5        1.275e+10    5.4701779e-23        1201.6479   -1.9763783e-12   -7.3960651e-12
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 12.8832 s
+Frequency: 1.3e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 15
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.468461 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1          1.3e+10        1.3618595   -1.8318717e-08       0.31795721        1.1669874
+          2          1.3e+10       0.36471962   -8.6194422e-08       0.16454401       0.60392021
+          3          1.3e+10       0.16257608   -3.1420908e-10       0.10985779       0.40320725
+          4          1.3e+10    8.3758698e-22        975.19675    7.8852865e-12    2.8941095e-11
+          5          1.3e+10    6.7523896e-22        1059.0203   -7.0799675e-12   -2.5985361e-11
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 13.3541 s
+Frequency: 1.325e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 15
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.465319 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1        1.325e+10        1.3854109   -4.9545395e-08       0.32686194        1.1770348
+          2        1.325e+10       0.42554398    2.0347461e-10       0.18115373       0.65233732
+          3        1.325e+10       0.22690903   -2.2046644e-09       0.13228206       0.47634969
+          4        1.325e+10    9.6704418e-22        735.76949     8.635713e-12    3.1097334e-11
+          5        1.325e+10    4.6113799e-22        892.61758    5.9633527e-12    2.1474124e-11
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 13.8219 s
+Frequency: 1.35e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 16
+         post processing ...
+         null space eigenvalue count: 2
+         solve elapsed time: 0.490134 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         1.35e+10        1.4083647   -4.2846494e-12       0.33577665        1.1867454
+          2         1.35e+10       0.48371913   -1.2019343e-10        0.1967839        0.6954992
+          3         1.35e+10        0.2879119    3.7572984e-09       0.15181782       0.53657422
+          4         1.35e+10    1.2200057e-08     0.0061029794    3.1251715e-05    0.00011045387
+          5         1.35e+10    7.3829193e-21        350.18531   -2.4311234e-11   -8.5923916e-11
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 14.3166 s
+Frequency: 1.375e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 16
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.490715 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1        1.375e+10        1.4307498    3.3577174e-11       0.34470192        1.1961395
+          2        1.375e+10       0.53942206   -1.6149996e-10       0.21165387       0.73445358
+          3        1.375e+10       0.34582716    2.1105725e-09       0.16946945       0.58807071
+          4        1.375e+10      0.048717331   -1.0967641e-07      0.063606809       0.22072003
+          5        1.375e+10     2.439351e-21        374.90413   -1.4233084e-11   -4.9389786e-11
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 14.8099 s
+Frequency: 1.4e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 16
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.481255 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1          1.4e+10        1.4525911   -5.5474241e-11       0.35363798        1.2052349
+          2          1.4e+10       0.59281231   -3.9394877e-11       0.22591539       0.76994306
+          3          1.4e+10       0.40087574   -2.1095799e-08       0.18577706       0.63314749
+          4          1.4e+10       0.11428229   -6.5480248e-10      0.099192007       0.33805664
+          5          1.4e+10      0.029376183    -8.456597e-09      0.050290376       0.17139482
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 15.2937 s
+Frequency: 1.425e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 17
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.490549 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1        1.425e+10        1.4739098   -4.3100665e-10       0.36258471        1.2140469
+          2        1.425e+10       0.64403405    6.9161292e-09       0.23967815       0.80251732
+          3        1.425e+10       0.45325922    9.2248308e-08       0.20107004       0.67324529
+          4        1.425e+10       0.17663352   -1.1192156e-08       0.12551932        0.4202779
+          5        1.425e+10      0.077912726    1.9295351e-08       0.08336394       0.27912851
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 15.7868 s
+Frequency: 1.45e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 18
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.497128 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1         1.45e+10        1.4947239   -3.4617439e-10       0.37154178         1.222589
+          2         1.45e+10       0.69321782    1.0055987e-08       0.25302418       0.83259703
+          3         1.45e+10       0.50316185    8.6489679e-12       0.21556638       0.70933902
+          4         1.45e+10       0.23599276    2.0976387e-09       0.14763064       0.48579086
+          5         1.45e+10       0.12341888    1.1300934e-08       0.10676231       0.35131024
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 16.2864 s
+Frequency: 1.475e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 18
+         post processing ...
+         null space eigenvalue count: 3
+         solve elapsed time: 0.502636 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1        1.475e+10        1.5150488   -2.1629996e-09       0.38050862        1.2308732
+          2        1.475e+10       0.74048215    -2.732814e-08       0.26601644       0.86051273
+          3        1.475e+10       0.55075227    4.7871112e-11       0.22941898       0.74212686
+          4        1.475e+10       0.29256303    3.0789562e-10       0.16720949       0.54089096
+          5        1.475e+10       0.16611767    3.3678931e-08       0.12599668       0.40757535
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 16.7921 s
+Frequency: 1.5e+10
+   Using existing mesh ...
+      mesh size: 138
+      mesh worst element aspect ratio: 1.82595 < target: 5
+      Solving ...
+         matrix size: 2167
+         solving the eigenvalue problem ...
+            using initial guess for the dominant eigenvalue
+            number of iterations: 14
+         post processing ...
+         null space eigenvalue count: 2
+         solve elapsed time: 0.46414 s
+      Results:
+         -------------------------------------------------------------------------------------------------------------------------
+          mode     frequency           er,eff      alpha(dB/m)  beta/1000,rad/m          beta/ko        Zii(real)        Zii(imag)
+         -------------------------------------------------------------------------------------------------------------------------
+          1          1.5e+10        1.5348979   -5.0391903e-09       0.38948449          1.23891
+          2          1.5e+10       0.78593496   -1.1965165e-07       0.27870434       0.88652973
+          3          1.5e+10       0.59618508    1.0728887e-09       0.24273979       0.77213023
+          4          1.5e+10       0.34653045    1.7968932e-08       0.18506365       0.58866837
+          5          1.5e+10        0.2062145    8.3370098e-08       0.14276115       0.45410847
+         -------------------------------------------------------------------------------------------------------------------------
+      Finished
+      cummulative elapsed time: 17.2587 s
+Job Complete
+Elapsed time: 17.2612 s

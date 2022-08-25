@@ -1,0 +1,35 @@
+#OpenParEMmodes 1.0
+
+File
+   name=WR90_waveguide.FCStd
+EndFile
+
+Path
+   name=symmetry
+   point=(0.01143,0.0)
+   point=(0.01143,0.01016)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=voltage
+   path=symmetry
+EndMode
+
+Path
+   name=boundary
+   point=(0.0,0.0)
+   point=(0.02286,0.0)
+   point=(0.02286,0.01016)
+   point=(0.0,0.01016)
+   closed=true
+EndPath
+
+Boundary
+   name=boundary
+   type=surface_impedance
+   path=boundary
+   material=copper
+EndBoundary
+

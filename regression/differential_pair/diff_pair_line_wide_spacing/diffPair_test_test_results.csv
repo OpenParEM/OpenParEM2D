@@ -1,0 +1,14 @@
+# TestCaseDatabase::show_evaluation
+# name,status,frequency,mode,column,[fieldVariable:x,y,]testVariable,testFunction,[equal:expectedValue,]foundValue,[equal:error,tolerance | lessthan:threshold
+diffPair_1_2_5_result,pass,5.2e+10,2,1,real_Z_2_1,equal,0.00648032701481682,0.00648034015222976,2.02727623319932e-06,1e-05,
+diffPair_1_1_8_result,pass,52000000000,1,2,real_Z_1_2,equal,0.00648032701482038,0.00648034015223331,2.02727623159206e-06,1e-05,
+diffPair_1_2_11_result,pass,52000000000,2,2,imag_Z_2_2,lessthan,-2.82378884493471e-07,1e-06,
+diffPair_1_1_10_result,pass,52000000000,1,2,imag_Z_1_2,lessthan,-1.59629328196331e-07,1e-06,
+diffPair_1_2_7_result,pass,52000000000,2,1,imag_Z_2_1,lessthan,-1.59629328196331e-07,1e-06,
+diffPair_1_1_6_result,pass,52000000000,1,1,imag_Z_1_1,lessthan,3.66778164664215e-08,1e-06,
+diffPair_1_2_1_result,pass,52000000000,2,0,alpha,lessthan,-1.55710739373992e-10,1e-08,
+diffPair_1_1_0_result,pass,52000000000,1,0,alpha,lessthan,-9.87106006685059e-11,1e-08,
+diffPair_1_1_4_result,pass,52000000000,1,1,real_Z_1_1,equal,52.137629975187,52.1376299752061,3.6646265228554e-13,1e-10,
+diffPair_1_1_2_result,pass,52000000000,1,0,beta,equal,2.94779102371043,2.94779102371035,2.71172743013494e-14,1e-10,
+diffPair_1_2_9_result,pass,52000000000,2,2,real_Z_2_2,equal,52.1517711232294,52.1517711232307,2.49328676368157e-14,1e-10,
+diffPair_1_2_3_result,pass,52000000000,2,0,beta,equal,2.94782448516292,2.9478244851629,6.77924162168982e-15,1e-10,

@@ -1,0 +1,227 @@
+#OpenParEMmaterials 1.0
+
+Material
+   name=freespace
+   Temperature
+      temperature=any
+      Frequency
+         frequency=any
+         er=1
+         mur=1
+         tand=0
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      physics definition
+   EndSource
+EndMaterial
+
+Material
+   name=air
+   Temperature
+      temperature=any
+      Frequency
+         frequency=any
+         er=1.0006
+         mur=1
+         tand=0
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      Constantine A. Balanis, "Advanced Engineering Electromagnetics", 
+      John Wiley and Sons, 1989, p.79.
+   EndSource
+EndMaterial
+
+Material
+   name=FR4_simple
+   Temperature
+      temperature=any
+      Frequency
+         frequency=any
+         er=4.2
+         mur=1
+         tand=0.02
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+     generic approximatation
+   EndSource
+EndMaterial
+
+Material
+   name=FR4
+   Temperature
+      temperature=any
+      er_infinity=4.27
+      delta_er=1.12
+      m1=4
+      m2=12
+      mur=1
+      conductivity=80e-12
+   EndTemperature
+   Source
+      A.R. Djordjevi, R.M Biljie, V.D. Likar-Dmiljanic, T.K. Sarkar, 
+      "Wideband Frequency-Domain Characterization of FR-4 and Time-Domain Causality,"
+      IEEE Trans. Electromagnetic Compatibility, Nov. 2001, pp. 662-667.
+   EndSource
+EndMaterial
+
+Material
+   name=Lee_semiconductor
+   Temperature
+      temperature=any
+      Frequency
+         frequency=any
+         er=9.0
+         mur=1
+         conductivity=0.05
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      Jin-Fa Lee, "Finite Element Analysis of Lossy Dielectric Waveguides,"
+      IEEE Trans. Microwave Theory and Techniques, vol.42, no. 7, June 1994, pp. 1025-1031.
+   EndSource
+EndMaterial
+
+Material
+   name=aluminum
+   Temperature
+      temperature=20
+      Frequency
+         frequency=any
+         er=1
+         mur=1
+         conductivity=3.816e7
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      David M. Pozar, "Microwave Engineering," Addison-Wesley Publishing Company, 1990, p.714.
+   EndSource
+EndMaterial
+
+Material
+   name=brass
+   Temperature
+      temperature=20
+      Frequency
+         frequency=any
+         er=1
+         mur=1
+         conductivity=2.564e7
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      David M. Pozar, "Microwave Engineering," Addison-Wesley Publishing Company, 1990, p.714.
+   EndSource
+EndMaterial
+
+Material
+   name=bronze
+   Temperature
+      temperature=20
+      Frequency
+         frequency=any
+         er=1
+         mur=1
+         conductivity=1.00e7
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      David M. Pozar, "Microwave Engineering," Addison-Wesley Publishing Company, 1990, p.714.
+   EndSource
+EndMaterial
+
+Material
+   name=copper
+   Temperature
+      temperature=20
+      Frequency
+         frequency=any
+         er=1
+         mur=1
+         conductivity=5.813e7
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      David M. Pozar, "Microwave Engineering," Addison-Wesley Publishing Company, 1990, p.714.
+   EndSource
+EndMaterial
+
+Material
+   name=gold
+   Temperature
+      temperature=20
+      Frequency
+         frequency=any
+         er=1
+         mur=1
+         conductivity=4.098e7
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      David M. Pozar, "Microwave Engineering," Addison-Wesley Publishing Company, 1990, p.714.
+   EndSource
+EndMaterial
+
+Material
+   name=lead
+   Temperature
+      temperature=20
+      Frequency
+         frequency=any
+         er=1
+         mur=1
+         conductivity=4.56e6
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      David M. Pozar, "Microwave Engineering," Addison-Wesley Publishing Company, 1990, p.714.
+   EndSource
+EndMaterial
+
+Material
+   name=silver
+   Temperature
+      temperature=20
+      Frequency
+         frequency=any
+         er=1
+         mur=1
+         conductivity=6.173e7
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      David M. Pozar, "Microwave Engineering," Addison-Wesley Publishing Company, 1990, p.714.
+   EndSource
+EndMaterial
+
+Material
+   name=Teflon
+   Temperature
+      temperature=25
+      Frequency
+         frequency=any
+         er=2.08
+         mur=1
+         tand=0.0004
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      David M. Pozar, "Microwave Engineering," Addison-Wesley Publishing Company, 1990, p.715.
+      10 GHz
+   EndSource
+EndMaterial
+

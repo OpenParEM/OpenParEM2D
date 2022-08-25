@@ -1,0 +1,28 @@
+Process Audit Results for "result" with test "equal":
+   passed=10
+   failed=0
+   evaluated=10
+   min_error=1.98634e-14
+   avg_error=5.86885e-13
+   max_error=2.34349e-12 : Harrington_1_1_1_result_exact,9e+09,1,0,beta,equal,0.92086938922494,0.920869389227098,2.3434935947678e-12,1e-05,1
+Process Audit Results for "result" with test "lessthan":
+   passed=10
+   failed=0
+   evaluated=10
+   min_value=5.1234471126828e-16
+   avg_value=1.12286581009058e-11
+   max_value=1.09286060481289e-10 : Harrington_1_1_0_result_exact,9000000000,1,0,alpha,lessthan,-1.09286060481289e-10,1e-08,1
+Process Audit Results for "field" with test "equal":
+   passed=726
+   failed=0
+   evaluated=726
+   min_error=7.06789929214113e-16
+   avg_error=1.45206375947334e-07
+   max_error=9.07945622596056e-06 : Harrington_2_4_949_field_exact,10000000000,4,0,real_Ephi,0.016,0.004,equal,-0.0185300124820303,-0.0185301807244675,9.07945622596056e-06,0.003,1
+Process Audit Results for "field" with test "lessthan":
+   passed=326
+   failed=0
+   evaluated=326
+   min_value=1.824793710507e-17
+   avg_value=3.44179157742405e-05
+   max_value=0.000953021868428014 : Harrington_1_5_486_field_exact,9000000000,5,0,imag_Hmag,0.011,0.004,lessthan,0.000953021868428014,0.001,1

@@ -1,0 +1,39 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    OpenParEM2D - A fullwave 2D electromagnetic simulator.                  //
+//    Copyright (C) 2022 Brian Young                                          //
+//                                                                            //
+//    This program is free software: you can redistribute it and/or modify    //
+//    it under the terms of the GNU General Public License as published by    //
+//    the Free Software Foundation, either version 3 of the License, or       //
+//    (at your option) any later version.                                     //
+//                                                                            //
+//    This program is distributed in the hope that it will be useful,         //
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of          //
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           //
+//    GNU General Public License for more details.                            //
+//                                                                            //
+//    You should have received a copy of the GNU General Public License       //
+//    along with this program.  If not, see <http://www.gnu.org/licenses/>.   //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
+#ifndef EIGENSOLVE_H
+#define EIGENSOLVE_H
+
+#include <slepceps.h>
+#include <slepcsvd.h>
+#include <complex.h>
+#include "triplet.h"
+#include "project.h"
+#include "Hsolve.h"
+
+double* allocReaddof (char *, char *, size_t *);
+void printdof (double *, size_t);
+FILE* openDataFile (char *, const char *, char *, int);
+int loadDataLine (FILE *, struct dataTriplet *, int);
+int loadDataFileStats (const char *, char *, char *, PetscInt *, PetscInt *, PetscInt *);
+int loadDataFile (const char *, char *, char *, Mat *, PetscInt, PetscInt, int, int, double, PetscMPIInt);
+
+#endif
+

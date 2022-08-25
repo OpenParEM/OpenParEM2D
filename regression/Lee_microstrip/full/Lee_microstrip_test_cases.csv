@@ -1,0 +1,18 @@
+# ResultDatabase::save_as_test
+Lee_microstrip_1_1_0_result,4e+10,1,0,alpha,equal,22.7036414993225,1e-10
+Lee_microstrip_1_1_1_result,40000000000,1,0,beta,equal,2.4914304971084,1e-10
+Lee_microstrip_1_1_2_result,40000000000,1,1,real_Z_1_1,equal,58.0214334069368,1e-6
+Lee_microstrip_1_1_3_result,40000000000,1,1,imag_Z_1_1,equal,-0.0786732566337316,1e-6
+# FieldPointDatabase::save_as_test
+Lee_microstrip_1_1_0_field,4e+10,1,0,real_Emag,0.00125,0.000125,equal,1.00000000229597,1e-10
+Lee_microstrip_1_1_1_field,40000000000,1,0,real_Ephi,0.00125,0.000125,equal,1.57086187547203,1e-10
+Lee_microstrip_1_1_2_field,40000000000,1,0,real_Etheta,0.00125,0.000125,equal,1.57077914233101,1e-10
+Lee_microstrip_1_1_3_field,40000000000,1,0,imag_Emag,0.00125,0.000125,equal,0.0092664273263441,1e-10
+Lee_microstrip_1_1_4_field,40000000000,1,0,imag_Ephi,0.00125,0.000125,lessthan,1e-5
+Lee_microstrip_1_1_5_field,40000000000,1,0,imag_Etheta,0.00125,0.000125,lessthan,1e-5
+Lee_microstrip_1_1_6_field,40000000000,1,0,real_Hmag,0.00125,0.000125,equal,0.00667719738213519,1e-10
+Lee_microstrip_1_1_7_field,40000000000,1,0,real_Hphi,0.00125,0.000125,equal,-3.14148381963869,1e-10
+Lee_microstrip_1_1_8_field,40000000000,1,0,real_Htheta,0.00125,0.000125,equal,1.57079652838548,1e-10
+Lee_microstrip_1_1_9_field,40000000000,1,0,imag_Hmag,0.00125,0.000125,lessthan,1e-5
+Lee_microstrip_1_1_10_field,40000000000,1,0,imag_Hphi,0.00125,0.000125,equal,7.45955819489365e-05,2e-7
+Lee_microstrip_1_1_11_field,40000000000,1,0,imag_Htheta,0.00125,0.000125,equal,1.62249286888772,2e-7

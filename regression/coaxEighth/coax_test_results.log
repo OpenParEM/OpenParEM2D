@@ -1,0 +1,28 @@
+Process Audit Results for "result" with test "equal":
+   passed=8
+   failed=0
+   evaluated=8
+   min_error=1.23592e-11
+   avg_error=0.000296424
+   max_error=0.000600055 : coax_1_1_2_result_exact,1e+07,1,0,real_Z,equal,412.699712308022,412.947355008943,0.000600055424163163,0.005,1
+Process Audit Results for "result" with test "lessthan":
+   passed=8
+   failed=0
+   evaluated=8
+   min_value=5.09839854433335e-16
+   avg_value=1.21836413274589e-12
+   max_value=8.3388377007985e-12 : coax_4_1_102_result_exact,10000000000,1,0,alpha,lessthan,8.3388377007985e-12,1e-08,1
+Process Audit Results for "field" with test "equal":
+   passed=60
+   failed=0
+   evaluated=60
+   min_error=2.26172777348516e-15
+   avg_error=0.000244785229744098
+   max_error=0.00110718683088375 : coax_1_1_17_field_exact,10000000,1,0,real_Ephi,0.0006,0.00023,equal,0.366056515847418,0.366461808801123,0.00110718683088375,0.008,1
+Process Audit Results for "field" with test "lessthan":
+   passed=60
+   failed=0
+   evaluated=60
+   min_value=3.03417382716632e-15
+   avg_value=0.00147660246774223
+   max_value=0.00676063381610474 : coax_1_1_14_field_exact,10000000,1,0,real_Hmag,0.0005,0.0002,lessthan,0.00676063381610474,0.008,1

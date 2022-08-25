@@ -1,0 +1,14 @@
+# ResultDatabase::save_as_test
+diffPair_1_1_0_result,5.2e+10,1,0,alpha,lessthan,1e-8
+diffPair_1_2_1_result,5.2e+10,2,0,alpha,lessthan,1e-8
+diffPair_1_1_2_result,5.2e+10,1,0,beta,equal,2.98157158219602,1e-10
+diffPair_1_2_3_result,52000000000,2,0,beta,equal,2.90852816074863,1e-10
+diffPair_1_1_4_result,52000000000,1,1,real_Z_1_1,equal,55.2544158628583,1e-7
+diffPair_1_2_5_result,52000000000,2,1,real_Z_2_1,equal,0.000916760916506831,1e-7
+diffPair_1_1_6_result,52000000000,1,1,imag_Z_1_1,lessthan,1e-9
+diffPair_1_2_7_result,52000000000,2,1,imag_Z_2_1,lessthan,1e-9
+diffPair_1_1_8_result,52000000000,1,2,real_Z_1_2,equal,0.000916760916510384,1e-7
+diffPair_1_2_9_result,52000000000,2,2,real_Z_2_2,equal,48.4593022580414,1e-7
+diffPair_1_1_10_result,52000000000,1,2,imag_Z_1_2,lessthan,1e-9
+diffPair_1_2_11_result,52000000000,2,2,imag_Z_2_2,lessthan,1e-9
+

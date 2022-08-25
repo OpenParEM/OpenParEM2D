@@ -1,0 +1,75 @@
+#OpenParEMmodes 1.0
+
+File
+   name=Simonovich_stripline.FCStd
+EndFile
+
+Path
+   name=trace_core
+   point=(-0.0001397,0)
+   point=(0.0001397,0)
+   closed=false
+EndPath
+
+Path
+   name=trace_side1
+   point=(0.0001397,0)
+   point=(0.000123825,3.175e-05)
+   closed=false
+EndPath
+
+Path
+   name=trace_prepreg
+   point=(0.000123825,3.175e-05)
+   point=(-0.000123825,3.175e-05)
+   closed=false
+EndPath
+
+Path
+   name=trace_side2
+   point=(-0.000123825,3.175e-05)
+   point=(-0.0001397,0.0)
+   closed=false
+EndPath
+
+Path
+   name=plane_core
+   point=(-0.005,-0.0003048)
+   point=(0.005,-0.0003048)
+   closed=false
+EndPath
+
+Path
+   name=plane_prepreg
+   point=(-0.005,0.00030099)
+   point=(0.005,0.00030099)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=current
+   path=trace_core
+   path+=trace_side1
+   path+=trace_prepreg
+   path+=trace_side2
+EndMode
+
+Boundary
+   name=copper_core
+   type=surface_impedance
+   material=copper_core
+   path=trace_core
+   path+=plane_core
+EndBoundary
+
+Boundary
+   name=copper_prepreg
+   type=surface_impedance
+   material=copper_prepreg
+   path=trace_prepreg
+   path+=trace_side1
+   path+=trace_side2
+   path+=plane_prepreg
+EndBoundary
+

@@ -1,0 +1,10 @@
+# TestCaseDatabase::show_evaluation
+# name,status,frequency,mode,column,[fieldVariable:x,y,]testVariable,testFunction,[equal:expectedValue,]foundValue,[equal:error,tolerance | lessthan:threshold
+Simonovich_stripline_test_1_1_0_result,pass,2e+10,1,0,alpha,equal,56.5776241259566,56.4796912403331,0.00173094729827247,0.003,
+Simonovich_stripline_test_2_1_4_result,pass,40000000000,1,0,alpha,equal,108.408565015623,108.231746912746,0.0016310344376527,0.003,
+Simonovich_stripline_test_2_1_6_result,pass,40000000000,1,0,real_Z,equal,49.6512185843645,49.666202809395,0.000301789673198905,0.001,
+Simonovich_stripline_test_2_1_7_result,pass,40000000000,1,0,imag_Z,equal,0.234689758976134,0.234760584457516,0.000301783433972459,0.001,
+Simonovich_stripline_test_1_1_2_result,pass,20000000000,1,0,real_Z,equal,49.6410075383563,49.655973299706,0.000301479806551795,0.001,
+Simonovich_stripline_test_1_1_3_result,pass,20000000000,1,0,imag_Z,equal,0.234650795423238,0.23472153660785,0.000301474301352399,0.001,
+Simonovich_stripline_test_2_1_5_result,pass,40000000000,1,0,beta,equal,1.92836702323771,1.92836702395146,3.70131910304016e-10,1e-08,
+Simonovich_stripline_test_1_1_1_result,pass,20000000000,1,0,beta,equal,1.92836016114559,1.92836016112369,1.13568190115174e-11,1e-08,

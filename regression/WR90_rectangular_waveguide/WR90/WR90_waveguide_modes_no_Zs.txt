@@ -1,0 +1,19 @@
+#OpenParEMmodes 1.0
+
+File
+   name=WR90_waveguide.FCStd
+EndFile
+
+Path
+   name=V1
+   point=(0.01143,0.0)
+   point=(0.01143,0.01016)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=voltage
+   path=V1
+EndMode
+

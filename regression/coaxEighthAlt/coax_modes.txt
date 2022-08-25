@@ -1,0 +1,38 @@
+#OpenParEMmodes 1.0
+
+File
+   name=coax.FCStd
+EndFile
+
+Path
+   name=1
+   point=(0.000406,0.0)
+   point=(0.00148,0.0)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=voltage
+   path=2
+EndMode
+
+Path
+   name=2
+   point=(0.000287085353162,0.000287085353162)
+   point=(0.0010465180361563214,0.001046518036156382)
+   closed=false
+EndPath
+
+Boundary
+   name=1
+   type=perfect_magnetic_conductor
+   path=1
+EndBoundary
+
+Boundary
+   name=2
+   type=perfect_magnetic_conductor
+   path=2
+EndBoundary
+

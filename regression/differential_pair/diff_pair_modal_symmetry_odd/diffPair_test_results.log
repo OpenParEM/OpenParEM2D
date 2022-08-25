@@ -1,0 +1,20 @@
+Process Audit Results for "result" with test "equal":
+   passed=2
+   failed=0
+   evaluated=2
+   min_error=8.59589e-14
+   avg_error=2.43046e-13
+   max_error=4.00134e-13 : diffPair_1_1_2_result,5.2e+10,1,0,real_Z,equal,48.7269225280081,48.7269225280276,4.00133882004351e-13,1e-08,1
+Process Audit Results for "result" with test "lessthan":
+   passed=2
+   failed=0
+   evaluated=2
+   min_value=7.2540059385376e-15
+   avg_value=8.33308963884972e-12
+   max_value=1.66589252717609e-11 : diffPair_1_1_0_result,52000000000,1,0,alpha,lessthan,-1.66589252717609e-11,1e-08,1
+Process Audit Results for "field" with test "equal":
+   passed=0
+   failed=0
+Process Audit Results for "field" with test "lessthan":
+   passed=0
+   failed=0

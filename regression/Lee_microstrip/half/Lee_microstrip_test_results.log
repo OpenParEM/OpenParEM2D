@@ -1,0 +1,24 @@
+Process Audit Results for "result" with test "equal":
+   passed=4
+   failed=0
+   evaluated=4
+   min_error=1.60636e-13
+   avg_error=3.86382e-12
+   max_error=7.56694e-12 : Lee_microstrip_1_1_3_result,4e+10,1,0,imag_Z,equal,0.144046163531863,0.144046163530773,7.56694370246284e-12,1e-10,1
+Process Audit Results for "result" with test "lessthan":
+   passed=0
+   failed=0
+Process Audit Results for "field" with test "equal":
+   passed=11
+   failed=0
+   evaluated=11
+   min_error=4.1035194326245e-15
+   avg_error=6.49921096563497e-12
+   max_error=5.67555831978049e-11 : Lee_microstrip_1_1_10_field,40000000000,1,0,imag_Hphi,-0.001,0.0001,equal,-0.103319563702486,-0.103319563696622,5.67555831978049e-11,1e-09,1
+Process Audit Results for "field" with test "lessthan":
+   passed=1
+   failed=0
+   evaluated=1
+   min_value=0
+   avg_value=0
+   max_value=0 : Lee_microstrip_1_1_4_field,40000000000,1,0,imag_Ephi,-0.001,0.0001,lessthan,-0,1e-09,1

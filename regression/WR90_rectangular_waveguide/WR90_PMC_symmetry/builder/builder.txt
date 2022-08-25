@@ -1,0 +1,17 @@
+#builder 1.0
+
+Control
+   build=WR90half
+   check_limits=true
+EndControl
+
+RectangularWaveguide
+   name=WR90half
+//   width=0.02286
+   width=0.01143
+   height=0.01016
+   material=air
+   default_conductor_material=PEC
+   conductor_material_right=PMC
+EndRectangularWaveguide
+
