@@ -1,13 +1,12 @@
-CCxx=mpicxx -Wall -std=c++17 -g -Wl,-rpath,$(PETSC_DIR)/$(PETSC_ARCH)/lib -Wl,-rpath,$(SLEPC_DIR)/$(PETSC_ARCH)/lib
+CCxx=mpicxx -Wall -std=c++17 -g  -Wl,-rpath,$(PETSC_DIR)/$(PETSC_ARCH)/lib -Wl,-rpath,$(SLEPC_DIR)/$(PETSC_ARCH)/lib
 CxxFLAGS=-I$(MFEM_DIR) -I$(MFEM_DIR)/linalg -I$(HYPRE_DIR)/src/hypre/include -I$(PETSC_DIR)/include -I$(PETSC_DIR)/$(PETSC_ARCH)/include -I$(SLEPC_DIR)/include -I$(SLEPC_DIR)/$(PETSC_ARCH)/include -I$(EIGEN_DIR)
-CxxLDIR=-L$(MFEM_DIR) -L$(HYPRE_DIR)/src/hypre/lib -L$(METIS_DIR) -L$(PETSC_DIR)/$(PETSC_ARCH)/lib -L$(SLEPC_DIR)/$(PETSC_ARCH)/lib -L/usr/lib/x86_64-linux-gnu
-CxxLIBS=-lmfem -lHYPRE -lmetis -lrt -lpetsc -lslepc -lflapack -llapacke64 -lfblas -lm 
+CxxLDIR=-L$(MFEM_DIR) -L$(HYPRE_DIR)/src/hypre/lib -L$(METIS_DIR) -L$(PETSC_DIR)/$(PETSC_ARCH)/lib -L$(SLEPC_DIR)/$(PETSC_ARCH)/lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/openmpi/lib -L/usr/lib/gcc/x86_64-linux-gnu/9
+CxxLIBS=-lpetscmat -lpetscsnes -lpetscdm -lpetscvec -lpetscts -lpetsctao -lpetscsys -lpetscksp -lcmumps -ldmumps -lsmumps -lzmumps -lmumps_common -lpord -lscalapack -lflapack -lfblas -lptesmumps -lptscotchparmetis -lptscotch -lptscotcherr -lesmumps -lscotch -lscotcherr -lm -lX11 -lstdc++ -ldl -lmpi_usempif08 -lmpi_usempi_ignore_tkr -lmpi_mpifh -lmpi -lgfortran -lm -lgfortran -lm -lgcc_s -lquadmath -lpthread -lmfem -lHYPRE -lmetis -lrt -lslepcpep -lslepcsys -lslepceps -lslepclme -lslepcnep -lslepcmfn -lslepcsvd /usr/lib/x86_64-linux-gnu/liblapacke64.a /usr/lib/x86_64-linux-gnu/liblapack64.a -lpetscmat -lpetscsnes -lpetscmat -lpetscsnes -lpetscdm -lpetscvec -lpetscts -lpetsctao -lpetscsys -lpetscksp -lcmumps -ldmumps -lsmumps -lzmumps -lmumps_common -lpord -lscalapack -lflapack -lfblas -lslepcpep -lslepcsys -lslepceps -lslepclme -lslepcnep -lslepcmfn -lslepcsvd
 
 CC=mpicc -Wall -g 
 CFLAGS=-I$(PETSC_DIR)/include -I$(PETSC_DIR)/$(PETSC_ARCH)/include -I$(SLEPC_DIR)/include -I$(SLEPC_DIR)/$(PETSC_ARCH)/include -I$(EIGEN_DIR)
-CLDIR=-L$(PETSC_DIR)/$(PETSC_ARCH)/lib -L$(SLEPC_DIR)/$(PETSC_ARCH)/lib -L/usr/lib/x86_64-linux-gnu
-CLIBS=-lrt -lpetsc -lslepc -lflapack -llapacke64 -lfblas -lm
-
+CLDIR=
+CLIBS=-lm
 
 OpenParEM2D: OpenParEM2D.o  modes.o results.o convergence.o frequencyPlan.o findPoints.o fem2D.o OpenParEMmaterials.o mesh.o fieldPoints.o license.o project.o eigensolve.o Hsolve.o Zsolve.o triplet.o 
 	$(CCxx) OpenParEM2D.o modes.o results.o convergence.o frequencyPlan.o findPoints.o fem2D.o OpenParEMmaterials.o mesh.o fieldPoints.o license.o project.o eigensolve.o Hsolve.o Zsolve.o triplet.o -o OpenParEM2D  $(CxxLDIR) $(CxxLIBS)
@@ -101,6 +100,13 @@ install:
 	cp license_process $(HOME)/bin
 	cp builder $(HOME)/bin
 
+cleanexecs:
+	rm -f OpenParEM2D
+	rm -f waveguide
+	rm -f process
+	rm -f simplify
+	rm -f builder
+	rm -f license_process
 clean:
 	rm -f OpenParEM2D
 	rm -f OpenParEM2D.o
