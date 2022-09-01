@@ -2,27 +2,27 @@ Process Audit Results for "result" with test "equal":
    passed=10
    failed=0
    evaluated=10
-   min_error=5.45332e-11
-   avg_error=2.44015e-09
-   max_error=7.55258e-09 : Harrington_2_4_874_result_exact,1e+10,4,0,alpha,equal,2191.17846841767,2191.17848496671,7.55257516524522e-09,1e-05,1
+   min_error=3.91576e-11
+   avg_error=2.43846e-09
+   max_error=7.55262e-09 : Harrington_2_4_874_result_exact,1e+10,4,0,alpha,equal,2191.17846841767,2191.1784849668,7.5526162572771e-09,1e-05,1
 Process Audit Results for "result" with test "lessthan":
    passed=10
    failed=0
    evaluated=10
-   min_value=9.8833202459819e-16
-   avg_value=6.89367213412092e-11
-   max_value=6.86531642424541e-10 : Harrington_1_1_0_result_exact,9000000000,1,0,alpha,lessthan,-6.86531642424541e-10,1e-08,1
+   min_value=3.51146599664685e-15
+   avg_value=3.20832232832003e-11
+   max_value=3.18787788785711e-10 : Harrington_1_1_0_result_exact,9000000000,1,0,alpha,lessthan,3.18787788785711e-10,1e-08,1
 Process Audit Results for "field" with test "equal":
    passed=726
    failed=0
    evaluated=726
-   min_error=5.65431943371291e-16
-   avg_error=1.76857688110712e-05
-   max_error=0.00102029188506018 : Harrington_2_4_921_field_exact,10000000000,4,0,real_Ephi,0.011,0.004,equal,-0.159675682033096,-0.159512766230476,0.00102029188506018,0.003,1
+   min_error=1.41357985842823e-16
+   avg_error=1.76857676834383e-05
+   max_error=0.00102029188588011 : Harrington_2_4_921_field_exact,10000000000,4,0,real_Ephi,0.011,0.004,equal,-0.159675682033096,-0.159512766230345,0.00102029188588011,0.003,1
 Process Audit Results for "field" with test "lessthan":
    passed=326
    failed=0
    evaluated=326
-   min_value=2.00495727341412e-17
-   avg_value=3.80522706067785e-05
-   max_value=0.000953061623972828 : Harrington_1_5_486_field_exact,9000000000,5,0,imag_Hmag,0.011,0.004,lessthan,0.000953061623972828,0.001,1
+   min_value=1.14508733235969e-17
+   avg_value=3.80522703486901e-05
+   max_value=0.000953061623928682 : Harrington_1_5_486_field_exact,9000000000,5,0,imag_Hmag,0.011,0.004,lessthan,0.000953061623928682,0.001,1

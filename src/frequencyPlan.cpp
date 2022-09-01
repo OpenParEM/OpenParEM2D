@@ -270,7 +270,7 @@ bool FrequencyPlan::get_frequency (char *refinement_frequency, double *frequency
 
       // get the next frequency that is refining with the lowest priority
 
-      long unsigned int refinementIndex;
+      long unsigned int refinementIndex=0;
       int refinementPriority=INT_MAX;
       bool foundRefinement=false;
       long unsigned int i=0;

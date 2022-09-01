@@ -789,7 +789,7 @@ int load_project_file (const char *filename, struct projectData *data, const cha
    int lineCount=0;
    int found;
    int lineIterationMax,lineRefinementTolerance,lineSolutionTolerance,lineRefinementVariable,lineImpedanceDefinition;
-   int lineRefinementFrequency;
+   int lineRefinementFrequency=0;
    int i;
    double x,y;
    int pointsPerDecade;

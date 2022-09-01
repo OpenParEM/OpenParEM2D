@@ -2,27 +2,27 @@ Process Audit Results for "result" with test "equal":
    passed=12
    failed=0
    evaluated=12
-   min_error=5.44084e-13
-   avg_error=9.04338e-10
-   max_error=4.55747e-09 : WR90_1_1_2_result_exact,9e+09,1,0,real_Z,equal,488.572365707888,488.572367934544,4.55747422832849e-09,1e-05,1
+   min_error=5.57311e-13
+   avg_error=1.11844e-09
+   max_error=4.73315e-09 : WR90_1_1_2_result_exact,9e+09,1,0,real_Z,equal,488.572365707888,488.5723633954,4.73315359657636e-09,1e-05,1
 Process Audit Results for "result" with test "lessthan":
    passed=12
    failed=0
    evaluated=12
-   min_value=1.16195431280359e-16
-   avg_value=9.21950220836139e-14
-   max_value=7.36478314610285e-13 : WR90_1_1_0_result_exact,9000000000,1,0,alpha,lessthan,7.36478314610285e-13,1e-08,1
+   min_value=3.03872905325669e-17
+   avg_value=1.56809924725368e-13
+   max_value=1.30319234076281e-12 : WR90_2_1_674_result_exact,10000000000,1,0,alpha,lessthan,-1.30319234076281e-12,1e-08,1
 Process Audit Results for "field" with test "equal":
    passed=914
    failed=0
    evaluated=914
    min_error=0
-   avg_error=7.4345530895323e-05
-   max_error=0.00137835055845406 : WR90_1_4_499_field_exact,9000000000,4,0,real_Ephi,0.004572,0.006096,equal,0.104536640255592,0.104392552119117,0.00137835055845406,0.003,1
+   avg_error=3.6389786857984e-05
+   max_error=0.000669620344740373 : WR90_2_5_1255_field_exact,10000000000,5,0,imag_Hmag,0.009144,0.002032,equal,0.00128503316764624,0.00128589365199896,0.000669620344740373,0.003,1
 Process Audit Results for "field" with test "lessthan":
    passed=410
    failed=0
    evaluated=410
-   min_value=7.25929145461255e-18
-   avg_value=7.65314729936993e-05
-   max_value=0.000864878046626452 : WR90_2_5_1271_field_exact,10000000000,5,0,imag_Hmag,0.018288,0.002032,lessthan,0.000864878046626452,0.001,1
+   min_value=2.40060289026007e-17
+   avg_value=6.90418622997532e-05
+   max_value=0.000864878019121122 : WR90_2_5_1271_field_exact,10000000000,5,0,imag_Hmag,0.018288,0.002032,lessthan,0.000864878019121122,0.001,1

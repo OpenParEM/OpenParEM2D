@@ -1506,9 +1506,9 @@ double Temperature::get_mu(double frequency_, double tolerance, string indent)
    double mu=-DBL_MAX;
 
    double freq_low=0;         // for linear interpolation - extrapolation is not supported
-   double mu_low;             // ToDo - replace with spline interpolation or
+   double mu_low=1;           // ToDo - replace with spline interpolation or
    double freq_high=DBL_MAX;  //        with a Hilbert Transform algorithm for improved causality
-   double mu_high;            //
+   double mu_high=1;          //
    double freq_test;          //
    bool found_low=false;      //
    bool found_high=false;     //

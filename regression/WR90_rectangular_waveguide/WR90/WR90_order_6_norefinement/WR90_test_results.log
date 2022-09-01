@@ -9,20 +9,20 @@ Process Audit Results for "result" with test "lessthan":
    passed=12
    failed=0
    evaluated=12
-   min_value=3.79709685211563e-15
-   avg_value=8.72906285582468e-12
+   min_value=2.19212452913989e-16
+   avg_value=8.73174657226622e-12
    max_value=4.24555831715113e-11 : WR90_2_1_674_result_exact,10000000000,1,0,alpha,lessthan,4.24555831715113e-11,1e-08,1
 Process Audit Results for "field" with test "equal":
    passed=914
    failed=0
    evaluated=914
-   min_error=1.13086388674258e-15
-   avg_error=0.000252008121711533
-   max_error=0.00283045779408659 : WR90_1_4_435_field_exact,9000000000,4,0,real_Ephi,0.004572,0.002032,equal,-0.418224329579229,-0.417040563265895,0.00283045779408659,0.003,1
+   min_error=1.41357985842823e-16
+   avg_error=0.000252007719942191
+   max_error=0.00283036994477866 : WR90_1_4_435_field_exact,9000000000,4,0,real_Ephi,0.004572,0.002032,equal,-0.418224329579229,-0.417040600006613,0.00283036994477866,0.003,1
 Process Audit Results for "field" with test "lessthan":
    passed=410
    failed=0
    evaluated=410
-   min_value=6.11932026830221e-16
-   avg_value=7.97999172147391e-05
+   min_value=5.10556266483847e-16
+   avg_value=7.97937486364556e-05
    max_value=0.000865216811476222 : WR90_2_5_1271_field_exact,10000000000,5,0,imag_Hmag,0.018288,0.002032,lessthan,0.000865216811476222,0.001,1

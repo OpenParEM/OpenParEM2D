@@ -2,27 +2,27 @@ Process Audit Results for "result" with test "equal":
    passed=8
    failed=0
    evaluated=8
-   min_error=3.41236e-12
-   avg_error=0.000914536
-   max_error=0.00182945 : coax_1_1_2_result_exact,1e+07,1,0,real_Z,equal,51.5874640385028,51.6818405258257,0.00182944614708058,0.0035,1
+   min_error=4.82926e-12
+   avg_error=0.000818867
+   max_error=0.00163727 : coax_4_1_350_result_exact,1e+10,1,0,real_Z,equal,51.5874640385028,51.6719265023649,0.00163726722056072,0.0035,1
 Process Audit Results for "result" with test "lessthan":
    passed=8
    failed=0
    evaluated=8
-   min_value=4.16553596335844e-16
-   avg_value=1.069450574697e-14
-   max_value=5.25682406410325e-14 : coax_4_1_348_result_exact,10000000000,1,0,alpha,lessthan,-5.25682406410325e-14,1e-08,1
+   min_value=2.35247372217765e-16
+   avg_value=4.73955713465519e-14
+   max_value=2.82163900157324e-13 : coax_4_1_348_result_exact,10000000000,1,0,alpha,lessthan,2.82163900157324e-13,1e-08,1
 Process Audit Results for "field" with test "equal":
    passed=324
    failed=0
    evaluated=324
-   min_error=4.24073957528468e-16
-   avg_error=0.000683491381250987
-   max_error=0.00594367905076808 : coax_4_1_372_field_exact,10000000000,1,0,real_Hmag,0,0.0014,equal,0.00228026648410861,0.00226671331197685,0.00594367905076808,0.006,1
+   min_error=2.12036978764234e-15
+   avg_error=0.000709320693373112
+   max_error=0.00592146500445814 : coax_4_1_372_field_exact,10000000000,1,0,real_Hmag,0,0.0014,equal,0.00228026648410861,0.00226676396592212,0.00592146500445814,0.006,1
 Process Audit Results for "field" with test "lessthan":
    passed=124
    failed=0
    evaluated=124
-   min_value=3.58357879706267e-16
-   avg_value=8.89579612310915e-05
-   max_value=0.00182419611499776 : coax_3_1_265_field_exact,1000000000,1,0,real_Hphi,0,-0.0008,lessthan,0.00182419611499776,0.004,1
+   min_value=1.44473475788032e-16
+   avg_value=0.000101345981554729
+   max_value=0.00182254492113254 : coax_2_1_149_field_exact,100000000,1,0,real_Hphi,0,-0.0008,lessthan,0.00182254492113254,0.004,1

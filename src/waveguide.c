@@ -156,6 +156,13 @@ void rectWaveguide_fields (double freq, int m, int n, double x, double y, double
    mu=4e-7*pi;
    w=2*pi*freq;
 
+   Ex=CMPLX(0,0);
+   Ey=CMPLX(0,0);
+   Ez=CMPLX(0,0);
+   Hx=CMPLX(0,0);
+   Hy=CMPLX(0,0);
+   Hz=CMPLX(0,0);
+
    B=CMPLX(0,1);
    double complex kz=CMPLX(beta,-alpha);
 
@@ -607,6 +614,10 @@ void partiallyFilledRectWaveguide_gamma (struct partiallyFilledRectWaveguide *a,
    eps0=8.8541878176e-12;
    w=2*pi*freq;
    ko=w*sqrt(mu0*eps0);
+
+   kz1=0;
+   kz2=0;
+   err3=0;
 
    kx=m*pi/a->width;
    k1=w*sqrt(a->epsr1*eps0*a->mur1*mu0);

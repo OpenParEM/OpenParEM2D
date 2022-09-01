@@ -57,7 +57,7 @@ void split_on_space (vector<string> *tokens, string a) {
 // parse the msh file for the information in the $PhysicalNames block
 int meshMaterialList::loadGMSH (const char *filename)
 {
-   long unsigned int materialCount;
+   long unsigned int materialCount=0;
    int lineCount=0;
    bool startedFormat=false,completedFormat=false,loadedFormat=false;
    bool startedNames=false,completedNames=false,loadedEntryCount=false;

@@ -4,25 +4,25 @@ Process Audit Results for "result" with test "equal":
    evaluated=6
    min_error=5.24346e-12
    avg_error=1.14281e-06
-   max_error=2.83285e-06 : WR90_2_1_674_result_exact,1e+10,1,0,alpha,equal,0.108254113990508,0.108254420657751,2.83284608499335e-06,0.0002,1
+   max_error=2.83284e-06 : WR90_2_1_674_result_exact,1e+10,1,0,alpha,equal,0.108254113990508,0.108254420657511,2.83284386796479e-06,0.0002,1
 Process Audit Results for "result" with test "lessthan":
    passed=2
    failed=0
    evaluated=2
-   min_value=5.53778272692462e-14
-   avg_value=6.8770392277512e-14
-   max_value=8.21629572857777e-14 : WR90_1_1_3_result_exact,9000000000,1,0,imag_Z,lessthan,-8.21629572857777e-14,1e-08,1
+   min_value=4.43672576391394e-15
+   avg_value=4.14494743927172e-14
+   max_value=7.84622230215205e-14 : WR90_1_1_3_result_exact,9000000000,1,0,imag_Z,lessthan,7.84622230215205e-14,1e-08,1
 Process Audit Results for "field" with test "equal":
    passed=228
    failed=0
    evaluated=228
    min_error=1.41357985842823e-16
-   avg_error=9.35905832959961e-07
-   max_error=5.21968691399526e-06 : WR90_2_1_741_field_exact,10000000000,1,0,real_Hmag,0.013716,0.004064,equal,0.00200516537386773,0.00200517584020319,5.21968691399526e-06,0.003,1
+   avg_error=9.35905806520549e-07
+   max_error=5.21968713330505e-06 : WR90_2_1_741_field_exact,10000000000,1,0,real_Hmag,0.013716,0.004064,equal,0.00200516537386773,0.00200517584020363,5.21968713330505e-06,0.003,1
 Process Audit Results for "field" with test "lessthan":
    passed=60
    failed=0
    evaluated=60
-   min_value=5.88542084760656e-16
-   avg_value=0.000179086367348253
-   max_value=0.000628373754141129 : WR90_1_1_70_field_exact,9000000000,1,0,imag_Hmag,0.013716,0.004064,lessthan,0.000628373754141129,0.001,1
+   min_value=3.92981405472826e-15
+   avg_value=0.00017908636734981
+   max_value=0.00062837375414133 : WR90_1_1_70_field_exact,9000000000,1,0,imag_Hmag,0.013716,0.004064,lessthan,0.00062837375414133,0.001,1

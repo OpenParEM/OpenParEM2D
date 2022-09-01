@@ -436,7 +436,7 @@ void ResultDatabase::print()
 chrono::duration<double> ResultDatabase::frequency_elapsed(double frequency)
 {
    bool started=false;
-   chrono::duration<double> total_elapsed;
+   chrono::duration<double> total_elapsed=std::chrono::seconds(0);
    long unsigned int i=0;
    while (i < results.size()) {
 

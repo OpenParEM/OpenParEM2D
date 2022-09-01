@@ -804,6 +804,8 @@ bool ResultDatabase::loadResults (const char *filename)
                long unsigned int i=0;
                while (i < result->get_modeCount()) {
                   double real_gamma,imag_gamma;
+                  real_gamma=0;
+                  imag_gamma=0;
 
                   if (++index < csvInputs->size() && is_double(&(*csvInputs)[index])) real_gamma=atof((*csvInputs)[index].c_str());
                   else printERROR3 ("real_gamma",lineNumber);
@@ -824,6 +826,8 @@ bool ResultDatabase::loadResults (const char *filename)
                i=0;
                while (i < iLimit) {
                   double real_Z,imag_Z;
+                  real_Z=0;
+                  imag_Z=0;
 
                   if (++index < csvInputs->size()) {
                      if (is_double(&(*csvInputs)[index])) real_Z=atof((*csvInputs)[index].c_str());
@@ -964,6 +968,8 @@ bool EMfieldDatabase::loadEMfields (const char *filename)
 
    double realField;
    double imagField;
+   realField=0;
+   imagField=0;
 
    if (inFile.is_open()) {
 
@@ -1092,7 +1098,7 @@ void exit_on_fail(string filename)
    out.open(filename.c_str(),ofstream::out);
    if (out.is_open()) {
       char buf[1024];
-      getcwd(buf,1024);
+      if (getcwd(buf,1024) == NULL) cout << "ASSERT: buffer overflow in exit_on_fail." << endl;
       out << buf << ",FAIL,-1,-1,-1" << endl;
       out.close();
    } else {
@@ -1110,7 +1116,7 @@ int main (int argc, char *argv[])
 
    if (argc != 4 && argc != 5) {
       char buf[1024];
-      getcwd(buf,1024);
+      if (getcwd(buf,1024) == NULL) cout << "ASSERT: buffer overflow in main." << endl;
       cout << buf << ",FAIL,-1,-1,-1" << endl;
       exit(1);
    }
