@@ -74,7 +74,7 @@ waveguide: waveguide.o
 	$(CC) $(CFLAGS) waveguide.o -o waveguide $(CLDIR) $(CLIBS)
 
 waveguide.o: waveguide.c waveguide.h
-	$(CC) $(CFLAGS)-c waveguide.c $(CINCS)
+	$(CC) $(CFLAGS) -c waveguide.c $(CINCS)
 
 process: process.o project.o mesh.o OpenParEMmaterials.o
 	$(CCxx) process.o project.o mesh.o OpenParEMmaterials.o -o process $(CxxLDIR) $(CxxLIBS)
