@@ -84,31 +84,33 @@ all: OpenParEM2D waveguide simplify process builder
 
 install:
 	rm -f ../bin/OpenParEM2D
-	rm -f ../bin/process
-	rm -f ../bin/simplify
-	rm -f ../bin/builder
+	cp OpenParEM2D ../bin/OpenParEM2D
 	rm -f $(HOME)/bin/OpenParEM2D
+	mv OpenParEM2D $(HOME)/bin/OpenParEM2D
+
+	rm -f ../bin/process
+	cp process ../bin/process
 	rm -f $(HOME)/bin/process
+	mv process $(HOME)/bin/process
+
+	rm -f ../bin/simplify
+	cp simplify ../bin/simplify
 	rm -f $(HOME)/bin/simplify
+	mv simplify $(HOME)/bin/simplify
+
+	rm -f ../bin/builder
+	cp builder ../bin/builder
 	rm -f $(HOME)/bin/builder
+	mv builder $(HOME)/bin/builder
+
 	rm -f $(HOME)/bin/process.sh
-	rm -f $(HOME)/bin/proj_search
-	rm -f $(HOME)/bin/regression.sh
-	cp OpenParEM2D $(HOME)/bin
-	cp process $(HOME)/bin
-	cp simplify $(HOME)/bin
-	cp builder $(HOME)/bin
-	mv OpenParEM2D ../bin
-	mv process ../bin
-	mv simplify ../bin
-	mv builder ../bin
 	cp ../scripts/process.sh $(HOME)/bin/process.sh
-	cp ../scripts/proj_search $(HOME)/bin/proj_search
+
+	rm -f $(HOME)/bin/regression.sh
 	cp ../scripts/regression.sh $(HOME)/bin/regression.sh
-	cp ../scripts/checkErrors.sh $(HOME)/bin/checkErrors.sh
-	cp ../scripts/listErrors $(HOME)/bin/listErrors
+
+	rm -f $(HOME)/bin/checkBuilder.sh
 	cp ../scripts/checkBuilder.sh $(HOME)/bin/checkBuilder.sh
-	cp ../scripts/OpenParEM2D_save.py $(HOME)/.FreeCAD/Macro/OpenParEM2D_save.py
 
 clean:
 	rm -f OpenParEM2D
