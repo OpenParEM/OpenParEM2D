@@ -18,10 +18,10 @@
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "eigensolve.h"
-
 #ifndef HSOLVE_H
 #define HSOLVE_H
+
+#include "eigensolve.h"
 
 int Hsetup (struct projectData *, Mat *, Mat *, Mat *, Mat *, Mat *, PetscMPIInt);
 int Hsolve (struct projectData *, Mat *, Mat *, Mat *, Mat *, Mat *, PetscInt, PetscInt, Vec *, PetscScalar *, Vec *, PetscMPIInt);

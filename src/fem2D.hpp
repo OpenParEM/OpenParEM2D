@@ -31,15 +31,14 @@
 #include <cstdlib>
 #include <filesystem>
 #include <string>
+#include <lapacke.h>
 #include "modes.hpp"
-#include "OpenParEMmaterials.hpp"
 #include "project.h"
 #include "convergence.hpp"
 #include "fieldPoints.hpp"
 #include "results.hpp"
-#include "fieldPoints.hpp"
-#include <lapacke.h>
 #include "Hsolve.h"
+
 
 using namespace std;
 using namespace mfem;
@@ -57,17 +56,10 @@ extern "C" int is_modal_impedance (char *);
 extern "C" int is_line_impedance (char *);
 extern "C" int is_impedance_calculation (char *);
 
-void findPoints(ParMesh *, DenseMatrix &, Array<int>&, Array<IntegrationPoint>&);
-
+void findPoints(ParMesh *, DenseMatrix &, Array<int>&, Array<IntegrationPoint>&, int);
 int GetGlobalNE (ParMesh *);
 
 class fem2D;
-
-struct mpi_double_int_int {
-   double value;
-   int location;
-   int rank;
-};
 
 class Fields {
    private:
@@ -94,10 +86,11 @@ class Fields {
 
    public:
       ~Fields();
-      int loadEigenvector (fem2D *, long unsigned int, bool, double **, double **);
+      bool loadEigenvector (fem2D *, long unsigned int, bool, double **, double **);
       bool build (fem2D *, long unsigned int);
       void saveParaView(fem2D *, long unsigned int);
       ParGridFunction* get_grid_Et_re() {return grid_Et_re;}
+      ParGridFunction* get_grid_Et_im() {return grid_Et_im;}
       complex<double> get_scale () {return complex<double>(xScale,yScale);}
       void updateGrids();
       void writeInitialGuess (fem2D *, long unsigned int);
@@ -134,6 +127,7 @@ class Mode {
       complex<double> get_Pzavg () {return Pzavg;}
       complex<double> get_current (long unsigned int);
       complex<double> get_voltage (long unsigned int);
+      bool isPositive(struct projectData *);
       Fields* get_fields() {return fields;}
       bool buildFields(fem2D *);
       void updateGrids(fem2D *);
@@ -156,6 +150,7 @@ class ModeDatabase {
       complex<double> *Zvi=nullptr;
       complex<double> *Zpv=nullptr;
       complex<double> *Zpi=nullptr;;
+      complex<double> *Voltage=nullptr;
    public:
       ~ModeDatabase();
       long unsigned int get_size() {return modeList.size();}
@@ -163,6 +158,7 @@ class ModeDatabase {
       complex<double>* get_Zvi() {return Zvi;}
       complex<double>* get_Zpv() {return Zpv;}
       complex<double>* get_Zpi() {return Zpi;}
+      complex<double>* get_Voltage() {return Voltage;}
       bool buildFields(fem2D *, double *, double *);
       void saveParaView(fem2D *);
       bool ZZrefineMeshes(fem2D *, ConvergenceDatabase *);
@@ -236,9 +232,11 @@ class fem2D {
       Result* updateResults(ResultDatabase *, ConvergenceDatabase *, chrono::system_clock::time_point, chrono::system_clock::time_point);
       int get_ess_tdof_size_ND () {return ess_tdof_size_ND;}
       int get_ess_tdof_size_H1 () {return ess_tdof_size_H1;}
+      string get_temporaryDirectory() {return temporaryDirectory;}
       void sort () {modeDatabase.sort(this);}
       void save_grid_E() {modeDatabase.save_grid_E();}
       void saveAsOne_grid_E() {modeDatabase.saveAsOne_grid_E();}
+      void dumpDof2DData();
 };
 
 #endif

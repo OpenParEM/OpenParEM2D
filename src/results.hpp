@@ -71,6 +71,7 @@ class Result
       vector<complex<double>> gamma;       // array, modeCount x 1
       vector<double> alpha_perturbation;   // array, modeCount x 1
       vector<complex<double>> Z;           // matrix, modeCount x modeCount in column major array
+      vector<complex<double>> V;           // matrix, modeCount x modeCount in column major array
       vector<complex<double>> Pz;          // array, modeCount x 1
       run_statistics *run_stats;
       bool active;                         // false means that a frequency was re-calculated and a newer result is available
@@ -90,6 +91,7 @@ class Result
       void push_alpha_perturbation (double alpha_perturbation_) {alpha_perturbation.push_back(alpha_perturbation_);}
       void push_Pz (complex<double> Pz_) {Pz.push_back(Pz_);}
       void push_Z (complex<double> Z_) {Z.push_back(Z_);}
+      void push_V (complex<double> V_) {V.push_back(V_);}
       void set_run_stats (run_statistics *run_stats_) {run_stats=run_stats_;}
 
       int get_iteration() {return iteration;}
@@ -99,7 +101,9 @@ class Result
       complex<double> get_gamma (long unsigned int i) {return gamma[i];}
       double get_alpha_perturbation (long unsigned int i) {return alpha_perturbation[i];}
       complex<double> get_Z (long unsigned int i);
+      complex<double> get_V (long unsigned int i);
       long unsigned int get_Z_size () {return Z.size();}
+      long unsigned int get_V_size () {return V.size();}
       complex<double> get_Pz (long unsigned int i) {return Pz[i];}
       run_statistics* get_run_stats() {return run_stats;}
       bool is_active() {return active;}

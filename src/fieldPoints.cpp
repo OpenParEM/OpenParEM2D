@@ -24,8 +24,10 @@ void FieldPoint::copy(FieldPoint *a)
 {
    frequency=a->frequency;
    mode=a->mode;
+   dim=a->dim;
    x=a->x;
    y=a->y;
+   z=a->z;
    overwrite(a);
 }
 
@@ -36,6 +38,7 @@ bool FieldPoint::compare (FieldPoint *a)
    if (mode != a->mode) return false;
    if (!double_compare(x,a->x,tolerance)) return false;
    if (!double_compare(y,a->y,tolerance)) return false;
+   if (dim == 3 && !double_compare(z,a->z,tolerance)) return false;
 
    return true;
 }
@@ -60,6 +63,7 @@ void FieldPoint::overwrite (FieldPoint *a)
 void FieldPoint::save(ofstream *out)
 {
    *out << frequency << "," << mode+1 << "," << x << "," << y << ",";
+   if (dim == 3) *out << z << ",";
    *out << setprecision(15) << Ex_re << "," << Ex_im << ",";
    *out << setprecision(15) << Ey_re << "," << Ey_im << ",";
    *out << setprecision(15) << Ez_re << "," << Ez_im << ",";
@@ -144,6 +148,7 @@ void FieldPoint::print()
    cout << "   mode=" << mode << endl;
    cout << "   x=" << x << endl;
    cout << "   y=" << y << endl;
+   if (dim == 3) cout << "   z=" << z << endl;
    cout << "   Ex_re=" << Ex_re << endl;
    cout << "   Ex_im=" << Ex_im << endl;
    cout << "   Ey_re=" << Ey_re << endl;
@@ -181,12 +186,15 @@ void FieldPointDatabase::push(FieldPoint *a)
    }
 }
 
-void FieldPointDatabase::save(const char *filename)
+void FieldPointDatabase::save(const char *baseName)
 {
    if (fieldPointList.size() == 0) return;
 
+   stringstream ss;
+   ss << baseName << "_fields.csv";
+
    ofstream out;
-   out.open(filename,ofstream::out);
+   out.open(ss.str().c_str(),ofstream::out);
    if (out.is_open()) {
       out << "#frequency,mode,x,y,Ex_re,Ex_im,Ey_re,Ey_im,Ez_re,Ez_im,Hx_re,Hx_im,Hy_re,Hy_im,Hz_re,Hz_im" << endl;
       unsigned long int i=0;
@@ -196,18 +204,20 @@ void FieldPointDatabase::save(const char *filename)
       } 
       out.close();
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR316: Could not open file \"%s\" for writing.\n",filename);
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2149: Could not open file \"%s\" for writing.\n",ss.str().c_str());
    }
 }
 
 // append to the file
-void FieldPointDatabase::save_as_test(const char *filename, const char *casename)
+void FieldPointDatabase::save_as_test(const char *baseName, const char *casename)
 {
+   stringstream ss;
+   ss << baseName << "_prototype_test_cases.csv";
    int casenumber=0;
    if (fieldPointList.size() == 0) return;
 
    ofstream out;
-   out.open(filename,ofstream::app);
+   out.open(ss.str().c_str(),ofstream::app);
    if (out.is_open()) {
       out << "# FieldPointDatabase::save_as_test" << endl;
 
@@ -218,7 +228,7 @@ void FieldPointDatabase::save_as_test(const char *filename, const char *casename
       }
       out.close();
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR317: Could not open file \"%s\" for writing.\n",filename);
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2150: Could not open file \"%s\" for writing.\n",ss.str().c_str());
    }
 }
 
@@ -332,4 +342,3 @@ FieldPointDatabase::~FieldPointDatabase ()
    }
 }
 
-// last ERROR - shared with fieldPoints.cpp and frequencyPlan.cpp

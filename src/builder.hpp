@@ -21,12 +21,14 @@
 #ifndef BUILDER_H
 #define BUILDER_H
 
-#include "OpenParEMmaterials.hpp"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <limits>
+#include "petscsys.h"
+#include <vector>
+#include "keywordPair.hpp"
 
 using namespace std;
 

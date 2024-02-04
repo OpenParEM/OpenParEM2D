@@ -24,11 +24,12 @@
 #ifndef PROJECT_H
 #define PROJECT_H
 
-#include "petscsys.h"
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "petscsys.h"
+#include "inputFrequency.h"
 
 // for the refinement variable
 #define NONE 1
@@ -39,16 +40,10 @@
 #define REZO 6
 #define IMZO 7
 
-struct inputFrequencyPlan {
-   int type;                 // 0 => linear, 1 => log, 2 => point
-   double frequency;         // for point
-   double start;             // for linear and log
-   double stop;              // for linear and log
-   double step;              // for linear
-   int pointsPerDecade;      // for log
-   int refine;               // 0 => do not refine the mesh at the frequency point(s), 2 => refine the mesh
-   int lineNumber;
-};
+char* removeNewLineChar (char *);
+char *removeComment (char *);
+int removeQuote (char *);
+void removeQuotes (char *);
 
 struct projectData {
    char* version_name;       // set in init_project 
@@ -61,8 +56,8 @@ struct projectData {
    char *mesh_file;
    int mesh_order;
    int mesh_uniform_refinement_count;
-   double mesh_refinement_cutoff;
    double mesh_refinement_fraction;
+   int mesh_enable_refine;
 
    char *mode_definition_file;
 
@@ -94,6 +89,8 @@ struct projectData {
    int solution_accurate_residual;
    int solution_shift_invert;
    int solution_use_initial_guess;
+   double solution_initial_alpha;
+   double solution_initial_beta;
    double solution_shift_factor;
 
    int output_show_refining_mesh;
@@ -125,11 +122,5 @@ struct projectData {
    int refinement_refine_converged_modes; // ToDo - needs work.  Produces knots of highly refine mesh in WR90.
    int solution_active_mode_count;
 };
-
-char* allocCopyString (char *);
-char* removeNewLineChar (char *);
-char *removeComment (char *);
-int removeQuote (char *);
-void removeQuotes (char *);
 
 #endif

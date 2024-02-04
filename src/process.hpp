@@ -24,15 +24,18 @@
 #include <string>
 #include <limits>
 #include <unistd.h>
+#include <cfloat>
 #include <complex>
 #include <filesystem>
-#include "OpenParEMmaterials.hpp"
 #include "project.h"
+#include "misc.hpp"
 
 extern "C" void init_project (struct projectData *);
 extern "C" int load_project_file(const char*, projectData*, const char*);
 extern "C" void print_project (struct projectData *, const char *indent);
 extern "C" void free_project(projectData*);
+
+using namespace std;
 
 class Result
 {
@@ -48,6 +51,7 @@ class Result
       long unsigned int modeCount;
       vector<complex<double>> gamma;
       vector<complex<double>> impedance;
+      vector<complex<double>> voltage;
    public:
       void set_frequency (double frequency_) {frequency=frequency_;}
       void set_iteration (int iteration_) {iteration=iteration_;}
@@ -61,10 +65,12 @@ class Result
       void set_modeCount (int modeCount_) {modeCount=modeCount_;}
       void push_gamma (complex<double> a) {gamma.push_back(a);}
       void push_impedance (complex<double> a) {impedance.push_back(a);}
+      void push_voltage (complex<double> a) {voltage.push_back(a);}
       bool get_modalImpedanceCalculation() {return modalImpedanceCalculation;}
       long unsigned int get_modeCount() {return modeCount;}
       complex<double> get_gamma (double, unsigned long int);
       complex<double> get_impedance (double, unsigned long int, unsigned long int);
+      complex<double> get_voltage (double, unsigned long int, unsigned long int);
       void print();
 };
 
@@ -78,6 +84,7 @@ class ResultDatabase
       bool is_populated() {if (resultList.size() > 0) return true; return false;}
       complex<double> get_gamma(double, int);
       complex<double> get_impedance(double, long unsigned int, long unsigned int);
+      complex<double> get_voltage(double, long unsigned int, long unsigned int);
       void print();
 };
 

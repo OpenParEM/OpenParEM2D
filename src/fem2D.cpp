@@ -92,15 +92,12 @@ Fields::~Fields()
 // field = false for Efield
 // field = true  for Hfield
 // allocates eVecRe and eVecIm, and these need to be freed elsewhere
-int Fields::loadEigenvector (fem2D *fem, long unsigned int mode, bool field, double **eVecRe, double **eVecIm)
+bool Fields::loadEigenvector (fem2D *fem, long unsigned int mode, bool field, double **eVecRe, double **eVecIm)
 {
    char filename[128];
    string line;
-   int lineNumber=0;
    vector<string> tokens;
-   bool foundVec=false,foundEndVec=false;
-   size_t allocated, current, blockSize=256;
-   size_t length;
+   size_t current;
 
    if (field) { // Hfield
       sprintf (filename,"temp_%s/Hfield_mode_%ld.dat",fem->projData->project_name,mode+1);
@@ -112,97 +109,19 @@ int Fields::loadEigenvector (fem2D *fem, long unsigned int mode, bool field, dou
    eVecFile.open(filename,ifstream::in);
 
    if (eVecFile.is_open()) {
-
-      allocated=blockSize;
-      *eVecRe=(double *)malloc(allocated*sizeof(double));
-      *eVecIm=(double *)malloc(allocated*sizeof(double));
-      current=0;
-
-      if (*eVecRe == nullptr || *eVecIm == nullptr) {
-         if (eVecRe != nullptr) free(eVecRe);
-         if (eVecIm != nullptr) free(eVecIm);
-         PetscPrintf(PETSC_COMM_WORLD,"ERROR100: Failed to allocate memory.\n");
-         return 1;
-      }
-
-      while (getline(eVecFile,line)) {
-         lineNumber++;
-         split_on_space (&tokens,line);
-
-         if (foundVec) {
-            if (tokens.size() > 0) if (tokens[0].compare("];") == 0) foundEndVec=true;
-
-            if (! foundEndVec) {
-               bool savedValue=false;
-
-               if (tokens.size() == 1) { // real part only
-                  try {
-                     (*eVecRe)[current]=stod(tokens[0]);
-                  } catch(const std::out_of_range&) {
-                     // assume that the number is less than DBL_MIN and set to 0
-                     (*eVecRe)[current]=0;
-                  }
-                  (*eVecIm)[current]=0;
-
-                  savedValue=true;
-                  current++;
-               } else if (tokens.size() == 2) {  // ?
-                 PetscPrintf(PETSC_COMM_WORLD,"ERROR107: Unsupported formatting in file \"%s\" at line %d\n",filename,lineNumber);
-                 return 1; 
-               } else if (tokens.size() == 3) {  // complex
-
-                  try {
-                     (*eVecRe)[current]=stod(tokens[0]);
-                  } catch(const std::out_of_range&) {
-                     // assume that the number is less than DBL_MIN and set to 0
-                     (*eVecRe)[current]=0;
-                  }
-                  length=tokens[2].length();
-
-                  try {
-                     (*eVecIm)[current]=stod(tokens[2].substr(0,length-1));
-                  } catch(const std::out_of_range&) {
-                     // assume that the number is less than DBL_MIN and set to 0
-                     (*eVecIm)[current]=0;
-                  }
-                  if (tokens[1].compare("-") == 0) (*eVecIm)[current]=-(*eVecIm)[current];
-
-                  savedValue=true;
-                  current++;
-               } else {
-                 PetscPrintf(PETSC_COMM_WORLD,"ERROR108: Unsupported formatting in file \"%s\" at line %d\n",filename,lineNumber);
-               }
-
-               if (savedValue) {
-                  if (current == allocated) {
-                     allocated+=blockSize;
-                     *eVecRe=(double *)realloc(*eVecRe,allocated*sizeof(double));
-                     *eVecIm=(double *)realloc(*eVecIm,allocated*sizeof(double));
-
-                     if (*eVecRe == nullptr || *eVecIm == nullptr) {
-                        if (eVecRe != nullptr) free(eVecRe);
-                        if (eVecIm != nullptr) free(eVecIm);
-                        PetscPrintf(PETSC_COMM_WORLD,"ERROR101: Failed to allocate memory.\n");
-                        return 1;
-                     }
-                  }
-               }
-
-            }
-
-         } else {
-            if (tokens.size() > 0) {if (tokens[0].substr(0,3).compare("Vec") == 0) foundVec=true;}
-         }
-      }
+      bool fail=loadData (&eVecFile,eVecRe,eVecIm,&current,filename);
+      eVecFile.close();
+      if (fail) return true;
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR109: Unable to open file \"%s\" for reading.\n",filename);
-      return 1;
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2134: Unable to open file \"%s\" for reading.\n",filename);
+      return true;
    }
 
    // check that the expected number of lines loaded
    if (current != fem->t_size+fem->z_size) {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR110: Unexpected line load count of %ld vs. expected %ld in file \"%s\".\n",current,fem->t_size+fem->z_size,filename);
-      return 1;
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2135: Unexpected line load count of %ld vs. expected %ld in file \"%s\".\n",
+                                    current,fem->t_size+fem->z_size,filename);
+      return true;
    }
 
    // scale the eigenvector by the largest Et vector component
@@ -254,11 +173,14 @@ int Fields::loadEigenvector (fem2D *fem, long unsigned int mode, bool field, dou
       }
    }
 
-   return 0;
+   return false;
 }
 
 bool Fields::build (fem2D *fem, long unsigned int mode)
 {
+   PetscMPIInt rank;
+   MPI_Comm_rank(PETSC_COMM_WORLD, &rank);
+
    bool HFIELD=true;
    bool EFIELD=false;
 
@@ -269,6 +191,7 @@ bool Fields::build (fem2D *fem, long unsigned int mode)
 
    // build the Efield
    if (! loadEigenvector (fem,mode,EFIELD,&EfieldRe,&EfieldIm)) {
+      MPI_Barrier(PETSC_COMM_WORLD);
 
       Vector EtRe=Vector(EfieldRe+offset_ND[0],offset_ND[1]-offset_ND[0]);
       Vector EtIm=Vector(EfieldIm+offset_ND[0],offset_ND[1]-offset_ND[0]);
@@ -285,13 +208,16 @@ bool Fields::build (fem2D *fem, long unsigned int mode)
       grid_Ez_re->Distribute(EzRe);
       grid_Ez_im->Distribute(EzIm);
 
+      if (EfieldRe) {free(EfieldRe); EfieldRe=nullptr;}
+      if (EfieldIm) {free(EfieldIm); EfieldIm=nullptr;}
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR102: Failed to load Efield.\n");
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2136: Failed to load Efield.\n");
       return true;
    }
 
    // build the Hfield
    if (! loadEigenvector (fem,mode,HFIELD,&HfieldRe,&HfieldIm)) {
+      MPI_Barrier(PETSC_COMM_WORLD);
 
       Vector HtRe=Vector(HfieldRe+offset_ND[0],offset_ND[1]-offset_ND[0]);
       Vector HtIm=Vector(HfieldIm+offset_ND[0],offset_ND[1]-offset_ND[0]);
@@ -308,10 +234,14 @@ bool Fields::build (fem2D *fem, long unsigned int mode)
       grid_Hz_re->Distribute(HzRe);
       grid_Hz_im->Distribute(HzIm);
 
+      if (HfieldRe) {free(HfieldRe); HfieldRe=nullptr;}
+      if (HfieldIm) {free(HfieldIm); HfieldIm=nullptr;}
+
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR103: Failed to load Hfield.\n");
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2137: Failed to load Hfield.\n");
       return true;
    }
+
    return false;
 }
 
@@ -363,25 +293,89 @@ void Fields::saveParaView(fem2D *fem, long unsigned int mode)
    delete pd;
 }
 
-// write as initial guess for the next iteration
-void Fields::writeInitialGuess (fem2D *fem, long unsigned int mode)
+void saveInitialGuess(HypreParVector *hpv, fem2D *fem, long unsigned int mode, string name)
 {
+   PetscMPIInt rank,size;
+   MPI_Comm_rank(PETSC_COMM_WORLD, &rank);
+   MPI_Comm_size(PETSC_COMM_WORLD, &size);
+
    stringstream ss;
    ss << "_" << mode+1;
 
-   string slash="/";
+   ofstream out;
 
-   string name_Et_re="initial_guess_Et_re";
-   grid_Et_re->Save((fem->temporaryDirectory+slash+name_Et_re+ss.str()).c_str());
+   int TXheader[3];
+   int RXheader[3];
 
-   string name_Et_im="initial_guess_Et_im";
-   grid_Et_im->Save((fem->temporaryDirectory+slash+name_Et_im+ss.str()).c_str());
+   if (rank == 0) {
 
-   string name_Ez_re="initial_guess_Ez_re";
-   grid_Ez_re->Save((fem->temporaryDirectory+slash+name_Ez_re+ss.str()).c_str());
+      // rank 0 data
 
-   string name_Ez_im="initial_guess_Ez_im";
-   grid_Ez_im->Save((fem->temporaryDirectory+slash+name_Ez_im+ss.str()).c_str());
+      const HYPRE_BigInt *hpi=hpv->Partitioning();
+
+      TXheader[0]=rank;
+      TXheader[1]=(int)hpi[0];
+      TXheader[2]=(int)hpi[1];
+
+      HYPRE_BigInt globalSize=hpv->GlobalSize();
+      double *data=(double *)malloc(globalSize*sizeof(double));
+
+      int i=0;
+      while (i < TXheader[2]-TXheader[1]) {
+         data[TXheader[1]+i]=hpv->Elem(i);
+         i++;
+      }
+
+      // other rank data
+      i=1;
+      while (i < size) {
+         MPI_Recv(RXheader,3,MPI_INT,i,0,PETSC_COMM_WORLD,MPI_STATUS_IGNORE);
+         MPI_Recv(data+RXheader[1],RXheader[2]-RXheader[1],MPI_DOUBLE,i,1,PETSC_COMM_WORLD,MPI_STATUS_IGNORE);
+         i++;
+      }
+
+      // save
+      out.open((fem->get_temporaryDirectory()+"/initial_guess_"+name+ss.str()+".dat").c_str(),ofstream::out);
+      if (out.is_open()) {
+         int i=0;
+         while (i < globalSize) {
+            out << setprecision(15) << data[i] << endl;
+            i++;
+         }
+         out.close();
+      }
+
+      if (data) free(data);
+   } else {
+      const HYPRE_BigInt *hpi=hpv->Partitioning();
+
+      TXheader[0]=rank;
+      TXheader[1]=(int)hpi[0];
+      TXheader[2]=(int)hpi[1];
+
+      MPI_Send(TXheader,3,MPI_INT,0,0,PETSC_COMM_WORLD);
+      MPI_Send(hpv->GetData(),TXheader[2]-TXheader[1],MPI_DOUBLE,0,1,PETSC_COMM_WORLD);
+   }
+}
+
+// write as initial guess for the next iteration
+void Fields::writeInitialGuess (fem2D *fem, long unsigned int mode)
+{
+   HypreParVector *hpv_Et_re=grid_Et_re->GetTrueDofs();
+   saveInitialGuess(hpv_Et_re,fem,mode,"Et_re");
+   delete hpv_Et_re;
+
+   HypreParVector *hpv_Et_im=grid_Et_im->GetTrueDofs();
+   saveInitialGuess(hpv_Et_im,fem,mode,"Et_im");
+   delete hpv_Et_im;
+
+   HypreParVector *hpv_Ez_re=grid_Ez_re->GetTrueDofs();
+   saveInitialGuess(hpv_Ez_re,fem,mode,"Ez_re");
+   delete hpv_Ez_re;
+
+   HypreParVector *hpv_Ez_im=grid_Ez_im->GetTrueDofs();
+   saveInitialGuess(hpv_Ez_im,fem,mode,"Ez_im");
+   delete hpv_Ez_im;
 }
 
 // calculate Pz from the E and H fields using the Poynting vector, so P=1/2 surface_integral Et x Ht*
@@ -461,7 +455,7 @@ complex<double> Fields::calculatePz(fem2D *fem)
    grid_Pz_im->ProjectCoefficient(Pz_im_coef);
 
    //**************************************************************************************************
-   // integegte over the cross section
+   // integrate over the cross section
    //**************************************************************************************************
 
    ConstantCoefficient one(1.0);
@@ -511,7 +505,7 @@ bool getFieldValues (int numPoints, ParMesh *pmesh, DenseMatrix *points, ParGrid
    // get element indices for each point
    Array<int> elementIndices(numPoints);
    Array<IntegrationPoint> integrationPoints(numPoints);
-   findPoints(pmesh, *points, elementIndices, integrationPoints);
+   findPoints(pmesh, *points, elementIndices, integrationPoints, 2);
 
    // space to hold transfer lengths and displacements
    int *counts_recv=(int *)malloc(size*sizeof(int));
@@ -556,7 +550,7 @@ bool getFieldValues (int numPoints, ParMesh *pmesh, DenseMatrix *points, ParGrid
 
    // gather the transfer lengths 
    if (MPI_Gather(&count_from,1,MPI_INT,counts_recv,1,MPI_INT,0,PETSC_COMM_WORLD)) {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR111: Failed to gather transfer lengths.\n");
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2138: Failed to gather transfer lengths.\n");
       return true;
    }
 
@@ -583,18 +577,18 @@ bool getFieldValues (int numPoints, ParMesh *pmesh, DenseMatrix *points, ParGrid
    }
 
    if (MPI_Bcast(&totalPoints,1,MPI_INT,0,PETSC_COMM_WORLD)) {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR116: Failed to broadcast totalPoints.\n");
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2139: Failed to broadcast totalPoints.\n");
       return true;
    }
 
    // send all to rank 0
    if (MPI_Gatherv(sendDataX,count_from,mpi_complex_int_type,recvDataX,counts_recv,displacements_recv,mpi_complex_int_type,0,PETSC_COMM_WORLD)) {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR112: Failed to gather sendDataX.\n");
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2140: Failed to gather sendDataX.\n");
       return true;
    }
 
    if (fieldValuesY && MPI_Gatherv(sendDataY,count_from,mpi_complex_int_type,recvDataY,counts_recv,displacements_recv,mpi_complex_int_type,0,PETSC_COMM_WORLD)) {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR113: Failed to gather sendDataY.\n");
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2141: Failed to gather sendDataY.\n");
       return true;
    }
 
@@ -607,12 +601,12 @@ bool getFieldValues (int numPoints, ParMesh *pmesh, DenseMatrix *points, ParGrid
    // broadcast
 
    if (MPI_Bcast(recvDataX,totalPoints,mpi_complex_int_type,0,PETSC_COMM_WORLD)) {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR114: Failed to broadcast recvDataX.\n");
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2142: Failed to broadcast recvDataX.\n");
       return true;
    }
 
    if (fieldValuesY && MPI_Bcast(recvDataY,totalPoints,mpi_complex_int_type,0,PETSC_COMM_WORLD)) {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR115: Failed to broadcast recvDataY.\n");
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2143: Failed to broadcast recvDataY.\n");
       return true;
    }
 
@@ -757,7 +751,7 @@ complex<double> Fields::calculateLineIntegral (fem2D *fem, Boundary *boundary, B
                if ((int)border->get_mode(boundary->get_mode()).boundary == boundary->get_attribute() && 
                         border->get_mode(boundary->get_mode()).path == iPath &&
                         border->get_mode(boundary->get_mode()).segment == j-1) {
-                  fem->border_attributes[k-1]=1;
+                  fem->border_attributes[border->get_global_attribute()-1]=1;
                }
                k++;
             }
@@ -848,7 +842,7 @@ void Fields::calculateFieldPoints (fem2D *fem, int mode, FieldPointDatabase *fie
    vector<complex<double>> Etx,Ety,Etz,Htx,Hty,Htz;
 
    // skip if there are no frequency points to calculate
-   if (fem->projData->field_points_count <= 0) return;
+   if (fem->projData->field_points_count == 0) return;
 
    // intermediate storage to call getFieldValues
    Etx.resize(fem->projData->field_points_count);
@@ -882,6 +876,7 @@ void Fields::calculateFieldPoints (fem2D *fem, int mode, FieldPointDatabase *fie
 
       fieldPoint.set_frequency(fem->frequency);
       fieldPoint.set_mode(mode);
+      fieldPoint.set_dim(2);
       fieldPoint.set_x(fem->projData->field_points_x[i]);
       fieldPoint.set_y(fem->projData->field_points_y[i]);
 
@@ -912,9 +907,8 @@ double Fields::calculatePerturbationalLoss(fem2D *fem, BoundaryDatabase *boundar
    string indent="   ";
    double perturbationalLoss=0;
 
-   // loop over the border attributes
-   int i=0;
-   while (i <= (int)fem->border_attributes.Size()) {
+   long unsigned int i=0;
+   while (i < borderDatabase->get_size()) {
 
       // find the boundary associated with this border
       Border *border=borderDatabase->get_border(i);
@@ -929,7 +923,7 @@ double Fields::calculatePerturbationalLoss(fem2D *fem, BoundaryDatabase *boundar
             if (material) {
                Rs=material->get_Rs(fem->projData->solution_temperature, fem->frequency, tolerance, indent);
             } else {
-               PetscPrintf(PETSC_COMM_WORLD,"ERROR105: Material \"%s\" does not exist in the materials database.  Defaulting to PEC.\n",
+               PetscPrintf(PETSC_COMM_WORLD,"ERROR2144: Material \"%s\" does not exist in the materials database.  Defaulting to PEC.\n",
                                             boundary->get_material().c_str());
             }
 
@@ -937,7 +931,7 @@ double Fields::calculatePerturbationalLoss(fem2D *fem, BoundaryDatabase *boundar
             fem->border_attributes=0;
 
             // put this one back
-            fem->border_attributes[i-1]=1;
+            fem->border_attributes[border->get_global_attribute()-1]=1;
 
             // integrate the Ht contribution
 
@@ -972,7 +966,6 @@ double Fields::calculatePerturbationalLoss(fem2D *fem, BoundaryDatabase *boundar
             double Hz_im_mag2=Hz_im_lf(*grid_Hz_im);
 
             perturbationalLoss+=0.5*Rs*(Ht_re_mag2+Ht_im_mag2+Hz_re_mag2+Hz_im_mag2);
-
          }
       }
       i++;
@@ -1072,117 +1065,6 @@ void Mode::saveParaView(fem2D *fem)
    fields->saveParaView(fem,modeNumber);
 }
 
-void PrintError (struct mpi_double_int_int *a, int i)
-{
-   int rank;
-   MPI_Comm_rank(PETSC_COMM_WORLD, &rank);
-
-   cout << "[" << rank << "]  i=" << i << "  position=" << a->location << "  value=" << a->value << "  rank=" << a->rank << endl;
-}
-
-void PrintErrors (struct mpi_double_int_int *A, int lenA)
-{
-   int rank;
-   MPI_Comm_rank(PETSC_COMM_WORLD, &rank);
-
-   cout << "[" << rank << "] PrintErrors:" << endl;
-   cout << "[" << rank << "]   A=" << A << endl;
-   cout << "[" << rank << "]  lenA=" << lenA << endl;
-   int i=0;
-   while (i < lenA) {
-      PrintError(&A[i],i);
-      i++;
-   }
-}
-
-// merge the A array into B
-// B is allocated and must be freed elsewhere
-int MergeErrors (struct mpi_double_int_int *A, int lenA, struct mpi_double_int_int **B, int *lenB)
-{
-   int size,rank;
-
-   MPI_Comm_size(PETSC_COMM_WORLD, &size);
-   MPI_Comm_rank(PETSC_COMM_WORLD, &rank);
-
-   // set up a datatype for data transfer
-   // use an int for an array location, an int for the rank, and a double for a value
-
-   MPI_Datatype mpi_double_int_int_type;
-   int lengths[3]={1,1,1};
-
-   MPI_Aint displacements[3];
-   struct mpi_double_int_int dummy;
-   MPI_Aint base_address;
-   MPI_Get_address(&dummy,&base_address);
-   MPI_Get_address(&dummy.value,&displacements[0]);
-   MPI_Get_address(&dummy.location,&displacements[1]);
-   MPI_Get_address(&dummy.rank,&displacements[2]);
-   displacements[0]=MPI_Aint_diff(displacements[0],base_address);
-   displacements[1]=MPI_Aint_diff(displacements[1],base_address);
-   displacements[2]=MPI_Aint_diff(displacements[2],base_address);
-
-   MPI_Datatype types[3]={MPI_DOUBLE,MPI_INT,MPI_INT};
-   MPI_Type_create_struct(3,lengths,displacements,types,&mpi_double_int_int_type);
-   MPI_Type_commit(&mpi_double_int_int_type);
-
-   // space to hold transfer lengths and displacements
-   int *counts_recv,*displacements_recv;
-   counts_recv=(int *)malloc(size*sizeof(int));
-   displacements_recv=(int *)malloc(size*sizeof(int));
-
-   // gather the transfer lengths
-   if (MPI_Gather(&lenA,1,MPI_INT,counts_recv,1,MPI_INT,0,PETSC_COMM_WORLD)) {
-      PetscPrintf (PETSC_COMM_WORLD,"ERROR119: Failed to gather data.\n");
-      return 1;
-   }
-
-   // calculate the total length of the data
-   *lenB=0;
-   if (rank == 0) {
-      int i=0;
-      while (i < size) {
-         (*lenB)+=counts_recv[i];
-         i++;
-      }
-   }
-
-   if (MPI_Bcast(lenB,1,MPI_INT,0,PETSC_COMM_WORLD)) {
-      PetscPrintf (PETSC_COMM_WORLD,"ERROR120: Failed to broadcast total.\n");
-      return 1;
-   }
-
-   // calculate displacements
-   if (rank == 0) {
-      displacements_recv[0]=0;
-      int i=1;
-      while (i < size) {
-         displacements_recv[i]=displacements_recv[i-1]+counts_recv[i-1];
-         i++;
-      }
-   }
-
-   // space for the received data
-   *B=(struct mpi_double_int_int *)malloc((*lenB)*sizeof(struct mpi_double_int_int));
-
-   // send all to rank 0
-   if (MPI_Gatherv(A,lenA,mpi_double_int_int_type,*B,counts_recv,displacements_recv,mpi_double_int_int_type,0,PETSC_COMM_WORLD)) {
-      PetscPrintf (PETSC_COMM_WORLD,"ERROR121: Failed to gather data.\n");
-      return 1;
-   }
-
-   if (counts_recv) {free(counts_recv); counts_recv=nullptr;}
-   if (displacements_recv) {free(displacements_recv); displacements_recv=nullptr;}
-
-   if (MPI_Bcast(*B,*lenB,mpi_double_int_int_type,0,PETSC_COMM_WORLD)) {
-      PetscPrintf (PETSC_COMM_WORLD,"ERROR122: Failed to broadcast data.\n");
-      return 1;
-   }
-
-   MPI_Type_free(&mpi_double_int_int_type);
-
-   return 0;
-}
-
 // refine on a partial component of the tangengial electric field
 // ToDo: write a custom integrator to enable adaptive meshing on the total electric field
 bool Mode::ZZrefineMesh (fem2D *fem, ConvergenceDatabase *convergenceDatabase)
@@ -1190,9 +1072,10 @@ bool Mode::ZZrefineMesh (fem2D *fem, ConvergenceDatabase *convergenceDatabase)
    long unsigned int i;
    int j;
    bool use_initial_guess=true;
-   int rank;
+   int rank,size;
 
    MPI_Comm_rank(PETSC_COMM_WORLD, &rank);
+   MPI_Comm_size(PETSC_COMM_WORLD, &size);
 
    // skip refinement if the mode is converged to avoid unnecessary mesh creation
    if (! fem->projData->refinement_refine_converged_modes && convergenceDatabase->is_converged(modeNumber)) {
@@ -1204,29 +1087,48 @@ bool Mode::ZZrefineMesh (fem2D *fem, ConvergenceDatabase *convergenceDatabase)
 
    if (fem->projData->output_show_refining_mesh) PetscPrintf(PETSC_COMM_WORLD,"         mode %ld:\n",modeNumber+1);
 
-   // flux
-   L2_FECollection *fec_L2_flux=new L2_FECollection(fem->order-1,fem->pmesh->Dimension());
+   // real errors
+   L2_FECollection *fec_L2_flux=new L2_FECollection(fem->order-1,fem->pmesh->Dimension());  // flux
+   H1_FECollection *fec_H1_flux=new H1_FECollection(fem->order,fem->pmesh->Dimension());    // smoothed flux
+   CurlCurlIntegrator *CCinteg=new CurlCurlIntegrator ();                                      // integrator
    ParFiniteElementSpace *fespace_L2_flux=new ParFiniteElementSpace(fem->pmesh,fec_L2_flux);
-
-   // smoothed flux
-   H1_FECollection *fec_H1_flux=new H1_FECollection(fem->order,fem->pmesh->Dimension());
    ParFiniteElementSpace *fespace_H1_flux=new ParFiniteElementSpace(fem->pmesh,fec_H1_flux);
-
-   // estimator
-   L2ZienkiewiczZhuEstimator *estimator;
-   CurlCurlIntegrator CCinteg=CurlCurlIntegrator ();
-   estimator=new L2ZienkiewiczZhuEstimator(CCinteg,*fields->get_grid_Et_re(),fespace_L2_flux,fespace_H1_flux);
-
-   // local errors
+   L2ZienkiewiczZhuEstimator *estimator=new L2ZienkiewiczZhuEstimator(*CCinteg,*fields->get_grid_Et_re(),fespace_L2_flux,fespace_H1_flux);
    Vector localErrors;
    localErrors=estimator->GetLocalErrors();
-   //cout << "estimator->GetTotalError()=" << estimator->GetTotalError() << endl;
+   delete CCinteg;
+   delete fec_H1_flux;
+   delete fec_L2_flux;
+   delete estimator;
+
+   // imag errors
+   fec_L2_flux=new L2_FECollection(fem->order-1,fem->pmesh->Dimension());  // flux
+   fec_H1_flux=new H1_FECollection(fem->order,fem->pmesh->Dimension());    // smoothed flux
+   CCinteg=new CurlCurlIntegrator ();                                      // integrator
+   fespace_L2_flux=new ParFiniteElementSpace(fem->pmesh,fec_L2_flux);
+   fespace_H1_flux=new ParFiniteElementSpace(fem->pmesh,fec_H1_flux);
+   estimator=new L2ZienkiewiczZhuEstimator(*CCinteg,*fields->get_grid_Et_re(),fespace_L2_flux,fespace_H1_flux);
+   Vector localErrorsIm;
+   localErrorsIm=estimator->GetLocalErrors();
+   delete CCinteg;
+   delete fec_H1_flux;
+   delete fec_L2_flux;
+   delete estimator;
+
+   int local_error_size=localErrors.Size();
+
+   // combine errors
+   j=0;
+   while (j < local_error_size) {
+      localErrors[j]=sqrt(localErrors[j]*localErrors[j]+localErrorsIm[j]*localErrorsIm[j]);
+      j++;
+   }
 
    // element centers and local error limits
-   DenseMatrix centers(2,localErrors.Size());
+   DenseMatrix centers(2,local_error_size);
    Vector center(2);
    j=0;
-   while (j < localErrors.Size()) {
+   while (j < local_error_size) {
       fem->pmesh->GetElementCenter (j,center);
       centers.Elem(0,j)=center.Elem(0);
       centers.Elem(1,j)=center.Elem(1);
@@ -1234,105 +1136,161 @@ bool Mode::ZZrefineMesh (fem2D *fem, ConvergenceDatabase *convergenceDatabase)
    }
 
    // get element indices for each point
-   Array<int> element_indices(localErrors.Size());
-   Array<IntegrationPoint> integrationPoints(localErrors.Size());
-   findPoints(fem->pmesh, centers, element_indices, integrationPoints);
+   Array<int> localElements(local_error_size);
+   Array<IntegrationPoint> integrationPoints(local_error_size);
+   findPoints(fem->pmesh,centers,localElements,integrationPoints,2);
 
-   // store the local errors in a struct for merging
-   struct mpi_double_int_int *localErr=(struct mpi_double_int_int *)malloc(localErrors.Size()*sizeof(struct mpi_double_int_int));
-   j=0;
-   while (j < localErrors.Size()) {
-      localErr[j].rank=rank;
-      localErr[j].location=element_indices[j];
-      localErr[j].value=localErrors[j];
-      j++;
-   }
+   // merge into a global list at rank 0
 
-   // merge the local errors for global mesh refinement
-   struct mpi_double_int_int *globalErrors=nullptr;
-   int globalLen;
-   if (MergeErrors (localErr,localErrors.Size(),&globalErrors,&globalLen)) return false;
+   vector<double> errors;
+   vector<int> elements;
+   vector<int> ranks;
 
-   if (localErr) {free(localErr); localErr=nullptr;}
+   if (rank == 0) {
 
-   // bubble sort - ToDo - replace with something more efficient and preferrably parallel
-   if (fem->projData->output_show_refining_mesh) PetscPrintf(PETSC_COMM_WORLD,"            sorting %d elements ...\n",globalLen);
-   bool found=true;
-   while (found) {
-      found=false;
-      j=0;
-      while (j < globalLen-1) {
-         if (globalErrors[j].value < globalErrors[j+1].value) {
-            struct mpi_double_int_int temp;
-            temp=globalErrors[j];
-            globalErrors[j]=globalErrors[j+1];
-            globalErrors[j+1]=temp;
+      // local
+      int i=0;
+      while (i < local_error_size) {
+         errors.push_back(localErrors[i]);
+         elements.push_back(localElements[i]);
+         ranks.push_back(rank);
+         i++;
+      }
 
-            found=true;
+      // collected
+      i=1;
+      while (i < size) {
+         int transfer_count=0;
+         MPI_Recv(&transfer_count,1,MPI_INT,i,100,PETSC_COMM_WORLD,MPI_STATUS_IGNORE);
+
+         int k=0;
+         while (k < transfer_count) {
+            double transfer_error=0;
+            int transfer_element=0;
+            int transfer_rank=0;
+            MPI_Recv(&transfer_error,1,MPI_DOUBLE,i,101,PETSC_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&transfer_element,1,MPI_INT,i,102,PETSC_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&transfer_rank,1,MPI_INT,i,103,PETSC_COMM_WORLD,MPI_STATUS_IGNORE);
+
+            errors.push_back(transfer_error);
+            elements.push_back(transfer_element);
+            ranks.push_back(transfer_rank);
+            k++;
          }
-         j++;
+         i++;
       }
-   }
-
-   // get the global refinement count
-
-   // set the count by keeping the elements that have an error that is as a fraction of the max error
-   long unsigned int globalRefineCount=0;
-   while (globalRefineCount < (long unsigned int)globalLen) {
-      if (globalErrors[globalRefineCount].value < fem->projData->mesh_refinement_cutoff*globalErrors[0].value) break;
-      globalRefineCount++;
-   }
-
-   // cap the count
-   if (globalRefineCount > globalLen*fem->projData->mesh_refinement_fraction/fem->meshScale)
-         globalRefineCount=globalLen*fem->projData->mesh_refinement_fraction/fem->meshScale;
-
-   if (globalRefineCount == 0) globalRefineCount=1;
-
-   // count the number of local refinements
-   long unsigned int localRefineCount=0;
-   i=0;
-   while (i < globalRefineCount) {
-      if (globalErrors[i].rank == rank) localRefineCount++;
-      i++;
-   }
-
-   // refine locally
-   Array<int> localRefineList(localRefineCount);
-   long unsigned int index=0;
-   i=0;
-   while (i < globalRefineCount) {
-      if (globalErrors[i].rank == rank) {
-         localRefineList[index]=globalErrors[i].location;
-         index++;
-      }
-      i++;
-   }
-
-   if (localRefineList.Size() == 1) {
-      if (fem->projData->output_show_refining_mesh) PetscPrintf(PETSC_COMM_WORLD,"            refining %d element ...\n",globalRefineCount);
    } else {
-      if (fem->projData->output_show_refining_mesh) PetscPrintf(PETSC_COMM_WORLD,"            refining %d elements ...\n",globalRefineCount);
+      MPI_Send(&local_error_size,1,MPI_INT,0,100,PETSC_COMM_WORLD);
+
+      int i=0;
+      while (i < local_error_size) {
+         double transfer_error=localErrors[i];
+         int transfer_element=localElements[i];
+         int transfer_rank=rank;
+
+         MPI_Send(&transfer_error,1,MPI_DOUBLE,0,101,PETSC_COMM_WORLD);
+         MPI_Send(&transfer_element,1,MPI_INT,0,102,PETSC_COMM_WORLD);
+         MPI_Send(&transfer_rank,1,MPI_INT,0,103,PETSC_COMM_WORLD);
+
+         i++;
+      }
+   }
+
+   //  get the global refinement count
+   int refinementCount=GetGlobalNE(fem->pmesh)*fem->projData->mesh_refinement_fraction;
+   if (refinementCount == 0) refinementCount=1;
+
+   // sort the top errors
+   if (rank == 0) {
+      long unsigned int i=0;
+      while (i < (long unsigned int)refinementCount) {
+         long unsigned int k=i+1;
+         while (k < errors.size()) {
+            if (errors[i] < errors[k]) {
+               double temp_error=errors[i];
+               errors[i]=errors[k];
+               errors[k]=temp_error;
+
+               int temp_element=elements[i];
+               elements[i]=elements[k];
+               elements[k]=temp_element;
+
+               int temp_rank=ranks[i];
+               ranks[i]=ranks[k];
+               ranks[k]=temp_rank;
+            }
+            k++;
+         }
+         i++;
+      }
+   }
+
+   // distribute the errors
+   if (rank == 0) {
+
+      int i=1;
+      while (i < size) {
+
+         // count the number to send
+         int count=0;
+         int j=0;
+         while (j < refinementCount) {
+            if (ranks[j] == i) count++;
+            j++;
+         }
+
+         MPI_Send(&count,1,MPI_INT,i,200,PETSC_COMM_WORLD);
+
+         // send the data 
+         j=0;
+         while (j < refinementCount) {
+            if (ranks[j] == i) {
+               MPI_Send(&(elements[j]),1,MPI_INT,i,201,PETSC_COMM_WORLD);
+            } 
+            j++;
+         } 
+         i++;
+      }
+
+      // restrict the rank 0 data
+      vector<int> temp_elements=elements;
+      elements.clear();
+      i=0;
+      while (i < refinementCount) {
+         if (ranks[i] == rank) elements.push_back(temp_elements[i]);
+         i++;
+      }
+
+   } else {
+      int transfer_count=0;
+      MPI_Recv(&transfer_count,1,MPI_INT,0,200,PETSC_COMM_WORLD,MPI_STATUS_IGNORE);
+
+      int i=0;
+      while (i < transfer_count) {
+         int transfer_element=0;
+         MPI_Recv(&transfer_element,1,MPI_INT,0,201,PETSC_COMM_WORLD,MPI_STATUS_IGNORE);
+         elements.push_back(transfer_element);
+         i++;
+      }
+   }
+
+   // transfer for use with GeneralRefinement
+   Array<int> localRefineList(elements.size());
+   i=0;
+   while (i < elements.size()) {
+      localRefineList[i]=elements[i];
+      i++;
+   }
+
+   if (refinementCount == 1) {
+      if (fem->projData->output_show_refining_mesh) PetscPrintf(PETSC_COMM_WORLD,"            refining %d element ...\n",refinementCount);
+   } else {
+      if (fem->projData->output_show_refining_mesh) PetscPrintf(PETSC_COMM_WORLD,"            refining %d elements ...\n",refinementCount);
    }
 
    fem->pmesh->GeneralRefinement(localRefineList);
 
-   // cleanup
-   if (globalErrors) {free(globalErrors); globalErrors=nullptr;}
-
    if (fem->projData->output_show_refining_mesh) PetscPrintf(PETSC_COMM_WORLD,"            new mesh size: %d\n",GetGlobalNE(fem->pmesh));
-
-   delete fec_H1_flux;
-   delete fec_L2_flux;
-   delete estimator;
-
-   // see if the mesh has grown too much for more refinement
-   // This can happen when the starting mesh is very small.
-   if (GetGlobalNE(fem->pmesh) > 1.5*fem->startingMeshSize) { // 1.5
-      use_initial_guess=false;  // older way
-      use_initial_guess=true;
-      if (fem->projData->output_show_refining_mesh) PetscPrintf(PETSC_COMM_WORLD,"            stopping refinement due to mesh excess mesh growth\n");
-   }
 
    return use_initial_guess;
 }
@@ -1412,6 +1370,36 @@ complex<double> Mode::get_voltage (long unsigned int i)
    }
 
    return voltage[i];
+}
+
+// false for negative, true for positive
+bool Mode::isPositive(struct projectData *projData)
+{
+   bool found=false;
+   long unsigned int i;
+   double testValue=DBL_MAX;
+
+   i=modeNumber;
+
+   if (voltage.size() > i && voltage[i] != complex<double>(DBL_MAX,DBL_MAX)) {
+      found=true;
+      if (abs(real(voltage[i])) > abs(imag(voltage[i]))) testValue=real(voltage[i]);
+      else testValue=imag(voltage[i]);
+   }
+
+   if (!found && current.size() > i && current[i] != complex<double>(DBL_MAX,DBL_MAX)) {
+      found=true;
+      if (abs(real(current[i])) > abs(imag(current[i]))) testValue=real(current[i]);
+      else testValue=imag(current[i]);
+   }
+
+   if (found) {
+      if (testValue >= 0) return true;
+      return false;
+   }
+
+   // return false if neither the voltage nor the current are defined
+   return false;
 }
 
 void Mode::calculatePerturbationalLoss(fem2D *fem, BoundaryDatabase *boundaryDatabase, BorderDatabase *borderDatabase, MaterialDatabase *materialDatabase)
@@ -1566,12 +1554,16 @@ void ModeDatabase::calculateImpedanceMatrix (fem2D *fem, const char *definition,
 
       // allocate memory that must be freed elsewhere
       // space for an nx1 array, where n is the number of modes
+
       if (Zvi) {free(Zvi); Zvi=nullptr;}
       if (Zpv) {free(Zpv); Zpv=nullptr;}
       if (Zpi) {free(Zpi); Zpi=nullptr;}
       Zvi=(complex<double> *) malloc(n*sizeof(complex<double>));
       Zpv=(complex<double> *) malloc(n*sizeof(complex<double>));
       Zpi=(complex<double> *) malloc(n*sizeof(complex<double>));
+
+      if (Voltage) {free(Voltage); Voltage=nullptr;}
+      Voltage=(complex<double> *) malloc(n*sizeof(complex<double>));
 
       if (fem->projData->debug_show_impedance_details) {
          PetscPrintf(PETSC_COMM_WORLD,"            Mode\n");
@@ -1619,6 +1611,9 @@ void ModeDatabase::calculateImpedanceMatrix (fem2D *fem, const char *definition,
          if (validCurrent) Zpi[i]=2*Pzavg/(current*conj(current));
          else Zpi[i]=complex<double>(DBL_MAX,DBL_MAX);
 
+         if (validVoltage) Voltage[i]=voltage;
+         else Voltage[i]=complex<double>(DBL_MAX,DBL_MAX);
+
          i++;
       }
 
@@ -1645,12 +1640,16 @@ void ModeDatabase::calculateImpedanceMatrix (fem2D *fem, const char *definition,
 
       // allocate memory that must be freed elsewhere
       // space for an nxn matrix, where n is the number of modes
+
       if (Zvi) {free(Zvi); Zvi=nullptr;}
       if (Zpv) {free(Zpv); Zpv=nullptr;}
       if (Zpi) {free(Zpi); Zpi=nullptr;}
       Zvi=(complex<double> *) malloc(n*n*sizeof(complex<double>));
       Zpv=(complex<double> *) malloc(n*n*sizeof(complex<double>));
       Zpi=(complex<double> *) malloc(n*n*sizeof(complex<double>));
+
+      if (Voltage) {free(Voltage); Voltage=nullptr;}
+      Voltage=(complex<double> *) malloc(n*n*sizeof(complex<double>));
 
       // temporary memory and some pointers
       complex<double> *V=Zpv;
@@ -1666,6 +1665,7 @@ void ModeDatabase::calculateImpedanceMatrix (fem2D *fem, const char *definition,
          Zvi[i]=complex<double>(DBL_MAX,DBL_MAX);
          Zpv[i]=complex<double>(DBL_MAX,DBL_MAX);
          Zpi[i]=complex<double>(DBL_MAX,DBL_MAX);
+         V[i]=complex<double>(DBL_MAX,DBL_MAX);
          i++;
       }
 
@@ -1698,6 +1698,8 @@ void ModeDatabase::calculateImpedanceMatrix (fem2D *fem, const char *definition,
 
             if (j == (long unsigned int)mode) Ppi[mode+j*n]=modeList[mode]->get_Pzavg();
             else Ppi[mode+j*n]=complex<double>(0,0);
+
+            Voltage[mode+j*n]=modeList[mode]->get_voltage(j);
 
             j++;
          }
@@ -1745,7 +1747,7 @@ void ModeDatabase::calculateImpedanceMatrix (fem2D *fem, const char *definition,
          if (validCurrent) {
             PetscPrintf(PETSC_COMM_WORLD,"\n");
             matrixPrint((lapack_complex_double *)I,n);
-         } else PetscPrintf(PETSC_COMM_WORLD," not defined");
+         } else PetscPrintf(PETSC_COMM_WORLD," not defined\n");
 
          PetscPrintf(PETSC_COMM_WORLD,"            Average propagated power (Pz,avg):\n");
          matrixDiagonalPrint((lapack_complex_double *)Ppv,n);
@@ -1821,7 +1823,6 @@ void ModeDatabase::calculateImpedanceMatrix (fem2D *fem, const char *definition,
       PetscPrintf(PETSC_COMM_WORLD,"ASSERT: Invalid impedance calculation selection.\n");
    }
 }
-
 
 void ModeDatabase::calculatePerturbationalLoss(fem2D *fem, BoundaryDatabase *boundaryDatabase, BorderDatabase *borderDatabase, MaterialDatabase *materialDatabase)
 {
@@ -1931,6 +1932,7 @@ ModeDatabase::~ModeDatabase()
    if (Zvi) {free(Zvi); Zvi=nullptr;}
    if (Zpv) {free(Zpv); Zpv=nullptr;}
    if (Zpi) {free(Zpi); Zpi=nullptr;}
+   if (Voltage) {free(Voltage); Voltage=nullptr;}
 
    long unsigned int i=0;
    while (i < modeList.size()) {
@@ -1948,6 +1950,9 @@ fem2D::fem2D(struct projectData *projData_, ParMesh *pmesh_, int order_, double 
              PWConstCoefficient *w_mu,                                                             // for H-field
              string temporaryDirectory_) 
 {
+   PetscMPIInt rank;
+   MPI_Comm_rank(PETSC_COMM_WORLD, &rank);
+
    projData=projData_;
    pmesh=pmesh_;
    order=order_;
@@ -2142,16 +2147,15 @@ PetscInt* fem2D::get_ess_tdof_ND(BoundaryDatabase *boundaryDatabase, BorderDatab
       Border *border=borderDatabase->get_border(j);
       if (border->has_boundary()) {
          if (boundaryDatabase->get_boundary(border->get_boundary().boundary)->is_perfect_magnetic_conductor()) {
-            border_attributes[j-1]=0;  // offset down by 1 to align with MFEM convention
+            border_attributes[border->get_global_attribute()-1]=0;  // offset down by 1 to align with MFEM convention
          }
       }
       j++;
    }
 
    // Get dofs for which border_attributes == 1.
-   // The rows and columns of these will be zero'ed out in eigensolve.
-   // The natural boundary condition is PMC, so not zeroing out the row and column provides for a PMC boundary.
    // Zeroing out the row and column provides for a PEC boundary.
+   // The natural boundary condition is PMC, so not zeroing out the row and column provides for a PMC boundary.
    fespace_ND->GetEssentialTrueDofs(border_attributes, ess_tdof_list_ND);
    ess_tdof_size_ND=ess_tdof_list_ND.Size();
 
@@ -2187,16 +2191,15 @@ PetscInt* fem2D::get_ess_tdof_H1(BoundaryDatabase *boundaryDatabase, BorderDatab
       Border *border=borderDatabase->get_border(j);
       if (border->has_boundary()) {
          if (boundaryDatabase->get_boundary(border->get_boundary().boundary)->is_perfect_magnetic_conductor()) {
-            border_attributes[j-1]=0;  // offset down by 1 to align with MFEM convention
+            border_attributes[border->get_global_attribute()-1]=0;  // offset down by 1 to align with MFEM convention
          }
       }
       j++;
    }
 
    // Get dofs for which border_attributes == 1.
-   // The rows and columns of these will be zero'ed out in eigensolve.
-   // The natural boundary condition is PMC, so not zeroing out the row and column provides for a PMC boundary.
    // Zeroing out the row and column provides for a PEC boundary.
+   // The natural boundary condition is PMC, so not zeroing out the row and column provides for a PMC boundary.
    fespace_H1->GetEssentialTrueDofs(border_attributes, ess_tdof_list_H1);
    ess_tdof_size_H1=ess_tdof_list_H1.Size();
 
@@ -2294,12 +2297,14 @@ Result* fem2D::updateResults(ResultDatabase *resultDatabase, ConvergenceDatabase
          int i=0;
          while (i < Zdim) {
             result->push_Z(Z[i]);
+            result->push_V(modeDatabase.get_Voltage()[i]);
             i++;
          }
       } else {
          int i=0;
          while (i < Zdim*Zdim) {
             result->push_Z(Z[i]);
+            result->push_V(modeDatabase.get_Voltage()[i]);
             i++;
          }
       }
@@ -2335,6 +2340,49 @@ Result* fem2D::updateResults(ResultDatabase *resultDatabase, ConvergenceDatabase
    return result;
 }
 
+void fem2D::dumpDof2DData()
+{
+   int count=0;
+
+   cout << "OpenParEM2D Dof data from 2D mesh:" << endl;
+
+   // loop over elements
+   int i=0;
+   while (i < fespace_ND->GetNE()) {
+      cout << "   element " << i << ":" << endl;
+
+      // coordinates
+
+      Array<int> vert;
+      pmesh->GetElementVertices(i,vert);
+      cout << "      vertex indices and coordinates: " << endl;
+      int j=0;
+      while (j < vert.Size()) {
+         double *coords=pmesh->GetVertex(vert[j]);
+         cout << "         " << vert[j] << ": (" << coords[0] << "," << coords[1] << ")" << endl;
+         j++;
+      }
+
+      // Vdofs
+
+      Array<int> vdofs;
+      fespace_ND->GetElementVDofs(i,vdofs);
+
+      cout << "      ElementVDofs:" << endl;
+      j=0;
+      while (j < vdofs.Size()) {
+         cout << "         " << vdofs[j] << endl;
+         count++;
+         j++;
+      }
+
+      i++;
+   }
+
+   cout << "   dof count=" << count << endl;
+}
+
+
 fem2D::~fem2D()
 {
    if (fespace_ND) {delete fespace_ND; fespace_ND=nullptr;}
@@ -2348,4 +2396,3 @@ fem2D::~fem2D()
 
 }
 
-// last used error is 122

@@ -317,12 +317,12 @@ void matrixTest()
    if (isEqualMatrix (A,B,n)) PetscPrintf(PETSC_COMM_WORLD,"testMatrix: (A^T)^T==A FAILED\n");
    else PetscPrintf(PETSC_COMM_WORLD,"testMatrix: (A^T)^T==A passed\n");
 
-   if (matrixInverse(A,n)) {PetscPrintf(PETSC_COMM_WORLD,"ERROR: matrix inversion error.\n"); return;}
+   if (matrixInverse(A,n)) {PetscPrintf(PETSC_COMM_WORLD,"ERROR2277: matrix inversion error.\n"); return;}
    matrixMultiply(A,B,n);
    if (isIdentityMatrix(B,n)) PetscPrintf(PETSC_COMM_WORLD,"testMatrix: A^-1*A==I FAILED\n");
    else PetscPrintf(PETSC_COMM_WORLD,"testMatrix: A^-1*A==I passed\n");
 
-   if (matrixInverse(A,n)) {PetscPrintf(PETSC_COMM_WORLD,"ERROR: matrix inversion error.\n"); return;}
+   if (matrixInverse(A,n)) {PetscPrintf(PETSC_COMM_WORLD,"ERROR2278: matrix inversion error.\n"); return;}
    if (isEqualMatrix (A,C,n)) PetscPrintf(PETSC_COMM_WORLD,"testMatrix: (A^-1)^-1==A FAILED\n");
    else PetscPrintf(PETSC_COMM_WORLD,"testMatrix: (A^-1)^-1==A passed\n");
  

@@ -18,8 +18,13 @@
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef ZSOLVE_H
+#define ZSOLVE_H
+
 #include <stdio.h>
 #include <lapacke.h>
 #include <time.h>
 #include <math.h>
 #include "petscsys.h"
+
+#endif

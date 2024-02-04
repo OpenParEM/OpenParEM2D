@@ -24,9 +24,9 @@
 #include <slepceps.h>
 #include <slepcsvd.h>
 #include <complex.h>
-#include "triplet.h"
 #include "project.h"
 #include "Hsolve.h"
+#include "triplet.h"
 
 double* allocReaddof (char *, char *, size_t *);
 void printdof (double *, size_t);

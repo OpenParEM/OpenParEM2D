@@ -183,7 +183,7 @@ void rectWaveguide_fields (double freq, int m, int n, double x, double y, double
       Hy=-CMPLX(0,1)*w*eps0*kx/(kc*kc)*B*ccos(kx*x)*csin(ky*y);
       Hz=CMPLX(0,0);  // TM to Z
    } else {
-      printf ("ERROR: Invalid wave type \"%s\".\n",wavetype);
+      printf ("ERROR2275: Invalid wave type \"%s\".\n",wavetype);
    }
 
    if (*scale == CMPLX(0,0)) {
@@ -237,7 +237,7 @@ void rectWaveguide_fields (double freq, int m, int n, double x, double y, double
 
 void rectWaveguide_result_print_line (const char *project, int ifreq, int mode, int *casenum, double frequency, const char *comp, double target)
 {
-   printf ("%s_%d_%d_%d_result_exact,%g,%d,0,%s,",project,ifreq,mode,(*casenum)++,frequency,mode,comp);
+   printf ("%s_%d_%d_%d_result_exact,%.15g,%d,0,%s,",project,ifreq,mode,(*casenum)++,frequency,mode,comp);
 
    if (fabs(target) > resultMagLimit) {
       printf ("equal,%.15g,%.15g\n",target,resultEqualErrorLimit);
@@ -676,7 +676,7 @@ void partiallyFilledRectWaveguide_gamma (struct partiallyFilledRectWaveguide *a,
               kz1=kztest;
               err1=err3;
             } else {
-               printf ("ERROR: Algorithm failure 2.\n");
+               printf ("ERROR2276: Algorithm failure 2.\n");
                exit (1);
             }
          }
@@ -815,7 +815,7 @@ int main ()
 
       const char project[8]="WR90";
       ifreq=1;
-      frequency=6e9;
+      frequency=11e9;
       while (frequency < 15e9*(1+1e-12)) {
 
          k=2*pi*frequency*sqrt(mu0*er*eps0);

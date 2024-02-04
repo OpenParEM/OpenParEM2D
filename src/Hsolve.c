@@ -142,27 +142,27 @@ int Hsetup (struct projectData *projData, Mat *Mt, Mat *Cz, Mat *Zt, Mat *Mz, Ma
 
    if (rank == 0) {
       if (loadDataFileStats("Mt_mat",resultsDir,projData->project_name,&MtHeight,&MtWidth,&MtSparseWidth) != 0) {
-         PetscPrintf (PETSC_COMM_WORLD,"ERROR822: Failed to scan \"Mt_mat\".\n");
+         PetscPrintf (PETSC_COMM_WORLD,"ERROR2151: Failed to scan \"Mt_mat\".\n");
          fail=1;
       }
 
       if (loadDataFileStats("Cz_mat",resultsDir,projData->project_name,&CzHeight,&CzWidth,&CzSparseWidth) != 0) {
-         PetscPrintf (PETSC_COMM_WORLD,"ERROR823: Failed to scan \"Cz_mat\".\n");
+         PetscPrintf (PETSC_COMM_WORLD,"ERROR2152: Failed to scan \"Cz_mat\".\n");
          fail=1;
       }
 
       if (loadDataFileStats("Zt_mat",resultsDir,projData->project_name,&ZtHeight,&ZtWidth,&ZtSparseWidth) != 0) {
-         PetscPrintf (PETSC_COMM_WORLD,"ERROR824: Failed to scan \"Zt_mat\".\n");
+         PetscPrintf (PETSC_COMM_WORLD,"ERROR2153: Failed to scan \"Zt_mat\".\n");
          fail=1;
       }
 
       if (loadDataFileStats("Mz_mat",resultsDir,projData->project_name,&MzHeight,&MzWidth,&MzSparseWidth) != 0) {
-         PetscPrintf (PETSC_COMM_WORLD,"ERROR825: Failed to scan \"Mz_mat\".\n");
+         PetscPrintf (PETSC_COMM_WORLD,"ERROR2154: Failed to scan \"Mz_mat\".\n");
          fail=1;
       }
 
       if (loadDataFileStats("Ct_mat",resultsDir,projData->project_name,&CtHeight,&CtWidth,&CtSparseWidth) != 0) {
-         PetscPrintf (PETSC_COMM_WORLD,"ERROR826: Failed to scan \"Ct_mat\".\n");
+         PetscPrintf (PETSC_COMM_WORLD,"ERROR2155: Failed to scan \"Ct_mat\".\n");
          fail=1;
       }
    }
@@ -189,7 +189,6 @@ int Hsetup (struct projectData *projData, Mat *Mt, Mat *Cz, Mat *Zt, Mat *Mz, Ma
 
    if (MPI_Barrier(PETSC_COMM_WORLD)) fail=1;
 
-
    if (fail) goto EXIT;
    //PetscPrintf (PETSC_COMM_WORLD,"MtHeight=%zu  MtWidth=%zu  MtSparseWidth=%zu\n",MtHeight,MtWidth,MtSparseWidth);
    //PetscPrintf (PETSC_COMM_WORLD,"CzHeight=%zu  CzWidth=%zu  CzSparseWidth=%zu\n",CzHeight,CzWidth,CzSparseWidth);
@@ -210,7 +209,7 @@ int Hsetup (struct projectData *projData, Mat *Mt, Mat *Cz, Mat *Zt, Mat *Mz, Ma
 
    ioffset=0; joffset=0; location=1; transpose=0; sign=0;
    iMt=loadDataFile ("Mt_mat",resultsDir,projData->project_name,Mt,ioffset,joffset,location,transpose,sign,rank);
-   if (iMt) {PetscPrintf (PETSC_COMM_WORLD,"ERROR827: Failed to load \"Mt_mat\" data file.\n"); fail=1;}
+   if (iMt) {PetscPrintf (PETSC_COMM_WORLD,"ERROR2156: Failed to load \"Mt_mat\" data file.\n"); fail=1;}
 
    ierr=MatAssemblyBegin(*Mt,MAT_FINAL_ASSEMBLY); CHKERRQ(ierr);
    ierr=MatAssemblyEnd(*Mt,MAT_FINAL_ASSEMBLY); CHKERRQ(ierr);
@@ -225,7 +224,7 @@ int Hsetup (struct projectData *projData, Mat *Mt, Mat *Cz, Mat *Zt, Mat *Mz, Ma
 
    ioffset=0; joffset=0; location=0; transpose=0; sign=0;
    iCz=loadDataFile ("Cz_mat",resultsDir,projData->project_name,Cz,ioffset,joffset,location,transpose,sign,rank);
-   if (iCz) {PetscPrintf (PETSC_COMM_WORLD,"ERROR828: Failed to load \"Cz_mat\" data file.\n"); fail=1;}
+   if (iCz) {PetscPrintf (PETSC_COMM_WORLD,"ERROR2157: Failed to load \"Cz_mat\" data file.\n"); fail=1;}
 
    ierr=MatAssemblyBegin(*Cz,MAT_FINAL_ASSEMBLY); CHKERRQ(ierr);
    ierr=MatAssemblyEnd(*Cz,MAT_FINAL_ASSEMBLY); CHKERRQ(ierr);
@@ -240,7 +239,7 @@ int Hsetup (struct projectData *projData, Mat *Mt, Mat *Cz, Mat *Zt, Mat *Mz, Ma
 
    ioffset=0; joffset=0; location=0; transpose=0; sign=0;
    iZt=loadDataFile ("Zt_mat",resultsDir,projData->project_name,Zt,ioffset,joffset,location,transpose,sign,rank);
-   if (iZt) {PetscPrintf (PETSC_COMM_WORLD,"ERROR829: Failed to load \"Zt_mat\" data file.\n"); fail=1;}
+   if (iZt) {PetscPrintf (PETSC_COMM_WORLD,"ERROR2158: Failed to load \"Zt_mat\" data file.\n"); fail=1;}
 
    ierr=MatAssemblyBegin(*Zt,MAT_FINAL_ASSEMBLY); CHKERRQ(ierr);
    ierr=MatAssemblyEnd(*Zt,MAT_FINAL_ASSEMBLY); CHKERRQ(ierr);
@@ -255,7 +254,7 @@ int Hsetup (struct projectData *projData, Mat *Mt, Mat *Cz, Mat *Zt, Mat *Mz, Ma
 
    ioffset=0; joffset=0; location=1; transpose=0; sign=0;
    iMz=loadDataFile ("Mz_mat",resultsDir,projData->project_name,Mz,ioffset,joffset,location,transpose,sign,rank);
-   if (iMz) {PetscPrintf (PETSC_COMM_WORLD,"ERROR830: Failed to load \"Mz_mat\" data file.\n"); fail=1;}
+   if (iMz) {PetscPrintf (PETSC_COMM_WORLD,"ERROR2159: Failed to load \"Mz_mat\" data file.\n"); fail=1;}
 
    ierr=MatAssemblyBegin(*Mz,MAT_FINAL_ASSEMBLY); CHKERRQ(ierr);
    ierr=MatAssemblyEnd(*Mz,MAT_FINAL_ASSEMBLY); CHKERRQ(ierr);
@@ -270,7 +269,7 @@ int Hsetup (struct projectData *projData, Mat *Mt, Mat *Cz, Mat *Zt, Mat *Mz, Ma
 
    ioffset=0; joffset=0; location=0; transpose=0; sign=1;
    iCt=loadDataFile ("Ct_mat",resultsDir,projData->project_name,Ct,ioffset,joffset,location,transpose,sign,rank);
-   if (iCt) {PetscPrintf (PETSC_COMM_WORLD,"ERROR831: Failed to load \"Ct_mat\" data file.\n"); fail=1;}
+   if (iCt) {PetscPrintf (PETSC_COMM_WORLD,"ERROR2160: Failed to load \"Ct_mat\" data file.\n"); fail=1;}
    ierr=MatAssemblyBegin(*Ct,MAT_FINAL_ASSEMBLY); CHKERRQ(ierr);
    ierr=MatAssemblyEnd(*Ct,MAT_FINAL_ASSEMBLY); CHKERRQ(ierr);
 
@@ -287,13 +286,13 @@ void convergence (struct projectData *projData, KSPConvergedReason reason)
       if (reason < 0) PetscPrintf(PETSC_COMM_WORLD,"                  NOT CONVERGED: ");
       else PetscPrintf(PETSC_COMM_WORLD,"                  Converged: ");
 
+      if (reason == KSP_CONVERGED_ITERATING) PetscPrintf(PETSC_COMM_WORLD,"CONVERGED_ITERATING");
       if (reason == KSP_CONVERGED_RTOL_NORMAL) PetscPrintf(PETSC_COMM_WORLD,"RTOL_NORMAL");
       if (reason == KSP_CONVERGED_ATOL_NORMAL) PetscPrintf(PETSC_COMM_WORLD,"ATOL_NORMAL");
       if (reason == KSP_CONVERGED_RTOL) PetscPrintf(PETSC_COMM_WORLD,"RTOL");
       if (reason == KSP_CONVERGED_ATOL) PetscPrintf(PETSC_COMM_WORLD,"ATOL");
       if (reason == KSP_CONVERGED_ITS) PetscPrintf(PETSC_COMM_WORLD,"ITS");
-      if (reason == KSP_CONVERGED_CG_NEG_CURVE) PetscPrintf(PETSC_COMM_WORLD,"CG_NEG_CURVE");
-      if (reason == KSP_CONVERGED_CG_CONSTRAINED) PetscPrintf(PETSC_COMM_WORLD,"CG_CONSTRAINED");
+      if (reason == KSP_CONVERGED_NEG_CURVE) PetscPrintf(PETSC_COMM_WORLD,"NEG_CURVE");
       if (reason == KSP_CONVERGED_STEP_LENGTH) PetscPrintf(PETSC_COMM_WORLD,"STEP_LENGTH");
       if (reason == KSP_CONVERGED_HAPPY_BREAKDOWN) PetscPrintf(PETSC_COMM_WORLD,"HAPPY_BREAKDOWN");
       if (reason == KSP_DIVERGED_NULL) PetscPrintf(PETSC_COMM_WORLD,"NULL");
@@ -368,7 +367,7 @@ int VecSplit (Vec *A, PetscInt low, PetscInt high, Vec *B)
 
    // gather the transfer lengths
    if (MPI_Gather(&count_from,1,MPI_INT,counts_recv,1,MPI_INT,0,PETSC_COMM_WORLD)) {
-      PetscPrintf (PETSC_COMM_WORLD,"ERROR835: Failed to gather data.\n");
+      PetscPrintf (PETSC_COMM_WORLD,"ERROR2161: Failed to gather data.\n");
       return 1;
    }
 
@@ -402,7 +401,7 @@ int VecSplit (Vec *A, PetscInt low, PetscInt high, Vec *B)
 
    // send all to rank 0
    if (MPI_Gatherv(sendData,count_from,mpi_complex_int_type,recvData,counts_recv,displacements_recv,mpi_complex_int_type,0,PETSC_COMM_WORLD)) {
-      PetscPrintf (PETSC_COMM_WORLD,"ERROR833: Failed to gather data.\n");
+      PetscPrintf (PETSC_COMM_WORLD,"ERROR2162: Failed to gather data.\n");
       return 1;
    }
 
@@ -412,7 +411,7 @@ int VecSplit (Vec *A, PetscInt low, PetscInt high, Vec *B)
 
    // broadcast recvData
    if (MPI_Bcast(recvData,high-low,mpi_complex_int_type,0,PETSC_COMM_WORLD)) {
-      PetscPrintf (PETSC_COMM_WORLD,"ERROR834: Failed to broadcast data.\n");
+      PetscPrintf (PETSC_COMM_WORLD,"ERROR2163: Failed to broadcast data.\n");
       return 1;
    }
 
@@ -543,7 +542,7 @@ int Hsolve (struct projectData *projData, Mat *Mt, Mat *Cz, Mat *Zt, Mat *Mz, Ma
    ierr=KSPGetConvergedReason(ksp, &reason); CHKERRQ(ierr);
 
    convergence (projData,reason);
-   if (projData->output_show_postprocessing) ierr=PetscPrintf (PETSC_COMM_WORLD,", number of Ht iterations: %d\n",its); CHKERRQ(ierr);
+   if (projData->output_show_postprocessing) ierr=PetscPrintf (PETSC_COMM_WORLD,", number of Ht iterations: %ld\n",its); CHKERRQ(ierr);
 
    // cleanup
    ierr=MatDestroy(&Ztgamma); CHKERRQ(ierr);
@@ -592,7 +591,7 @@ int Hsolve (struct projectData *projData, Mat *Mt, Mat *Cz, Mat *Zt, Mat *Mz, Ma
    ierr=KSPGetConvergedReason(ksp, &reason); CHKERRQ(ierr);
 
    convergence (projData,reason);
-   if (projData->output_show_postprocessing) ierr=PetscPrintf (PETSC_COMM_WORLD,", number of Hz iterations: %d\n",its); CHKERRQ(ierr);
+   if (projData->output_show_postprocessing) ierr=PetscPrintf (PETSC_COMM_WORLD,", number of Hz iterations: %ld\n",its); CHKERRQ(ierr);
 
    // cleanup
    ierr=VecDestroy(&bz); CHKERRQ(ierr);
@@ -618,5 +617,3 @@ int Hsolve (struct projectData *projData, Mat *Mt, Mat *Cz, Mat *Zt, Mat *Mz, Ma
    return fail;
 }
 
-// last ERROR is 835
-// shared with eigensolve.c

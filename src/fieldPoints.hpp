@@ -26,8 +26,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "project.h"
-#include "OpenParEMmaterials.hpp"
+#include "misc.hpp"
 
 using namespace std;
 using namespace mfem;
@@ -36,7 +35,8 @@ class FieldPoint {
    private:
       double frequency;
       unsigned long int mode;
-      double x,y;
+      int dim;
+      double x,y,z;
       double Ex_re,Ey_re,Ez_re;
       double Ex_im,Ey_im,Ez_im;
       double Hx_re,Hy_re,Hz_re;
@@ -49,8 +49,10 @@ class FieldPoint {
    public:
       void set_frequency (double frequency_) {frequency=frequency_;}
       void set_mode (unsigned long int mode_) {mode=mode_;}
+      void set_dim (int dim_) {dim=dim_;}
       void set_x (double x_) {x=x_;}
       void set_y (double y_) {y=y_;}
+      void set_z (double z_) {z=z_;}
 
       void set (double Ex_re_, double Ex_im_, double Ey_re_, double Ey_im_, double Ez_re_, double Ez_im_,
                 double Hx_re_, double Hx_im_, double Hy_re_, double Hy_im_, double Hz_re_, double Hz_im_) {

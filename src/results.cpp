@@ -30,6 +30,13 @@ complex<double> Result::get_Z (long unsigned int i)
    return complex<double>(DBL_MAX,DBL_MAX);
 }
 
+complex<double> Result::get_V (long unsigned int i)
+{
+   if (i < V.size()) return V[i];
+   return complex<double>(DBL_MAX,DBL_MAX);
+}
+
+// do not support voltage (variable V) since no testing is done on the voltage
 void Result::save_result_component (ofstream *out, const char *casename, int frequency_index, int *casenumber, const char *result_component, long unsigned int column)
 {
    double NpTodB=20*log10(exp(1));
@@ -43,7 +50,7 @@ void Result::save_result_component (ofstream *out, const char *casename, int fre
    long unsigned int mode=0;
    while (mode < (long unsigned int)modeCount) {
 
-      double component;
+      double component=DBL_MAX;
       if (strcmp(result_component,"alpha") == 0) component=real(gamma[mode])*NpTodB+alpha_perturbation[mode]/real(Pz[mode])/2*NpTodB;
       if (strcmp(result_component,"beta") == 0) component=imag(gamma[mode])/ko;
       if (modalImpedanceCalculation) {
@@ -139,6 +146,13 @@ void Result::print()
    i=0;
    while (i < iLimit) {
       PetscPrintf(PETSC_COMM_WORLD,"(%g;%g),",real(Z[i]),imag(Z[i]));
+      i++;
+   }
+   PetscPrintf(PETSC_COMM_WORLD,"\n");
+
+   i=0;
+   while (i < iLimit) {
+      PetscPrintf(PETSC_COMM_WORLD,"(%g;%g),",real(V[i]),imag(V[i]));
       i++;
    }
    PetscPrintf(PETSC_COMM_WORLD,"\n");
@@ -280,13 +294,19 @@ void ResultDatabase::update_convergence(double frequency, bool converged, double
    }
 }
 
-void ResultDatabase::save(const char *filename)
+void ResultDatabase::save(const char *projFile)
 {
    double NpTodB=20*log10(exp(1));
    double ko;
    double eps0=8.8541878176e-12;
+   int impedanceCount=0;
+   int voltageCount=0;
+
+   stringstream ss;
+   ss << projFile << "_results.csv";
+
    ofstream out;
-   out.open(filename,ofstream::out);
+   out.open(ss.str().c_str(),ofstream::out);
 
    if (out.is_open()) {
 
@@ -314,13 +334,40 @@ void ResultDatabase::save(const char *filename)
                i++;
             }
 
+            // impedance count
+            if (result->get_Z_size() > 0) {
+               if (result->get_modalImpedanceCalculation()) {
+                  i=0;
+                  while (i < result->get_modeCount()) {
+                     if (result->get_Z(i) != complex<double>(DBL_MAX,DBL_MAX)) {
+                        impedanceCount++;
+                     }
+                     i++;
+                  }
+               } else {
+                  i=0;
+                  while (i < result->get_modeCount()) {
+                     long unsigned int j=0;
+                     while (j < result->get_modeCount()) {
+                        if (result->get_Z(i+j*result->get_modeCount()) != complex<double>(DBL_MAX,DBL_MAX)) {
+                           impedanceCount++;
+                        }
+                        j++;
+                     }
+                     i++;
+                  }
+               }
+            }
+
+            out << "impedance count,";
+
             // impedance
             if (result->get_Z_size() > 0) {
                if (result->get_modalImpedanceCalculation()) {
                   i=0;
                   while (i < result->get_modeCount()) {
                      if (result->get_Z(i) != complex<double>(DBL_MAX,DBL_MAX)) {
-                        out << "real(Z[" << i+1 << ";" << i+1 << "]),imag(Z[" << i+1 << ";" << i+1 << "]),";
+                        out << "real(Z[" << i+1 << "]),imag(Z[" << i+1 << "]),";
                      }
                      i++;
                   }
@@ -338,6 +385,59 @@ void ResultDatabase::save(const char *filename)
                   }
                }
             }
+
+            // voltage count
+            if (result->get_V_size() > 0) {
+               if (result->get_modalImpedanceCalculation()) {
+                  i=0;
+                  while (i < result->get_modeCount()) {
+                     if (result->get_V(i) != complex<double>(DBL_MAX,DBL_MAX)) {
+                        voltageCount++;
+                     }
+                     i++;
+                  }
+               } else {
+                  i=0;
+                  while (i < result->get_modeCount()) {
+                     long unsigned int j=0;
+                     while (j < result->get_modeCount()) {
+                        if (result->get_V(i+j*result->get_modeCount()) != complex<double>(DBL_MAX,DBL_MAX)) {
+                           voltageCount++;
+                        }
+                        j++;
+                     }
+                     i++;
+                  }
+               }
+            }
+
+            out << "voltage count,";
+
+            // voltage
+            if (result->get_V_size() > 0) {
+               if (result->get_modalImpedanceCalculation()) {
+                  i=0;
+                  while (i < result->get_modeCount()) {
+                     if (result->get_V(i) != complex<double>(DBL_MAX,DBL_MAX)) {
+                        out << "real(V[" << i+1 << "]),imag(V[" << i+1 << "]),";
+                     }
+                     i++;
+                  }
+               } else {
+                  i=0;
+                  while (i < result->get_modeCount()) {
+                     long unsigned int j=0;
+                     while (j < result->get_modeCount()) {
+                        if (result->get_V(i+j*result->get_modeCount()) != complex<double>(DBL_MAX,DBL_MAX)) {
+                           out << "real(V[" << i+1 << ";" << j+1 << "]),imag(V[" << i+1 << ";" << j+1 << "]),";
+                        }
+                        j++;
+                     }
+                     i++;
+                  }
+               }
+            }
+
             out << endl;
          }
 
@@ -371,6 +471,9 @@ void ResultDatabase::save(const char *filename)
             j++;
          }
 
+         // impedance count
+         out << impedanceCount << ",";
+
          // impedance
          if (result->get_Z_size() > 0) {
             long unsigned int jLimit=0;
@@ -389,20 +492,44 @@ void ResultDatabase::save(const char *filename)
             }
          }
 
+         // voltage count
+         out << voltageCount << ",";
+
+         // voltage
+         if (result->get_V_size() > 0) {
+            long unsigned int jLimit=0;
+            if (result->get_modalImpedanceCalculation()) jLimit=result->get_modeCount();
+            else jLimit=result->get_modeCount()*result->get_modeCount();
+
+            j=0;
+            while (j < jLimit) {
+               if (result->get_V(j) != complex<double>(DBL_MAX,DBL_MAX)) {
+                  out << setprecision(15) << real(result->get_V(j))
+                      << ","
+                      << setprecision(15) << imag(result->get_V(j))
+                      << ",";
+               }
+               j++;
+            }
+         }
+
          out << endl;
          i++;
       }
 
       out.close();
    } else {
-       PetscPrintf(PETSC_COMM_WORLD,"ERROR600: Failed to open file \"%s\" for writing.\n",filename);
+       PetscPrintf(PETSC_COMM_WORLD,"ERROR2272: Failed to open file \"%s\" for writing.\n",ss.str().c_str());
    }
 }
 
-void ResultDatabase::save_as_test(const char *filename, const char *casename)
+void ResultDatabase::save_as_test(const char *baseName, const char *casename)
 {
+   stringstream ss;
+   ss << baseName << "_prototype_test_cases.csv";
+
    ofstream out;
-   out.open(filename,ofstream::out);
+   out.open(ss.str().c_str(),ofstream::out);
    int casenumber=0;
 
    if (out.is_open()) {
@@ -419,7 +546,7 @@ void ResultDatabase::save_as_test(const char *filename, const char *casename)
 
       out.close();
    } else {
-       PetscPrintf(PETSC_COMM_WORLD,"ERROR601: Failed to open file \"%s\" for writing.\n",filename);
+       PetscPrintf(PETSC_COMM_WORLD,"ERROR2273: Failed to open file \"%s\" for writing.\n",ss.str().c_str());
    }
 }
 
@@ -463,5 +590,3 @@ ResultDatabase::~ResultDatabase ()
    }
 }
 
-
-// last used error - see process.cpp

@@ -23,45 +23,19 @@
 string processingFileName;
 string routine;
 
-bool is_valid_complex (complex<double> a)
+void printError (int lineNumber, int place)
 {
-   if (real(a) != DBL_MAX) return true;
-   if (imag(a) != DBL_MAX) return true;
-   return false;
+   cout << "ERROR2216: " << processingFileName << ": " << routine << ": Incorrect formatting in line " << lineNumber << " at place " << place << "." << endl;
 }
 
-bool is_hashComment (string a) {
-   long unsigned int i;
-
-   // blank line
-   if (a.compare("") == 0) return false;
-
-   i=0;
-   while (i < a.length()) {
-      if ((a.data())[i] == ' ' || (a.data())[i] == '\t') {
-         // do nothing
-      } else {
-         if ((a.data())[i] == '#') return true;
-      }
-      i++;
-   }
-
-   return false;
+void printError2 (int lineNumber)
+{
+   cout << "ERROR2217: " << processingFileName << ": " << routine << ": Incorrect number of entries at line " << lineNumber << "." << endl;
 }
 
-void printERROR (int lineNumber, int place)
+void printError3 (string variable, int lineNumber)
 {
-   cout << "ERROR602: " << processingFileName << ": " << routine << ": Incorrect formatting in line " << lineNumber << " at place " << place << "." << endl;
-}
-
-void printERROR2 (int lineNumber)
-{
-   cout << "ERROR603: " << processingFileName << ": " << routine << ": Incorrect number of entries at line " << lineNumber << "." << endl;
-}
-
-void printERROR3 (string variable, int lineNumber)
-{
-   cout << "ERROR604: " << processingFileName << ": " << routine << ": " << variable << " is incorrectly formatted at line " << lineNumber << "." << endl;
+   cout << "ERROR2218: " << processingFileName << ": " << routine << ": " << variable << " is incorrectly formatted at line " << lineNumber << "." << endl;
 }
 
 bool is_resultVariable (string test)
@@ -146,6 +120,7 @@ void TestCase::errorEvaluation (bool is_angular)
    evaluated=true;
 }
 
+// don't evaluate on voltage
 void TestCase::evaluate(ResultDatabase *resultDatabase, EMfieldDatabase *emfieldDatabase)
 {
    bool loaded=false;
@@ -159,25 +134,25 @@ void TestCase::evaluate(ResultDatabase *resultDatabase, EMfieldDatabase *emfield
 
       if (testVariable.compare("alpha") == 0) {
          complex<double> gamma=resultDatabase->get_gamma(frequency,mode-1);
-         if (is_valid_complex(gamma)) {
+         if (is_complex(gamma)) {
             foundValue=real(gamma);
             loaded=true;
          }
       } else if (testVariable.compare("beta") == 0) {
          complex<double> gamma=resultDatabase->get_gamma(frequency,mode-1);
-         if (is_valid_complex(gamma)) {
+         if (is_complex(gamma)) {
             foundValue=imag(gamma);
             loaded=true;
          }
       } else if (testVariable.compare(0,6,"real_Z") == 0) {
          complex<double> impedance=resultDatabase->get_impedance(frequency,mode-1,column-1);
-         if (is_valid_complex(impedance)) {
+         if (is_complex(impedance)) {
             foundValue=real(impedance);
             loaded=true;
          }
       } else if (testVariable.compare(0,6,"imag_Z") == 0) {
          complex<double> impedance=resultDatabase->get_impedance(frequency,mode-1,column-1);
-         if (is_valid_complex(impedance)) {
+         if (is_complex(impedance)) {
             foundValue=imag(impedance);
             loaded=true;
          }
@@ -387,8 +362,8 @@ void TestCaseDatabase::audit(string variableType, string function)
    }
    if (count > 0) avg_error/=count;
 
-   if (passed+failed != count) cout << "ERROR605: passed+failed != case count." << endl;
-   if (evaluated != count) cout << "ERROR606: evaluated != case count." << endl;
+   if (passed+failed != count) cout << "ERROR2219: passed+failed != case count." << endl;
+   if (evaluated != count) cout << "ERROR2220: evaluated != case count." << endl;
 
    if (function.compare("equal") == 0) {
       cout << "Process Audit Results for \"" << variableType << "\" with test \"" << function << "\":" << endl;
@@ -480,65 +455,65 @@ bool TestCaseDatabase::loadTestCases (const char *filename)
                      testCase->set_name(entry);
                   } else if (count == 1) {
                      if (is_double(&entry)) testCase->set_frequency(atof(entry.c_str()));
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 2) {
                      if (is_int(&entry)) testCase->set_mode(stoi(entry));
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 3) {
                      if (is_int(&entry)) testCase->set_column(stoi(entry));
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 4) {
                      if (is_valid_testVariable(entry)) {
                         testCase->set_testVariable(entry);
                         if (is_fieldVariable(entry)) is_field=true;
-                     } else {printERROR(lineNumber,count+1); fail=true;}
+                     } else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 5) {
                      if (is_field) {
                         if (is_double(&entry)) testCase->set_x(atof(entry.c_str()));
-                        else {printERROR(lineNumber,count+1); fail=true;}
+                        else {printError(lineNumber,count+1); fail=true;}
                      } else {
                         if (is_valid_testFunction(entry)) testCase->set_testFunction(entry);
-                        else {printERROR(lineNumber,count+1); fail=true;}
+                        else {printError(lineNumber,count+1); fail=true;}
                      }
                   } else if (count == 6) {
                      if (is_field) {
                         if (is_double(&entry)) testCase->set_y(atof(entry.c_str()));
-                        else {printERROR(lineNumber,count+1); fail=true;}
+                        else {printError(lineNumber,count+1); fail=true;}
                      } else {
                         if (testCase->get_testFunction().compare("equal") == 0) {
                            if (is_double(&entry)) testCase->set_expectedValue(atof(entry.c_str()));
-                           else {printERROR(lineNumber,count+1); fail=true;}
+                           else {printError(lineNumber,count+1); fail=true;}
                         } else if (testCase->get_testFunction().compare("lessthan") == 0) {
                            if (is_double(&entry)) testCase->set_threshold(atof(entry.c_str()));
-                           else {printERROR(lineNumber,count+1); fail=true;}
+                           else {printError(lineNumber,count+1); fail=true;}
                         }
-                        else {printERROR(lineNumber,count+1); fail=true;}
+                        else {printError(lineNumber,count+1); fail=true;}
                      }
                   } else if (count == 7) {
                      if (is_field) {
                         if (is_valid_testFunction(entry)) testCase->set_testFunction(entry);
-                        else {printERROR(lineNumber,count+1); fail=true;}
+                        else {printError(lineNumber,count+1); fail=true;}
                      } else {
                         if (testCase->get_testFunction().compare("equal") == 0) {
                            if (is_double(&entry)) testCase->set_tolerance(atof(entry.c_str()));
-                           else {printERROR(lineNumber,count+1); fail=true;}
+                           else {printError(lineNumber,count+1); fail=true;}
                         }
                      }
                   } else if (count == 8) {
                      if (is_field) {
                         if (testCase->get_testFunction().compare("equal") == 0) {
                            if (is_double(&entry)) testCase->set_expectedValue(atof(entry.c_str()));
-                           else {printERROR(lineNumber,count+1); fail=true;}
+                           else {printError(lineNumber,count+1); fail=true;}
                         } else if (testCase->get_testFunction().compare("lessthan") == 0) {
                            if (is_double(&entry)) testCase->set_threshold(atof(entry.c_str()));
-                           else {printERROR(lineNumber,count+1); fail=true;}
+                           else {printError(lineNumber,count+1); fail=true;}
                         }
                      }
                   } else if (count == 9) {
                      if (is_field) {
                         if (testCase->get_testFunction().compare("equal") == 0) {
                            if (is_double(&entry)) testCase->set_tolerance(atof(entry.c_str()));
-                           else {printERROR(lineNumber,count+1); fail=true;}
+                           else {printError(lineNumber,count+1); fail=true;}
                         }
                      }
                   }
@@ -551,14 +526,14 @@ bool TestCaseDatabase::loadTestCases (const char *filename)
                   testCaseList.push_back(testCase);
                } else {
                   delete testCase;
-                  printERROR2(lineNumber);
+                  printError2(lineNumber);
                   fail=true;
                }
             }
          }
       }
    } else {
-      cout << "ERROR607: Unable to open file \"" << filename << "\" for reading." << endl;
+      cout << "ERROR2221: Unable to open file \"" << filename << "\" for reading." << endl;
       return true;
    }
 
@@ -640,6 +615,16 @@ complex<double> Result::get_impedance (double frequency_, long unsigned int mode
    return complex<double>(DBL_MAX,DBL_MAX);
 }
 
+complex<double> Result::get_voltage (double frequency_, long unsigned int mode_, long unsigned int column)
+{
+   if (fabs((frequency-frequency_)/frequency) > 1e-14) return complex<double>(DBL_MAX,DBL_MAX);
+
+   if (modalImpedanceCalculation && mode_ <  voltage.size()) return voltage[mode_];         // modal
+   if (mode_+column*modeCount < voltage.size()) return voltage[mode_+column*modeCount];     // line
+   cout << "ASSERT: Result::get_voltage invalid mode and/or column" << endl;
+   return complex<double>(DBL_MAX,DBL_MAX);
+}
+
 void Result::print()
 {
    cout << setprecision(15) << frequency
@@ -665,9 +650,9 @@ void Result::print()
    long unsigned int i=0;
    while (i < modeCount) {
       cout << setprecision(15) << real(gamma[i])
-          << ","
-          << setprecision(15) << imag(gamma[i])
-          << ",";
+           << ","
+           << setprecision(15) << imag(gamma[i])
+           << ",";
       i++;
    }
 
@@ -679,9 +664,20 @@ void Result::print()
    i=0;
    while (i < iLimit) {
       cout << setprecision(15) << real(impedance[i])
-          << ","
-          << setprecision(15) << imag(impedance[i])
-          << ",";
+           << ","
+           << setprecision(15) << imag(impedance[i])
+           << ",";
+      i++;
+   }
+
+   // voltage
+   // reuse iLimit from the impedance output
+   i=0;
+   while (i < iLimit) {
+      cout << setprecision(15) << real(voltage[i])
+           << ","
+           << setprecision(15) << imag(voltage[i])
+           << ",";
       i++;
    }
 
@@ -695,7 +691,7 @@ void Result::print()
 complex<double> ResultDatabase::get_gamma (double frequency, int mode) {
    unsigned long int i=0;
    while (i < resultList.size()) {
-      if (is_valid_complex(resultList[i]->get_gamma(frequency,mode))) {
+      if (is_complex(resultList[i]->get_gamma(frequency,mode))) {
          return resultList[i]->get_gamma(frequency,mode);
       }
       i++;
@@ -706,8 +702,19 @@ complex<double> ResultDatabase::get_gamma (double frequency, int mode) {
 complex<double> ResultDatabase::get_impedance (double frequency, long unsigned int mode, long unsigned int column) {
    unsigned long int i=0;
    while (i < resultList.size()) {
-      if (is_valid_complex(resultList[i]->get_impedance(frequency,mode,column))) {
+      if (is_complex(resultList[i]->get_impedance(frequency,mode,column))) {
          return resultList[i]->get_impedance(frequency,mode,column);
+      }
+      i++;
+   }
+   return complex<double>(DBL_MAX,DBL_MAX);
+}
+
+complex<double> ResultDatabase::get_voltage (double frequency, long unsigned int mode, long unsigned int column) {
+   unsigned long int i=0;
+   while (i < resultList.size()) {
+      if (is_complex(resultList[i]->get_voltage(frequency,mode,column))) {
+         return resultList[i]->get_voltage(frequency,mode,column);
       }
       i++;
    }
@@ -761,44 +768,44 @@ bool ResultDatabase::loadResults (const char *filename)
                }
 
                if (csvInputs->size() == 0) {
-                  cout << "ERROR608: File \"" << filename << "\" parsed into zero tokens." << endl;
+                  cout << "ERROR2222: File \"" << filename << "\" parsed into zero tokens." << endl;
                   inFile.close();
                   return true;
                }
 
                if (csvInputs->size() < 9) {
-                  cout << "ERROR609: File \"" << filename << "\" has too few tokens." << endl;
+                  cout << "ERROR2223: File \"" << filename << "\" has too few tokens." << endl;
                   inFile.close();
                   return true;
                }
 
                long unsigned int index=0;
                if (index < csvInputs->size() && is_double(&(*csvInputs)[index])) result->set_frequency(atof((*csvInputs)[index].c_str()));
-               else printERROR3 ("frequency",lineNumber);
+               else printError3 ("frequency",lineNumber);
 
                if (++index < csvInputs->size() && is_int(&(*csvInputs)[index])) result->set_iteration(atoi((*csvInputs)[index].c_str()));
-               else printERROR3 ("iteration",lineNumber);
+               else printError3 ("iteration",lineNumber);
 
                if (++index < csvInputs->size() && is_int(&(*csvInputs)[index])) result->set_mesh_size(atoi((*csvInputs)[index].c_str()));
-               else printERROR3 ("mesh_size",lineNumber);
+               else printError3 ("mesh_size",lineNumber);
 
                if (++index < csvInputs->size() && is_int(&(*csvInputs)[index])) result->set_matrix_size(atoi((*csvInputs)[index].c_str()));
-               else printERROR3 ("matrix_size",lineNumber);
+               else printError3 ("matrix_size",lineNumber);
 
                if (++index < csvInputs->size() && is_int(&(*csvInputs)[index])) result->set_converged(atoi((*csvInputs)[index].c_str()));
-               else printERROR3 ("converged",lineNumber);
+               else printError3 ("converged",lineNumber);
 
                if (++index < csvInputs->size() && is_double(&(*csvInputs)[index])) result->set_final_error(atof((*csvInputs)[index].c_str()));
-               else printERROR3 ("final_error",lineNumber);
+               else printError3 ("final_error",lineNumber);
 
                if (++index < csvInputs->size() && is_double(&(*csvInputs)[index])) result->set_elapsed_time(atof((*csvInputs)[index].c_str()));
-               else printERROR3 ("elapsed_time",lineNumber);
+               else printError3 ("elapsed_time",lineNumber);
 
                if (++index < csvInputs->size() && is_int(&(*csvInputs)[index])) result->set_modalImpedanceCalculation(atoi((*csvInputs)[index].c_str()));
-               else printERROR3 ("modalImpedanceCalculation",lineNumber);
+               else printError3 ("modalImpedanceCalculation",lineNumber);
 
                if (++index < csvInputs->size() && is_int(&(*csvInputs)[index])) result->set_modeCount(atoi((*csvInputs)[index].c_str()));
-               else printERROR3 ("modeCount",lineNumber);
+               else printError3 ("modeCount",lineNumber);
 
                // gamma
                long unsigned int i=0;
@@ -808,38 +815,66 @@ bool ResultDatabase::loadResults (const char *filename)
                   imag_gamma=0;
 
                   if (++index < csvInputs->size() && is_double(&(*csvInputs)[index])) real_gamma=atof((*csvInputs)[index].c_str());
-                  else printERROR3 ("real_gamma",lineNumber);
+                  else printError3 ("real_gamma",lineNumber);
 
                   if (++index < csvInputs->size() && is_double(&(*csvInputs)[index])) imag_gamma=atof((*csvInputs)[index].c_str());
-                  else printERROR3 ("imag_gamma",lineNumber);
+                  else printError3 ("imag_gamma",lineNumber);
 
                   result->push_gamma(complex<double>(real_gamma,imag_gamma));
 
                   i++;
                }
 
-               // impedance
-               long unsigned int iLimit=0;
-               if (result->get_modalImpedanceCalculation()) iLimit=result->get_modeCount();
-               else iLimit=result->get_modeCount()*result->get_modeCount();
+               // impedance count
+               long unsigned int impedanceCount=0;
+               if (++index < csvInputs->size() && is_int(&(*csvInputs)[index])) impedanceCount=atoi((*csvInputs)[index].c_str());
+               else printError3 ("impedance count",lineNumber);
 
+               // impedance
                i=0;
-               while (i < iLimit) {
+               while (i < impedanceCount) {
                   double real_Z,imag_Z;
                   real_Z=0;
                   imag_Z=0;
 
                   if (++index < csvInputs->size()) {
                      if (is_double(&(*csvInputs)[index])) real_Z=atof((*csvInputs)[index].c_str());
-                     else printERROR3 ("real_Z",lineNumber);
+                     else printError3 ("real_Z",lineNumber);
                   }
 
                   if (++index < csvInputs->size()) {
                      if (is_double(&(*csvInputs)[index])) imag_Z=atof((*csvInputs)[index].c_str());
-                     else printERROR3 ("imag_Z",lineNumber);
+                     else printError3 ("imag_Z",lineNumber);
                   }
 
                   if (index < csvInputs->size()) result->push_impedance(complex<double>(real_Z,imag_Z));
+
+                  i++;
+               }
+
+               // voltage count
+               long unsigned int voltageCount=0;
+               if (++index < csvInputs->size() && is_int(&(*csvInputs)[index])) voltageCount=atoi((*csvInputs)[index].c_str());
+               else printError3 ("voltage count",lineNumber);
+
+               // voltage
+               i=0;
+               while (i < voltageCount) {
+                  double real_V,imag_V;
+                  real_V=0;
+                  imag_V=0;
+
+                  if (++index < csvInputs->size()) {
+                     if (is_double(&(*csvInputs)[index])) real_V=atof((*csvInputs)[index].c_str());
+                     else printError3 ("real_V",lineNumber);
+                  }
+
+                  if (++index < csvInputs->size()) {
+                     if (is_double(&(*csvInputs)[index])) imag_V=atof((*csvInputs)[index].c_str());
+                     else printError3 ("imag_V",lineNumber);
+                  }
+
+                  if (index < csvInputs->size()) result->push_voltage(complex<double>(real_V,imag_V));
 
                   i++;
                }
@@ -851,7 +886,7 @@ bool ResultDatabase::loadResults (const char *filename)
       }
       inFile.close();
    } else {
-      cout << "ERROR610: Unable to open file \"" << filename << "\" for reading." << endl;
+      cout << "ERROR2224: Unable to open file \"" << filename << "\" for reading." << endl;
       return true;
    }
 
@@ -995,70 +1030,70 @@ bool EMfieldDatabase::loadEMfields (const char *filename)
 
                   if (count == 0) {
                      if (is_double(&entry)) emfield->set_frequency(atof(entry.c_str()));
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 1) {
                      if (is_int(&entry)) emfield->set_mode(stoi(entry));
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 2) { 
                      if (is_double(&entry)) emfield->set_x(atof(entry.c_str()));
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 3) {
                      if (is_double(&entry)) emfield->set_y(atof(entry.c_str()));
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
 
                   } else if (count == 4) {
                      if (is_double(&entry)) realField=atof(entry.c_str());
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 5) {
                      if (is_double(&entry)) {
                         imagField=atof(entry.c_str());
                         emfield->set_Ex(complex<double>(realField,imagField));
-                     } else {printERROR(lineNumber,count+1); fail=true;}
+                     } else {printError(lineNumber,count+1); fail=true;}
 
                   } else if (count == 6) {
                      if (is_double(&entry)) realField=atof(entry.c_str());
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 7) {
                      if (is_double(&entry)) {
                         imagField=atof(entry.c_str());
                         emfield->set_Ey(complex<double>(realField,imagField));
-                     } else {printERROR(lineNumber,count+1); fail=true;}
+                     } else {printError(lineNumber,count+1); fail=true;}
 
                   } else if (count == 8) {
                      if (is_double(&entry)) realField=atof(entry.c_str());
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 9) {
                      if (is_double(&entry)) {
                         imagField=atof(entry.c_str());
                         emfield->set_Ez(complex<double>(realField,imagField));
-                     } else {printERROR(lineNumber,count+1); fail=true;}
+                     } else {printError(lineNumber,count+1); fail=true;}
 
                   } else if (count == 10) {
                      if (is_double(&entry)) realField=atof(entry.c_str());
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 11) {
                      if (is_double(&entry)) {
                         imagField=atof(entry.c_str());
                         emfield->set_Hx(complex<double>(realField,imagField));
-                     } else {printERROR(lineNumber,count+1); fail=true;}
+                     } else {printError(lineNumber,count+1); fail=true;}
 
                   } else if (count == 12) {
                      if (is_double(&entry)) realField=atof(entry.c_str());
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 13) {
                      if (is_double(&entry)) {
                         imagField=atof(entry.c_str());
                         emfield->set_Hy(complex<double>(realField,imagField));
-                     } else {printERROR(lineNumber,count+1); fail=true;}
+                     } else {printError(lineNumber,count+1); fail=true;}
 
                   } else if (count == 14) {
                      if (is_double(&entry)) realField=atof(entry.c_str());
-                     else {printERROR(lineNumber,count+1); fail=true;}
+                     else {printError(lineNumber,count+1); fail=true;}
                   } else if (count == 15) {
                      if (is_double(&entry)) {
                         imagField=atof(entry.c_str());
                         emfield->set_Hz(complex<double>(realField,imagField));
-                     } else {printERROR(lineNumber,count+1); fail=true;}
+                     } else {printError(lineNumber,count+1); fail=true;}
                   }
 
                   count++;
@@ -1067,14 +1102,14 @@ bool EMfieldDatabase::loadEMfields (const char *filename)
                   EMfieldList.push_back(emfield);
                } else {
                   delete emfield;
-                  printERROR2(lineNumber);
+                  printError2(lineNumber);
                   fail=true;
                }
             }
          }
       }
    } else {
-      cout << "ERROR611: Unable to open file \"" << filename << "\" for reading." << endl;
+      cout << "ERROR2225: Unable to open file \"" << filename << "\" for reading." << endl;
       return true;
    }
 
@@ -1092,7 +1127,7 @@ EMfieldDatabase::~EMfieldDatabase()
 
 void exit_on_fail(string filename)
 {
-   cout << "ERROR612: Check the results file \"" << filename << "\"." << endl;
+   cout << "ERROR2226: Check the results file \"" << filename << "\"." << endl;
 
    ofstream out;
    out.open(filename.c_str(),ofstream::out);
@@ -1102,7 +1137,7 @@ void exit_on_fail(string filename)
       out << buf << ",FAIL,-1,-1,-1" << endl;
       out.close();
    } else {
-      cout << "ERROR613: Failed to open test results file \"" << filename << "\" for writing." << endl;
+      cout << "ERROR2227: Failed to open test results file \"" << filename << "\" for writing." << endl;
    }
    exit(1);
 }
@@ -1113,6 +1148,7 @@ int main (int argc, char *argv[])
    TestCaseDatabase testCaseDatabase;
    ResultDatabase resultDatabase;
    EMfieldDatabase emfieldDatabase;
+   PetscMPIInt size,rank;
 
    if (argc != 4 && argc != 5) {
       char buf[1024];
@@ -1121,13 +1157,18 @@ int main (int argc, char *argv[])
       exit(1);
    }
 
+   // Initialize Petsc and MPI
+   PetscInitializeNoArguments();
+   MPI_Comm_size(PETSC_COMM_WORLD, &size);
+   MPI_Comm_rank(PETSC_COMM_WORLD, &rank);
+
    // load the project file
    const char *projFile;
    projFile=argv[1];
 
    init_project (&projData);
    if (load_project_file (projFile, &projData, "   ")) {
-      cout << "ERROR614: Failed to load project file \"" << projFile << "\" for reading." << endl;
+      cout << "ERROR2228: Failed to load project file \"" << projFile << "\" for reading." << endl;
       exit(1);
    }
    if (projData.debug_show_project) {print_project (&projData,"      ");}
@@ -1137,9 +1178,12 @@ int main (int argc, char *argv[])
    testResultsFile+="_test_results.csv";
 
    // remove the old file to prevent viewing stale data
-   if (std::filesystem::exists(testResultsFile.c_str())) {
-     std::filesystem::remove_all(testResultsFile.c_str());
+   if (rank == 0) {
+      if (std::filesystem::exists(testResultsFile.c_str())) {
+        std::filesystem::remove_all(testResultsFile.c_str());
+      }
    }
+   MPI_Barrier(PETSC_COMM_WORLD);
 
    // define some file names
    string testCasesFile=argv[2];
@@ -1181,15 +1225,13 @@ int main (int argc, char *argv[])
       testCaseDatabase.show_evaluation(&out);
       out.close();
    } else {
-      cout << "ERROR615: Failed to test results file \"" << testResultsFile << "\" for writing." << endl;
+      cout << "ERROR2229: Failed to test results file \"" << testResultsFile << "\" for writing." << endl;
       exit_on_fail(testResultsFile);
    }
+
+   PetscFinalize();
+
    return 0;
 }
-
-
-// last used error is 615
-// see also results.cpp
-
 
 

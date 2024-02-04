@@ -1,4 +1,4 @@
-DEBUG ?= 0
+DEBUG ?= 1
 
 ifeq ($(DEBUG), 1)
    CFLAGS=-Wall -g
@@ -10,99 +10,77 @@ endif
 
 
 CCxx=mpicxx
-CxxINCS=-I$(MFEM_DIR) -I$(MFEM_DIR)/linalg -I$(HYPRE_DIR)/src/hypre/include -I$(PETSC_DIR)/include -I$(PETSC_DIR)/$(PETSC_ARCH)/include -I$(SLEPC_DIR)/include -I$(SLEPC_DIR)/$(PETSC_ARCH)/include -I$(EIGEN_DIR)
-CxxLDIR=-L$(MFEM_DIR) -L$(HYPRE_DIR)/src/hypre/lib -L$(METIS_DIR) -L$(PETSC_DIR)/$(PETSC_ARCH)/lib -L$(SLEPC_DIR)/$(PETSC_ARCH)/lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/openmpi/lib -L/usr/lib/gcc/x86_64-linux-gnu/9
-CxxLIBS=-lpetscmat -lpetscsnes -lpetscdm -lpetscvec -lpetscts -lpetsctao -lpetscsys -lpetscksp -lcmumps -ldmumps -lsmumps -lzmumps -lmumps_common -lpord -lscalapack -lflapack -lfblas -lptesmumps -lptscotchparmetis -lptscotch -lptscotcherr -lesmumps -lscotch -lscotcherr -lm -lX11 -lstdc++ -ldl -lmpi_usempif08 -lmpi_usempi_ignore_tkr -lmpi_mpifh -lmpi -lgfortran -lm -lgfortran -lm -lgcc_s -lquadmath -lpthread -lmfem -lHYPRE -lmetis -lrt -lslepcpep -lslepcsys -lslepceps -lslepclme -lslepcnep -lslepcmfn -lslepcsvd /usr/lib/x86_64-linux-gnu/liblapacke64.a /usr/lib/x86_64-linux-gnu/liblapack64.a -lpetscmat -lpetscsnes -lpetscmat -lpetscsnes -lpetscdm -lpetscvec -lpetscts -lpetsctao -lpetscsys -lpetscksp -lcmumps -ldmumps -lsmumps -lzmumps -lmumps_common -lpord -lscalapack -lflapack -lfblas -lslepcpep -lslepcsys -lslepceps -lslepclme -lslepcnep -lslepcmfn -lslepcsvd
+CxxINCS=-I../../OpenParEMCommon/src -I$(MFEM_DIR) -I$(MFEM_DIR)/linalg -I$(HYPRE_DIR)/src/hypre/include -I$(PETSC_DIR)/include -I$(PETSC_DIR)/$(PETSC_ARCH)/include -I$(SLEPC_DIR)/include -I$(SLEPC_DIR)/$(PETSC_ARCH)/include -I$(EIGEN_DIR)
+CxxLDIR=-L../../OpenParEMCommon/src -L$(MFEM_DIR) -L$(HYPRE_DIR)/src/hypre/lib -L$(METIS_DIR) -L$(PETSC_DIR)/$(PETSC_ARCH)/lib -L$(SLEPC_DIR)/$(PETSC_ARCH)/lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/openmpi/lib -L/usr/lib/gcc/x86_64-linux-gnu/9
+CxxLIBS=-lOpenParEMCommon -lpetscmat -lpetscsnes -lpetscdm -lpetscvec -lpetscts -lpetsctao -lpetscsys -lpetscksp -lcmumps -ldmumps -lsmumps -lzmumps -lmumps_common -lpord -lscalapack -lflapack -lfblas -lptesmumps -lptscotchparmetisv3 -lptscotch -lptscotcherr -lesmumps -lscotch -lscotcherr -lm -lX11 -lstdc++ -ldl -lmpi_usempif08 -lmpi_usempi_ignore_tkr -lmpi_mpifh -lmpi -lgfortran -lm -lgfortran -lm -lgcc_s -lquadmath -lpthread -lmfem -lHYPRE -lmetis -lrt -lslepcpep -lslepcsys -lslepceps -lslepclme -lslepcnep -lslepcmfn -lslepcsvd /usr/lib/x86_64-linux-gnu/liblapacke64.a /usr/lib/x86_64-linux-gnu/liblapack64.a -lpetscmat -lpetscsnes -lpetscmat -lpetscsnes -lpetscdm -lpetscvec -lpetscts -lpetsctao -lpetscsys -lpetscksp -lcmumps -ldmumps -lsmumps -lzmumps -lmumps_common -lpord -lscalapack -lflapack -lfblas -lslepcpep -lslepcsys -lslepceps -lslepclme -lslepcnep -lslepcmfn -lslepcsvd -lgfortran -lc  -lpetscmat -lpetscsnes -lpetscdm -lpetscvec -lpetscts -lpetsctao -lpetscsys -lpetscksp
 
 CC=mpicc
-CINCS=-I$(PETSC_DIR)/include -I$(PETSC_DIR)/$(PETSC_ARCH)/include -I$(SLEPC_DIR)/include -I$(SLEPC_DIR)/$(PETSC_ARCH)/include -I$(EIGEN_DIR)
-CLDIR=
-CLIBS=-lm
+CINCS=-I../../OpenParEMCommon/src -I$(PETSC_DIR)/include -I$(PETSC_DIR)/$(PETSC_ARCH)/include -I$(SLEPC_DIR)/include -I$(SLEPC_DIR)/$(PETSC_ARCH)/include -I$(EIGEN_DIR)
+CLDIR=-L../../OpenParEMCommon/src 
+CLIBS=-lm 
 
-OpenParEM2D: OpenParEM2D.o  modes.o results.o convergence.o frequencyPlan.o findPoints.o fem2D.o OpenParEMmaterials.o mesh.o fieldPoints.o license.o project.o eigensolve.o Hsolve.o Zsolve.o triplet.o 
-	$(CCxx) $(CxxFLAGS) OpenParEM2D.o modes.o results.o convergence.o frequencyPlan.o findPoints.o fem2D.o OpenParEMmaterials.o mesh.o fieldPoints.o license.o project.o eigensolve.o Hsolve.o Zsolve.o triplet.o -o OpenParEM2D  $(CxxLDIR) $(CxxLIBS)
 
-OpenParEM2D.o: OpenParEM2D.cpp
-	$(CCxx) $(CxxFLAGS) -c OpenParEM2D.cpp $(CxxINCS)
+builder.o: builder.cpp builder.hpp 
+	$(CCxx) $(CxxFLAGS) -c builder.cpp $(CxxINCS)
 
-modes.o: modes.cpp modes.hpp
-	$(CCxx) $(CxxFLAGS) -c modes.cpp $(CxxINCS)
-
-results.o: results.cpp results.hpp
-	$(CCxx) $(CxxFLAGS) -c results.cpp $(CxxINCS)
-
-convergence.o: convergence.cpp convergence.hpp
+convergence.o: convergence.cpp convergence.hpp project.h
 	$(CCxx) $(CxxFLAGS) -c convergence.cpp $(CxxINCS)
 
-frequencyPlan.o: frequencyPlan.cpp frequencyPlan.hpp
-	$(CCxx) $(CxxFLAGS) -c frequencyPlan.cpp $(CxxINCS)
+eigensolve.o: eigensolve.c eigensolve.h project.h Hsolve.h
+	$(CC) $(CFLAGS) -c eigensolve.c $(CINCS)
 
-findPoints.o: findPoints.cpp fem2D.hpp
-	$(CCxx) $(CxxFLAGS) -c findPoints.cpp $(CxxINCS)
-
-fem2D.o: fem2D.cpp fem2D.hpp
+fem2D.o: fem2D.cpp fem2D.hpp modes.hpp project.h convergence.hpp fieldPoints.hpp results.hpp Hsolve.h
 	$(CCxx) $(CxxFLAGS) -c fem2D.cpp $(CxxINCS)
 
-OpenParEMmaterials.o: OpenParEMmaterials.cpp OpenParEMmaterials.hpp
-	$(CCxx) $(CxxFLAGS) -c OpenParEMmaterials.cpp $(CxxINCS)
-
-mesh.o: mesh.cpp mesh.hpp
-	$(CCxx) $(CxxFLAGS) -c mesh.cpp $(CxxINCS)
-
-fieldPoints.o: fieldPoints.cpp fieldPoints.hpp
+fieldPoints.o: fieldPoints.cpp fieldPoints.hpp 
 	$(CCxx) $(CxxFLAGS) -c fieldPoints.cpp $(CxxINCS)
 
-license.o: license.cpp
-	$(CCxx) $(CxxFLAGS) -c license.cpp $(CxxINCS)
-
-project.o: project.c project.h
-	$(CC) $(CFLAGS) -c project.c $(CINCS)
-
-eigensolve.o: eigensolve.c eigensolve.h
-	$(CC) $(CFLAGS) -c eigensolve.c $(CINCS) 
+findPoints.o: findPoints.cpp 
+	$(CCxx) $(CxxFLAGS) -c findPoints.cpp $(CxxINCS)
 
 Hsolve.o: Hsolve.c Hsolve.h
 	$(CC) $(CFLAGS) -c Hsolve.c $(CINCS)
 
-Zsolve.o: Zsolve.c Zsolve.h
-	$(CC) $(CFLAGS) -c Zsolve.c $(CINCS)
+modes.o: modes.cpp modes.hpp
+	$(CCxx) $(CxxFLAGS) -c modes.cpp $(CxxINCS)
 
-triplet.o: triplet.c triplet.h
-	$(CC) $(CFLAGS) -c triplet.c $(CINCS)
+OpenParEM2D.o: OpenParEM2D.cpp convergence.hpp fem2D.hpp fieldPoints.hpp modes.hpp project.h results.hpp 
+	$(CCxx) $(CxxFLAGS) -c OpenParEM2D.cpp $(CxxINCS)
+
+process.o: process.cpp process.hpp project.h
+	$(CCxx) $(CxxFLAGS) -c process.cpp $(CxxINCS)
+
+project.o: project.c project.h
+	$(CC) $(CFLAGS) -c project.c $(CLDIR) $(CINCS)
+
+results.o: results.cpp results.hpp
+	$(CCxx) $(CxxFLAGS) -c results.cpp $(CxxINCS)
+
+simplify.o: simplify.cpp simplify.hpp project.h
+	$(CCxx) $(CxxFLAGS) -c simplify.cpp $(CxxINCS)
 
 waveguide: waveguide.o
 	$(CC) $(CFLAGS) waveguide.o -o waveguide $(CLDIR) $(CLIBS)
 
-waveguide.o: waveguide.c waveguide.h
-	$(CC) $(CFLAGS) -c waveguide.c $(CINCS)
+Zsolve.o: Zsolve.c Zsolve.h
+	$(CC) $(CFLAGS) -c Zsolve.c $(CINCS)
 
-process: process.o project.o mesh.o OpenParEMmaterials.o
-	$(CCxx) process.o project.o mesh.o OpenParEMmaterials.o -o process $(CxxLDIR) $(CxxLIBS)
-
-process.o: process.cpp process.hpp
-	$(CCxx) $(CxxFLAGS) -c process.cpp $(CxxINCS)
-
-builder: builder.o OpenParEMmaterials.o mesh.o
-	$(CCxx) $(CxxFLAGS) builder.o mesh.o OpenParEMmaterials.o -o builder $(CxxLDIR) $(CxxLIBS)
-
-builder.o: builder.cpp builder.hpp
-	$(CCxx) $(CxxFLAGS) -c builder.cpp $(CxxINCS)
-
-simplify: simplify.o project.o 
+simplify: simplify.o project.o
 	$(CCxx) $(CxxFLAGS) simplify.o project.o -o simplify $(CxxLDIR) $(CxxLIBS)
 
-simplify.o: simplify.cpp simplify.hpp
-	$(CCxx) $(CxxFLAGS) -c simplify.cpp $(CxxINCS)
+process: process.o project.o
+	$(CCxx) $(CxxFLAGS) process.o project.o -o process $(CxxLDIR) $(CxxLIBS)
 
-license_process: license_process.o
-	$(CCxx) $(CxxFLAGS) license_process.o -o license_process $(CxxLDIR) $(CxxLIBS)
+builder: builder.o 
+	$(CCxx) $(CxxFLAGS) builder.o -o builder $(CxxLDIR) $(CxxLIBS)
 
-license_process.o: license_process.cpp
-	$(CCxx) $(CxxFLAGS) -c license_process.cpp $(CxxINCS)
+OpenParEM2D: OpenParEM2D.o convergence.o eigensolve.o fem2D.o fieldPoints.o findPoints.o Hsolve.o modes.o project.o results.o Zsolve.o
+	$(CCxx) $(CxxFLAGS) OpenParEM2D.o convergence.o eigensolve.o fem2D.o fieldPoints.o findPoints.o Hsolve.o modes.o project.o results.o Zsolve.o -o OpenParEM2D  $(CxxLDIR) $(CxxLIBS)
+
 
 .PHONY: all clean
 
-all: OpenParEM2D waveguide process builder simplify license_process
+all: OpenParEM2D waveguide simplify process builder 
 
 install:
 	rm -f ../bin/OpenParEM2D
@@ -127,32 +105,29 @@ install:
 	cp ../scripts/process.sh $(HOME)/bin/process.sh
 	cp ../scripts/proj_search $(HOME)/bin/proj_search
 	cp ../scripts/regression.sh $(HOME)/bin/regression.sh
+	cp ../scripts/checkErrors.sh $(HOME)/bin/checkErrors.sh
+	cp ../scripts/listErrors $(HOME)/bin/listErrors
+	cp ../scripts/checkBuilder.sh $(HOME)/bin/checkBuilder.sh
+	cp ../scripts/OpenParEM2D_save.py $(HOME)/.FreeCAD/Macro/OpenParEM2D_save.py
 
 clean:
 	rm -f OpenParEM2D
 	rm -f process
 	rm -f builder
 	rm -f simplify
-	rm -f license_process
 	rm -f waveguide
-	rm -f OpenParEM2D.o
-	rm -f OpenParEMmaterials.o
-	rm -f eigensolve.o
-	rm -f Hsolve.o
-	rm -f Zsolve.o
-	rm -f triplet.o
-	rm -f waveguide.o
-	rm -f mesh.o
-	rm -f project.o
+	rm -f builder.o
 	rm -f convergence.o
+	rm -f eigensolve.o
 	rm -f fem2D.o
-	rm -f frequencyPlan.o
-	rm -f modes.o
-	rm -f results.o
 	rm -f fieldPoints.o
 	rm -f findPoints.o
+	rm -f Hsolve.o
+	rm -f modes.o
+	rm -f OpenParEM2D.o
 	rm -f process.o
+	rm -f project.o
+	rm -f results.o
 	rm -f simplify.o
-	rm -f builder.o
-	rm -f license_process.o
-	rm -f license.o
+	rm -f waveguide.o
+	rm -f Zsolve.o

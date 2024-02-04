@@ -95,7 +95,7 @@ bool Control::load (string *indent, inputFile *inputs, bool checkInputs)
       int recognized=0;
       if (build.match_alias(&token)) {
          if (build.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2000: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,build.get_lineNumber());
             fail=true;
          } else {
@@ -114,7 +114,7 @@ bool Control::load (string *indent, inputFile *inputs, bool checkInputs)
 
       // should recognize one keyword
       if (recognized != 1) {
-         PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR: Unrecognized keyword at line %d.\n",indent->c_str(),indent->c_str(),lineNumber);
+         PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2001: Unrecognized keyword at line %d.\n",indent->c_str(),indent->c_str(),lineNumber);
          fail=true;
       }
 
@@ -134,12 +134,12 @@ bool Control::check (string indent)
    bool fail=false;
 
    if (!build.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: RectangularWaveguide block at line %d must specify a build.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2002: RectangularWaveguide block at line %d must specify a build.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!checkLimits.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: RectangularWaveguide block at line %d must specify whether to check limits.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2003: RectangularWaveguide block at line %d must specify whether to check limits.\n",indent.c_str(),startLine);
       fail=true;
    }
 
@@ -373,7 +373,7 @@ bool RectangularWaveguide::load (string *indent, inputFile *inputs, bool checkIn
       int recognized=0;
       if (name.match_alias(&token)) {
          if (name.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2004: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,name.get_lineNumber());
             fail=true;
          } else {
@@ -387,7 +387,7 @@ bool RectangularWaveguide::load (string *indent, inputFile *inputs, bool checkIn
 
       if (include.match_alias(&token)) {
          if (include.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2005: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,include.get_lineNumber());
             fail=true;
          } else {
@@ -411,7 +411,7 @@ bool RectangularWaveguide::load (string *indent, inputFile *inputs, bool checkIn
 
       if (material.match_alias(&token)) {
          if (material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2006: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,material.get_lineNumber());
             fail=true;
          } else {
@@ -425,7 +425,7 @@ bool RectangularWaveguide::load (string *indent, inputFile *inputs, bool checkIn
 
       if (default_conductor_material.match_alias(&token)) {
          if (default_conductor_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2007: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,default_conductor_material.get_lineNumber());
             fail=true;
          } else {
@@ -439,7 +439,7 @@ bool RectangularWaveguide::load (string *indent, inputFile *inputs, bool checkIn
 
       if (conductor_material_top.match_alias(&token)) {
          if (conductor_material_top.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2008: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,conductor_material_top.get_lineNumber());
             fail=true;
          } else {
@@ -453,7 +453,7 @@ bool RectangularWaveguide::load (string *indent, inputFile *inputs, bool checkIn
 
       if (conductor_material_bottom.match_alias(&token)) {
          if (conductor_material_bottom.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2009: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,conductor_material_bottom.get_lineNumber());
             fail=true;
          } else {
@@ -467,7 +467,7 @@ bool RectangularWaveguide::load (string *indent, inputFile *inputs, bool checkIn
 
       if (conductor_material_left.match_alias(&token)) {
          if (conductor_material_left.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2010: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,conductor_material_left.get_lineNumber());
             fail=true;
          } else {
@@ -481,7 +481,7 @@ bool RectangularWaveguide::load (string *indent, inputFile *inputs, bool checkIn
 
       if (conductor_material_right.match_alias(&token)) {
          if (conductor_material_right.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2011: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,conductor_material_right.get_lineNumber());
             fail=true;
          } else {
@@ -495,7 +495,7 @@ bool RectangularWaveguide::load (string *indent, inputFile *inputs, bool checkIn
 
       // should recognize one keyword
       if (recognized != 1) {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Unrecognized keyword at line %d.\n",indent->c_str(),lineNumber);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2012: Unrecognized keyword at line %d.\n",indent->c_str(),lineNumber);
          fail=true;
       }
 
@@ -538,22 +538,22 @@ bool RectangularWaveguide::check (string indent)
    bool fail=false;
 
    if (!name.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: RectangularWaveguide block at line %d must specify a name.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2013: RectangularWaveguide block at line %d must specify a name.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!width.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: RectangularWaveguide block at line %d must specify a width.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2014: RectangularWaveguide block at line %d must specify a width.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!height.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: RectangularWaveguide block at line %d must specify a height.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2015: RectangularWaveguide block at line %d must specify a height.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!material.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: RectangularWaveguide block at line %d must specify a material.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2016: RectangularWaveguide block at line %d must specify a material.\n",indent.c_str(),startLine);
       fail=true;
    }
 
@@ -561,7 +561,7 @@ bool RectangularWaveguide::check (string indent)
       if (conductor_material_top.is_loaded() && conductor_material_bottom.is_loaded() && conductor_material_left.is_loaded() && conductor_material_right.is_loaded()) {
          // ok
       } else {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: RectangularWaveguide block at line %d must specify a default conductor material.\n",indent.c_str(),startLine);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2017: RectangularWaveguide block at line %d must specify a default conductor material.\n",indent.c_str(),startLine);
          fail=true;
       }
    }
@@ -573,7 +573,7 @@ bool RectangularWaveguide::checkInclude (string indent)
 {
    if (name.is_loaded() && include.is_loaded()) {
       if (name.get_value().compare(include.get_value()) == 0) {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: RectangularWaveguide block at line %d cannot include itself.\n",indent.c_str(),startLine);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2018: RectangularWaveguide block at line %d cannot include itself.\n",indent.c_str(),startLine);
          return true;
       }
    }
@@ -797,7 +797,7 @@ void Curve::merge (Curve *test)
          }
       }
 
-      if (!found) cout << "ERROR: Failed to close loop when merging curves." << endl;
+      if (!found) cout << "ERROR2019: Failed to close loop when merging curves." << endl;
 
       // see if done
       if (current_line->get_index() == start_line->get_index()) {
@@ -992,7 +992,7 @@ bool RectangularWaveguide::write_geo (string indent, Control *control, Geo *geo)
 
       out.close();
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Failed to open \"%s\" for writing.\n",
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2020: Failed to open \"%s\" for writing.\n",
                                    indent.c_str(),ssFilename.str().c_str());
       fail=true;
    }
@@ -1148,7 +1148,7 @@ bool RectangularWaveguide::write_modes_and_boundaries (string indent, Control *c
 
       modes.close();
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Failed to open \"%s\" for writing.\n",
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2021: Failed to open \"%s\" for writing.\n",
                                    indent.c_str(),ssFilename.str().c_str());
       fail=true;
    }
@@ -1202,7 +1202,7 @@ bool RectangularWaveguide::write_proj(string indent)
 
       proj.close();
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Failed to open \"%s\" for writing.\n",
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2022: Failed to open \"%s\" for writing.\n",
                                    indent.c_str(),ssProj.str().c_str());
       fail=true;
    }
@@ -1493,7 +1493,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
       int recognized=0;
       if (name.match_alias(&token)) {
          if (name.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2023: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,name.get_lineNumber());
             fail=true;
          } else {
@@ -1507,7 +1507,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (include.match_alias(&token)) {
          if (include.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2024: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,include.get_lineNumber());
             fail=true;
          } else {
@@ -1526,7 +1526,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (upper_material.match_alias(&token)) {
          if (upper_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2025: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,upper_material.get_lineNumber());
             fail=true;
          } else {
@@ -1550,7 +1550,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (soldermask_material.match_alias(&token)) {
          if (soldermask_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2026: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,soldermask_material.get_lineNumber());
             fail=true;
          } else {
@@ -1569,7 +1569,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (lower_material.match_alias(&token)) {
          if (lower_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2027: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,lower_material.get_lineNumber());
             fail=true;
          } else {
@@ -1588,7 +1588,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (left_side_material.match_alias(&token)) {
          if (left_side_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2028: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,left_side_material.get_lineNumber());
             fail=true;
          } else {
@@ -1607,7 +1607,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (right_side_material.match_alias(&token)) {
          if (right_side_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2029: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,right_side_material.get_lineNumber());
             fail=true;
          } else {
@@ -1636,7 +1636,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (default_conductor_material.match_alias(&token)) {
          if (default_conductor_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2030: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,default_conductor_material.get_lineNumber());
             fail=true;
          } else {
@@ -1650,7 +1650,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (trace_material_top.match_alias(&token)) {
          if (trace_material_top.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2031: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,trace_material_top.get_lineNumber());
             fail=true;
          } else {
@@ -1664,7 +1664,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (trace_material_bottom.match_alias(&token)) {
          if (trace_material_bottom.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2032: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,trace_material_bottom.get_lineNumber());
             fail=true;
          } else {
@@ -1678,7 +1678,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (trace_material_sides.match_alias(&token)) {
          if (trace_material_sides.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n", 
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2033: Duplicate entry at line %d for previous entry at line %d.\n", 
                                          indent->c_str(),lineNumber,trace_material_sides.get_lineNumber());
             fail=true;
          } else {
@@ -1692,7 +1692,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (upper_groundplane_material.match_alias(&token)) {
          if (upper_groundplane_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n", 
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2034: Duplicate entry at line %d for previous entry at line %d.\n", 
                                          indent->c_str(),lineNumber,upper_groundplane_material.get_lineNumber());
             fail=true;
          } else {
@@ -1706,7 +1706,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (lower_groundplane_material.match_alias(&token)) {
          if (lower_groundplane_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2035: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,lower_groundplane_material.get_lineNumber());
             fail=true;
          } else {
@@ -1720,7 +1720,7 @@ bool Strip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       // should recognize one keyword
       if (recognized != 1) {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Unrecognized keyword at line %d.\n",indent->c_str(),lineNumber);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2036: Unrecognized keyword at line %d.\n",indent->c_str(),lineNumber);
          fail=true;
       }
 
@@ -1793,67 +1793,67 @@ bool Strip::check (string indent)
    bool fail=false;
 
    if (!name.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify a name.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2037: Strip block at line %d must specify a name.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!use_symmetry.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify a value for \"use_symmetry\".\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2038: Strip block at line %d must specify a value for \"use_symmetry\".\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!upper_thickness.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify an upper thickness.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2039: Strip block at line %d must specify an upper thickness.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!upper_material.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify an upper material.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2040: Strip block at line %d must specify an upper material.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (soldermask_thickness.is_loaded() && !soldermask_material.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify a soldermask material.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2041: Strip block at line %d must specify a soldermask material.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!soldermask_thickness.is_loaded() && soldermask_material.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must not specify a soldermask material.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2042: Strip block at line %d must not specify a soldermask material.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!lower_thickness.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify a lower thickness.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2043: Strip block at line %d must specify a lower thickness.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!lower_material.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify a lower material.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2044: Strip block at line %d must specify a lower material.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!left_side_gap.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify a left side gap.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2045: Strip block at line %d must specify a left side gap.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!right_side_gap.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify a right side gap.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2046: Strip block at line %d must specify a right side gap.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!trace_thickness.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify a trace thickness.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2047: Strip block at line %d must specify a trace thickness.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!trace_width.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify a trace width.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2048: Strip block at line %d must specify a trace width.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!trace_etch_angle.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify a trace etch angle.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2049: Strip block at line %d must specify a trace etch angle.\n",indent.c_str(),startLine);
       fail=true;
    }
 
@@ -1862,7 +1862,7 @@ bool Strip::check (string indent)
           upper_groundplane_material.is_loaded() && lower_groundplane_material.is_loaded() && left_side_material.is_loaded() && right_side_material.is_loaded()) {
          // ok
       } else {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify a default conductor material.\n",indent.c_str(),startLine);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2050: Strip block at line %d must specify a default conductor material.\n",indent.c_str(),startLine);
          fail=true;
       }
    }
@@ -1871,21 +1871,21 @@ bool Strip::check (string indent)
 
    if (lower_material.is_loaded() && upper_material.is_loaded()) {
       if (lower_material.get_value().compare(upper_material.get_value()) == 0) {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify different names for the uppper and lower materials [properties can match].\n",indent.c_str(),startLine);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2051: Strip block at line %d must specify different names for the uppper and lower materials [properties can match].\n",indent.c_str(),startLine);
          fail=true;
       }
    }
 
    if (lower_material.is_loaded() && soldermask_material.is_loaded()) {
       if (lower_material.get_value().compare(soldermask_material.get_value()) == 0) {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify different names for the lower and soldermask materials [properties can match].\n",indent.c_str(),startLine);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2052: Strip block at line %d must specify different names for the lower and soldermask materials [properties can match].\n",indent.c_str(),startLine);
          fail=true;
       }
    }
 
    if (upper_material.is_loaded() && soldermask_material.is_loaded()) {
       if (upper_material.get_value().compare(soldermask_material.get_value()) == 0) {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d must specify different names for the uppper and soldermask materials [properties can match].\n",indent.c_str(),startLine);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2053: Strip block at line %d must specify different names for the uppper and soldermask materials [properties can match].\n",indent.c_str(),startLine);
          fail=true;
       }
    }
@@ -1897,7 +1897,7 @@ bool Strip::checkInclude (string indent)
 {
    if (name.is_loaded() && include.is_loaded()) {
       if (name.get_value().compare(include.get_value()) == 0) {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Strip block at line %d cannot include itself.\n",indent.c_str(),startLine);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2054: Strip block at line %d cannot include itself.\n",indent.c_str(),startLine);
          return true;
       }
    }
@@ -2379,7 +2379,7 @@ void Strip::build_geo (Geo *geo, bool check_error)
    geo->push_curve(newCurve);
 
    if (check_error && check_geo(geo)) {
-      PetscPrintf(PETSC_COMM_WORLD,"ERROR: Invalid constructed geometry.  Check the geo file output in gmsh.\n");
+      PetscPrintf(PETSC_COMM_WORLD,"ERROR2055: Invalid constructed geometry.  Check the geo file output in gmsh.\n");
    }
 }
 
@@ -2409,7 +2409,7 @@ bool Strip::write_geo (string indent, Control *control, Geo *geo)
 
       out.close();
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Failed to open \"%s\" for writing.\n",
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2056: Failed to open \"%s\" for writing.\n",
                                    indent.c_str(),ssFilename.str().c_str());
       fail=true;
    }
@@ -2706,7 +2706,7 @@ bool Strip::write_modes_and_boundaries (string indent, Control *control)
 
       modes.close();
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Failed to open \"%s\" for writing.\n",
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2057: Failed to open \"%s\" for writing.\n",
                                    indent.c_str(),ssFilename.str().c_str());
       fail=true;
    }
@@ -2760,7 +2760,7 @@ bool Strip::write_proj(string indent)
 
       proj.close();
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Failed to open \"%s\" for writing.\n",
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2058: Failed to open \"%s\" for writing.\n",
                                    indent.c_str(),ssProj.str().c_str());
       fail=true;
    }
@@ -3061,7 +3061,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
       int recognized=0;
       if (name.match_alias(&token)) {
          if (name.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2059: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,name.get_lineNumber());
             fail=true;
          } else {
@@ -3075,7 +3075,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (include.match_alias(&token)) {
          if (include.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2060: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,include.get_lineNumber());
             fail=true;
          } else {
@@ -3089,7 +3089,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (upper_material.match_alias(&token)) {
          if (upper_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2061: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,upper_material.get_lineNumber());
             fail=true;
          } else {
@@ -3113,7 +3113,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (soldermask_material.match_alias(&token)) {
          if (soldermask_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2062: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,soldermask_material.get_lineNumber());
             fail=true;
          } else {
@@ -3132,7 +3132,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (lower_material.match_alias(&token)) {
          if (lower_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2063: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,lower_material.get_lineNumber());
             fail=true;
          } else {
@@ -3151,7 +3151,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (left_side_material.match_alias(&token)) {
          if (left_side_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2064: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,left_side_material.get_lineNumber());
             fail=true;
          } else {
@@ -3170,7 +3170,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (right_side_material.match_alias(&token)) {
          if (right_side_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2065: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,right_side_material.get_lineNumber());
             fail=true;
          } else {
@@ -3209,7 +3209,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (default_conductor_material.match_alias(&token)) {
          if (default_conductor_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2066: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,default_conductor_material.get_lineNumber());
             fail=true;
          } else {
@@ -3223,7 +3223,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (trace_material_top.match_alias(&token)) {
          if (trace_material_top.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2067: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,trace_material_top.get_lineNumber());
             fail=true;
          } else {
@@ -3237,7 +3237,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (trace_material_bottom.match_alias(&token)) {
          if (trace_material_bottom.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2068: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,trace_material_bottom.get_lineNumber());
             fail=true;
          } else {
@@ -3251,7 +3251,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (trace_material_sides.match_alias(&token)) {
          if (trace_material_sides.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n", 
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2069: Duplicate entry at line %d for previous entry at line %d.\n", 
                                          indent->c_str(),lineNumber,trace_material_sides.get_lineNumber());
             fail=true;
          } else {
@@ -3265,7 +3265,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (upper_groundplane_material.match_alias(&token)) {
          if (upper_groundplane_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n", 
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2070: Duplicate entry at line %d for previous entry at line %d.\n", 
                                          indent->c_str(),lineNumber,upper_groundplane_material.get_lineNumber());
             fail=true;
          } else {
@@ -3279,7 +3279,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       if (lower_groundplane_material.match_alias(&token)) {
          if (lower_groundplane_material.is_loaded()) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Duplicate entry at line %d for previous entry at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2071: Duplicate entry at line %d for previous entry at line %d.\n",
                                          indent->c_str(),lineNumber,lower_groundplane_material.get_lineNumber());
             fail=true;
          } else {
@@ -3293,7 +3293,7 @@ bool CoupledStrip::load (string *indent, inputFile *inputs, bool checkInputs)
 
       // should recognize one keyword
       if (recognized != 1) {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Unrecognized keyword at line %d.\n",indent->c_str(),lineNumber);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2072: Unrecognized keyword at line %d.\n",indent->c_str(),lineNumber);
          fail=true;
       }
 
@@ -3367,72 +3367,72 @@ bool CoupledStrip::check (string indent)
    bool fail=false;
 
    if (!name.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify a name.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2073: CoupledStrip block at line %d must specify a name.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!upper_thickness.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify an upper thickness.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2074: CoupledStrip block at line %d must specify an upper thickness.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!upper_material.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify an upper material.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2075: CoupledStrip block at line %d must specify an upper material.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (soldermask_thickness.is_loaded() && !soldermask_material.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify a soldermask material.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2076: CoupledStrip block at line %d must specify a soldermask material.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!soldermask_thickness.is_loaded() && soldermask_material.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must not specify a soldermask material.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2077: CoupledStrip block at line %d must not specify a soldermask material.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!lower_thickness.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify a lower thickness.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2078: CoupledStrip block at line %d must specify a lower thickness.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!lower_material.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify a lower material.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2079: CoupledStrip block at line %d must specify a lower material.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!left_side_gap.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify a left side gap.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2080: CoupledStrip block at line %d must specify a left side gap.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!right_side_gap.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify a right side gap.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2081: CoupledStrip block at line %d must specify a right side gap.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!trace_left_width.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify a width for the left trace.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2082: CoupledStrip block at line %d must specify a width for the left trace.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!trace_right_width.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify a width for the right trace.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2083: CoupledStrip block at line %d must specify a width for the right trace.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!trace_thickness.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify a trace thickness.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2084: CoupledStrip block at line %d must specify a trace thickness.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!trace_air_gap.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify an air gap.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2085: CoupledStrip block at line %d must specify an air gap.\n",indent.c_str(),startLine);
       fail=true;
    }
 
    if (!trace_etch_angle.is_loaded()) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify a trace etch angle.\n",indent.c_str(),startLine);
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2086: CoupledStrip block at line %d must specify a trace etch angle.\n",indent.c_str(),startLine);
       fail=true;
    }
 
@@ -3441,7 +3441,7 @@ bool CoupledStrip::check (string indent)
           upper_groundplane_material.is_loaded() && lower_groundplane_material.is_loaded() && left_side_material.is_loaded() && right_side_material.is_loaded()) {
          // ok
       } else {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify a default conductor material.\n",indent.c_str(),startLine);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2087: CoupledStrip block at line %d must specify a default conductor material.\n",indent.c_str(),startLine);
          fail=true;
       }
    }
@@ -3450,21 +3450,21 @@ bool CoupledStrip::check (string indent)
    
    if (lower_material.is_loaded() && upper_material.is_loaded()) {
       if (lower_material.get_value().compare(upper_material.get_value()) == 0) {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify different names for the uppper and lower materials [properties can match].\n",indent.c_str(),startLine);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2088: CoupledStrip block at line %d must specify different names for the uppper and lower materials [properties can match].\n",indent.c_str(),startLine);
          fail=true;
       }
    }
 
    if (lower_material.is_loaded() && soldermask_material.is_loaded()) {
       if (lower_material.get_value().compare(soldermask_material.get_value()) == 0) {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify different names for the lower and soldermask materials [properties can match].\n",indent.c_str(),startLine);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2089: CoupledStrip block at line %d must specify different names for the lower and soldermask materials [properties can match].\n",indent.c_str(),startLine);
          fail=true;
       }
    }
 
    if (upper_material.is_loaded() && soldermask_material.is_loaded()) {
       if (upper_material.get_value().compare(soldermask_material.get_value()) == 0) {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d must specify different names for the uppper and soldermask materials [properties can match].\n",indent.c_str(),startLine);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2090: CoupledStrip block at line %d must specify different names for the uppper and soldermask materials [properties can match].\n",indent.c_str(),startLine);
          fail=true;
       }
    }
@@ -3476,7 +3476,7 @@ bool CoupledStrip::checkInclude(string indent)
 {
    if (name.is_loaded() && include.is_loaded()) {
       if (name.get_value().compare(include.get_value()) == 0) {
-         PetscPrintf(PETSC_COMM_WORLD,"%sERROR: CoupledStrip block at line %d cannot include itself.\n",indent.c_str(),startLine);
+         PetscPrintf(PETSC_COMM_WORLD,"%sERROR2091: CoupledStrip block at line %d cannot include itself.\n",indent.c_str(),startLine);
          return true;
       }
    }
@@ -3600,7 +3600,7 @@ bool CoupledStrip::write_geo (string indent, Control *control, Geo *geo)
 
       out.close();
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Failed to open \"%s\" for writing.\n",
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2092: Failed to open \"%s\" for writing.\n",
                                    indent.c_str(),ssFilename.str().c_str());
       fail=true;
    }
@@ -3969,7 +3969,7 @@ bool CoupledStrip::write_modes_and_boundaries (string indent, Control *control)
 
       modes.close();
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Failed to open \"%s\" for writing.\n",
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2093: Failed to open \"%s\" for writing.\n",
                                    indent.c_str(),ssFilename.str().c_str());
       fail=true;
    }
@@ -4023,7 +4023,7 @@ bool CoupledStrip::write_proj(string indent)
 
       proj.close();
    } else {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Failed to open \"%s\" for writing.\n",
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2094: Failed to open \"%s\" for writing.\n",
                                    indent.c_str(),ssProj.str().c_str());
       fail=true;
    }
@@ -4182,7 +4182,7 @@ bool StructureDatabase::set_include()
          }
 
          if (! found) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Include \"%s\" at line %d does not exist.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2095: Include \"%s\" at line %d does not exist.\n",
                                          indent.c_str(),rectangularWaveguideList[i]->get_include().get_value().c_str(),rectangularWaveguideList[i]->get_include().get_lineNumber());
             fail=true;
          }
@@ -4236,7 +4236,7 @@ bool StructureDatabase::set_include()
          }
 
          if (! found) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Include \"%s\" at line %d does not exist.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2096: Include \"%s\" at line %d does not exist.\n",
                                          indent.c_str(),stripList[i]->get_include().get_value().c_str(),stripList[i]->get_include().get_lineNumber());
             fail=true;
          }
@@ -4290,7 +4290,7 @@ bool StructureDatabase::set_include()
          }
 
          if (! found) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Include \"%s\" at line %d does not exist.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2097: Include \"%s\" at line %d does not exist.\n",
                                          indent.c_str(),coupledStripList[i]->get_include().get_value().c_str(),coupledStripList[i]->get_include().get_lineNumber());
             fail=true;
          }
@@ -4341,7 +4341,7 @@ bool StructureDatabase::load(const char *path, const char *filename, bool checkI
    inputs.createCrossReference();
 
    if (inputs.checkVersion(version_name, version_value)) {
-      PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR: Version mismatch.  Expecting the first line to be: %s %s\n",
+      PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2098: Version mismatch.  Expecting the first line to be: %s %s\n",
                                    indent.c_str(),indent.c_str(),version_name.c_str(),version_value.c_str());
       return true;
    }
@@ -4446,12 +4446,12 @@ bool StructureDatabase::check()
    // Control
 
    if (controlList.size() == 0) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: One \"Contro/EndControl\" block must be specified.\n",indent.c_str());
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2099: One \"Contro/EndControl\" block must be specified.\n",indent.c_str());
       fail=true;
    }
 
    if (controlList.size() > 1) {
-      PetscPrintf(PETSC_COMM_WORLD,"%sERROR: Only one \"Control/EndControl\" block can be specified.\n",indent.c_str());
+      PetscPrintf(PETSC_COMM_WORLD,"%sERROR2100: Only one \"Control/EndControl\" block can be specified.\n",indent.c_str());
       fail=true;
    }
 
@@ -4475,7 +4475,7 @@ bool StructureDatabase::check()
       long unsigned int j=i+1;
       while (i < rectangularWaveguideList.size()-1 && j < rectangularWaveguideList.size()) {
          if (rectangularWaveguideList[i]->get_name().get_value().compare(rectangularWaveguideList[j]->get_name().get_value()) == 0) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: name at line %d duplicates the name at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2101: name at line %d duplicates the name at line %d.\n",
                                          indent.c_str(),rectangularWaveguideList[j]->get_name().get_lineNumber(),rectangularWaveguideList[i]->get_name().get_lineNumber());
             fail=true;
          }
@@ -4485,7 +4485,7 @@ bool StructureDatabase::check()
       j=0;
       while (j < stripList.size()) {
          if (rectangularWaveguideList[i]->get_name().get_value().compare(stripList[j]->get_name().get_value()) == 0) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: name at line %d duplicates the name at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2102: name at line %d duplicates the name at line %d.\n",
                                          indent.c_str(),stripList[j]->get_name().get_lineNumber(),rectangularWaveguideList[i]->get_name().get_lineNumber());
             fail=true;
          }
@@ -4495,7 +4495,7 @@ bool StructureDatabase::check()
       j=0;
       while (j < coupledStripList.size()) {
          if (rectangularWaveguideList[i]->get_name().get_value().compare(coupledStripList[j]->get_name().get_value()) == 0) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: name at line %d duplicates the name at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2103: name at line %d duplicates the name at line %d.\n",
                                          indent.c_str(),coupledStripList[j]->get_name().get_lineNumber(),rectangularWaveguideList[i]->get_name().get_lineNumber());
             fail=true;
          }
@@ -4516,7 +4516,7 @@ bool StructureDatabase::check()
       long unsigned int j=i+1;
       while (i < stripList.size()-1 && j < stripList.size()) {
          if (stripList[i]->get_name().get_value().compare(stripList[j]->get_name().get_value()) == 0) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: name at line %d duplicates the name at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2104: name at line %d duplicates the name at line %d.\n",
                                          indent.c_str(),stripList[j]->get_name().get_lineNumber(),stripList[i]->get_name().get_lineNumber());
             fail=true;
          }
@@ -4526,7 +4526,7 @@ bool StructureDatabase::check()
       j=0;
       while (j < coupledStripList.size()) {
          if (stripList[i]->get_name().get_value().compare(coupledStripList[j]->get_name().get_value()) == 0) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: name at line %d duplicates the name at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2105: name at line %d duplicates the name at line %d.\n",
                                          indent.c_str(),coupledStripList[j]->get_name().get_lineNumber(),stripList[i]->get_name().get_lineNumber());
             fail=true;
          }
@@ -4547,7 +4547,7 @@ bool StructureDatabase::check()
       long unsigned int j=i+1;
       while (i < coupledStripList.size()-1 && j < coupledStripList.size()) {
          if (coupledStripList[i]->get_name().get_value().compare(coupledStripList[j]->get_name().get_value()) == 0) {
-            PetscPrintf(PETSC_COMM_WORLD,"%sERROR: name at line %d duplicates the name at line %d.\n",
+            PetscPrintf(PETSC_COMM_WORLD,"%sERROR2106: name at line %d duplicates the name at line %d.\n",
                                          indent.c_str(),coupledStripList[j]->get_name().get_lineNumber(),coupledStripList[i]->get_name().get_lineNumber());
             fail=true;
          }
@@ -4560,7 +4560,7 @@ bool StructureDatabase::check()
    i=1;  // skip the first line, which is the version information
    while (i < inputs.get_size()) {
       if (! inBlocks(inputs.get_lineNumber(i))) {
-         PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR: Invalid input at line %d.\n",indent.c_str(),indent.c_str(),inputs.get_lineNumber(i));
+         PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2107: Invalid input at line %d.\n",indent.c_str(),indent.c_str(),inputs.get_lineNumber(i));
          fail=true;
       }
       i++;
@@ -4659,7 +4659,7 @@ bool StructureDatabase::build_geo()
       i++;
    }
 
-   PetscPrintf(PETSC_COMM_WORLD,"%sERROR: build target \"%s\" not found.\n",
+   PetscPrintf(PETSC_COMM_WORLD,"%sERROR2108: build target \"%s\" not found.\n",
                                  indent.c_str(),controlList[0]->get_build().get_value().c_str());
 
    return true;
@@ -4697,7 +4697,7 @@ bool StructureDatabase::write_geo()
       i++;
    }
 
-   PetscPrintf(PETSC_COMM_WORLD,"%sERROR: build target \"%s\" not found.\n",
+   PetscPrintf(PETSC_COMM_WORLD,"%sERROR2109: build target \"%s\" not found.\n",
                                  indent.c_str(),controlList[0]->get_build().get_value().c_str());
 
    return true;
@@ -4735,7 +4735,7 @@ bool StructureDatabase::write_modes_and_boundaries()
       i++;
    }
 
-   PetscPrintf(PETSC_COMM_WORLD,"%sERROR: build target \"%s\" not found.\n",
+   PetscPrintf(PETSC_COMM_WORLD,"%sERROR2110: build target \"%s\" not found.\n",
                                  indent.c_str(),controlList[0]->get_build().get_value().c_str());
 
    return true;
@@ -4773,7 +4773,7 @@ bool StructureDatabase::write_proj()
       i++;
    }
 
-   PetscPrintf(PETSC_COMM_WORLD,"%sERROR: build target \"%s\" not found.\n",
+   PetscPrintf(PETSC_COMM_WORLD,"%sERROR2111: build target \"%s\" not found.\n",
                                  indent.c_str(),controlList[0]->get_build().get_value().c_str());
 
    return true;

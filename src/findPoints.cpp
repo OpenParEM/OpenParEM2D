@@ -32,14 +32,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ******************************************************************************************/
 
-#include "fem2D.hpp"
+#include "mfem.hpp"
+
+using namespace mfem;
 
 // This is a simplified version of the MFEM function Mesh::FindPoints to get access to options.
-// Currently set up for reliability at the expense of run time.  For 2D meshes, run time should never be an issue.
+// Currently set up for reliability at the expense of run time.  For 2D meshes (dim=2), run time should never be an issue.
 
-void findPoints(ParMesh *pmesh, DenseMatrix &point_mat, Array<int>& elem_ids, Array<IntegrationPoint>& ips)
+void findPoints(ParMesh *pmesh, DenseMatrix &point_mat, Array<int>& elem_ids, Array<IntegrationPoint>& ips, int dim)
 {
-   int dim=2;
    int num_mesh_elements=pmesh->GetNE();
 
    const int npts = point_mat.Width();
@@ -70,14 +71,14 @@ void findPoints(ParMesh *pmesh, DenseMatrix &point_mat, Array<int>& elem_ids, Ar
    // Highest reliability (slowest) with ClosestRefNode and NewtonElementProject
    // All other options shown
 
-   //inv_tr->SetInitialGuessType(InverseElementTransformation::Center);
+   inv_tr->SetInitialGuessType(InverseElementTransformation::Center);
    //inv_tr->SetInitialGuessType(InverseElementTransformation::ClosestPhysNode);
-   inv_tr->SetInitialGuessType(InverseElementTransformation::ClosestRefNode);
+//   inv_tr->SetInitialGuessType(InverseElementTransformation::ClosestRefNode);   // OpenParEM2D
    //inv_tr->SetInitialGuessType(InverseElementTransformation::GivenPoint); // requires SetInitialGuess, below
 
-   //inv_tr->SetSolverType(InverseElementTransformation::Newton);
+   inv_tr->SetSolverType(InverseElementTransformation::Newton);
    //inv_tr->SetSolverType(InverseElementTransformation::NewtonSegmentProject);
-   inv_tr->SetSolverType(InverseElementTransformation::NewtonElementProject);
+//   inv_tr->SetSolverType(InverseElementTransformation::NewtonElementProject);   // OpenParEM2D
 
    ElementTransformation *eltransf;
 
