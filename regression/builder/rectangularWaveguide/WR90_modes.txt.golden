@@ -1,0 +1,30 @@
+#OpenParEMmodes 1.0
+
+// Control
+//   build=WR90
+//   check_limits=true
+// EndControl
+// RectangularWaveguide
+//    name=WR90
+//    width=0.02286
+//    height=0.01016
+//    material=air
+//    default_conductor_material=PEC
+// EndRectangularWaveguide
+
+File
+   name=generated_by_builder
+EndFile
+
+Path
+   name=center_line
+   point=(0,-0.00508)
+   point=(0,0.00508)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=voltage
+   path=center_line
+EndMode

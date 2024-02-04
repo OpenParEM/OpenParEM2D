@@ -1,0 +1,23 @@
+#builder 1.0
+
+Control
+   build=diffPair
+   check_limits=true
+EndControl
+
+Strip
+   name=diffPair
+   use_symmetry=false
+   left_side_gap=0.0085
+   right_side_gap=0.0005
+   upper_thickness=0.006
+   upper_material=air
+   lower_thickness=0.000635
+   lower_material=alumina
+   trace_thickness=0.0003
+   trace_width=0.001
+   trace_etch_angle=90
+   default_conductor_material=PEC
+   right_side_material=PMC
+EndStrip
+
