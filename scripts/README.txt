@@ -1,16 +1,12 @@
 Useful scripts
 
+process.sh          - Used in regression testing.  See the README.txt file in the regression folder.
 
-process.sh - Used in regression testing.  See the README.txt file in the regression folder.
+regression.sh       - The regression testing script.  See the README.txt file in the regression folder.
 
-regression.sh - The regression testing script.  See the README.txt file in the regression folder.
+checkBuilder.sh     - Part of the reqression suite for checking the builder app.
 
-proj_search - Recursively searches for setup files that either have or are missing keywords.
+field_plot.py       - Automates plot setup in ParaView for the results of OpenParEM2D.
+                    - Note that there is not an equivalent script for OpenParEM3D.
 
-A good place to install these three is in $HOME/bin.
-
-
-field_plot.py - Automates plot setup in ParaView.  Install in $HOME/.config/ParaView/Macros.
-
-OpenParEM2D_save.py - Automates boundary and mode file construction in FreeCAD.  Install in $HOME/.FreeCAD/Macro
-
+OpenParEM2D_save.py - Automates boundary and mode file construction in FreeCAD.
