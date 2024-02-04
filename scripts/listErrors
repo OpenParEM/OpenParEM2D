@@ -1,0 +1,40 @@
+#!/usr/bin/python3
+
+import sys
+
+if len(sys.argv) != 2:
+    print ("usage: listErrors common|2D|3D")
+    exit (1)
+
+simulator=sys.argv[1]
+
+if simulator != "common" and simulator != "2D" and simulator != "3D":
+    print ("ERROR:",simulator,"is not a valid operation.")
+    exit (1)
+
+errorType="ERROR3"
+if simulator == "2D":
+   errorType="ERROR2"
+if simulator == "common":
+   errorType="ERROR1"
+
+errorNumbers = []
+
+for line in sys.stdin:
+   start = line.find(errorType)
+   if (start >= 0):
+      errorNumbers.append(line[start+5:start+9])
+
+errorNumbers.sort()
+
+k=0
+while k < len(errorNumbers):
+   if (k < len(errorNumbers)-1):
+      if (errorNumbers[k] == errorNumbers[k+1]):
+         print ("duplicate "+errorNumbers[k])
+   if (k < len(errorNumbers)-1):
+      if (int(errorNumbers[k+1]) != int(errorNumbers[k])+1):
+         print ("missing " + str(int(errorNumbers[k])+1))
+   print (errorNumbers[k])
+   k=k+1
+

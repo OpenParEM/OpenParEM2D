@@ -40,6 +40,7 @@ else:                                                                         # 
                 label = obj.Label                                           # list the Label of the object  (modifiable)
 
                 if (label[0:2] == "_P"):
+                    print ("processing:" + label)
 
                     nameText=label[2:]
                     if (nameText == ''):
@@ -81,6 +82,7 @@ else:                                                                         # 
                        file.write("EndPath\n\n")
 
                     if (name[0:4] == "Wire"):
+                       print ("processing:" + label)
  
                        closed="false"
                        if (obj.Closed):
@@ -96,6 +98,7 @@ else:                                                                         # 
                        file.write("EndPath\n\n")
 
                 if (label[0:2] == "_B" and name[0:4] == "Text"):
+                    print ("processing:" + label)
 
                     # get the name
                     splitText=label[2:].split('(')
@@ -172,6 +175,7 @@ else:                                                                         # 
                     file.write("EndBoundary\n\n")
 
                 if ((label[0:2] == "_M" and name[0:4] == "Text") or (label[0:2] == "_L" and name[0:4])):
+                    print ("processing:" + label)
 
                     # get the name
                     splitText=label[2:].split('(')

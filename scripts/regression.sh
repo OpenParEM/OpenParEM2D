@@ -2,12 +2,43 @@
 
 # no arguments
 
+# start time
+start_time=$SECONDS
+
+##########################################################################
+# builder
+##########################################################################
+
+cd builder/differentialPair
+checkBuilder.sh diffPair
+cd ../..
+
+cd builder/differentialPairPMC
+checkBuilder.sh diffPair
+cd ../..
+
+cd builder/microstrip
+checkBuilder.sh Lee_microstrip
+cd ../..
+
+cd builder/rectangularWaveguide
+checkBuilder.sh WR90
+cd ../..
+
+cd builder/stripline
+checkBuilder.sh Simonovich_stripline
+cd ../..
+
+echo
+echo
+
+##########################################################################
+# OpenParEM2D
+##########################################################################
+
 testCaseFile="regression_case_list.txt"
 regressionResultsFile="regression_results.csv"
 currentDirectory=$PWD
-
-# start time
-start_time=$SECONDS
 
 #--------------------------------------------------------------------------
 # input processing
@@ -92,6 +123,30 @@ do
    echo ""
 
 done < $testCaseFile
+
+#--------------------------------------------------------------------------
+# builder
+#--------------------------------------------------------------------------
+
+cd builder/differentialPair
+checkBuilder.sh diffPair
+cd ../..
+
+cd builder/differentialPairPMC
+checkBuilder.sh diffPair
+cd ../..
+
+cd builder/microstrip
+checkBuilder.sh Lee_microstrip
+cd ../..
+
+cd builder/rectangularWaveguide
+checkBuilder.sh WR90
+cd ../..
+
+cd builder/stripline
+checkBuilder.sh Simonovich_stripline
+cd ../..
 
 # finish up with elapsed time
 end_time=$SECONDS
