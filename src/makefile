@@ -105,28 +105,19 @@ license_process.o: license_process.cpp
 all: OpenParEM2D waveguide process builder simplify license_process
 
 install:
-	rm -f ../bin/OpenParEM2D
-	rm -f ../bin/process
-	rm -f ../bin/simplify
-	rm -f ../bin/builder
 	rm -f $(HOME)/bin/OpenParEM2D
 	rm -f $(HOME)/bin/process
 	rm -f $(HOME)/bin/simplify
 	rm -f $(HOME)/bin/builder
 	rm -f $(HOME)/bin/process.sh
-	rm -f $(HOME)/bin/proj_search
 	rm -f $(HOME)/bin/regression.sh
-	cp OpenParEM2D $(HOME)/bin
-	cp process $(HOME)/bin
-	cp simplify $(HOME)/bin
-	cp builder $(HOME)/bin
-	mv OpenParEM2D ../bin
-	mv process ../bin
-	mv simplify ../bin
-	mv builder ../bin
+	mv OpenParEM2D $(HOME)/bin
+	mv process $(HOME)/bin
+	mv simplify $(HOME)/bin
+	mv builder $(HOME)/bin
 	cp ../scripts/process.sh $(HOME)/bin/process.sh
-	cp ../scripts/proj_search $(HOME)/bin/proj_search
 	cp ../scripts/regression.sh $(HOME)/bin/regression.sh
+	cp ../scripts/checkBuilder.sh $(HOME)/bin/checkBuilder.sh
 
 clean:
 	rm -f OpenParEM2D
