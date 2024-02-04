@@ -1,0 +1,22 @@
+#builder 1.0
+
+Control
+   build=Lee_microstrip
+   check_limits=true
+EndControl
+
+Strip
+   name=Lee_microstrip
+   use_symmetry=false
+   left_side_gap=0.001125
+   right_side_gap=0.001125
+   upper_thickness=0.00225
+   upper_material=air
+   lower_thickness=0.00025
+   lower_material=Lee_semiconductor
+   trace_thickness=0.00005
+   trace_width=0.00025
+   trace_etch_angle=90
+   default_conductor_material=PEC
+EndStrip
+
