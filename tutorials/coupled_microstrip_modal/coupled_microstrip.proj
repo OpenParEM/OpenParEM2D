@@ -1,0 +1,23 @@
+#OpenParEM2Dproject 1.0
+project.save.fields            true
+mesh.file                      coupled_microstrip.msh
+mesh.order                     4
+mesh.refinement.fraction       0.01
+mode.definition.file           coupled_microstrip_modes.txt
+materials.global.path          ./
+materials.global.name          //global_materials.txt
+materials.local.path           ./
+materials.local.name           local_materials.txt
+refinement.frequency           high
+frequency.plan.point           40.11e9
+refinement.variable            |Zo|
+refinement.iteration.min       1
+refinement.iteration.max       40
+refinement.required.passes     1
+refinement.tolerance           0.0001
+solution.modes                 2
+solution.modes.buffer          0
+solution.impedance.definition  PI
+solution.impedance.calculation modal
+debug.show.impedance.details   true
+
