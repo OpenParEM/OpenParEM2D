@@ -1,0 +1,158 @@
+#OpenParEMmodes 1.0
+
+// Control
+//   build=single
+//   check_limits=true
+// EndControl
+// Strip
+//    name=single
+//    use_symmetry=false
+//    upper_material=air
+//    upper_thickness=0.006
+//    lower_material=alumina
+//    lower_thickness=0.000635
+//    left_side_gap=0.0085
+//    right_side_gap=0.0085
+//    trace_thickness=0.0003
+//    trace_width=0.001
+//    trace_etch_angle=90
+//    default_conductor_material=copper
+// EndStrip
+
+File
+   name=generated_by_builder
+EndFile
+
+Path
+   name=voltage_line
+   point=(0,0)
+   point=(0,0.000635)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=voltage
+   path=voltage_line
+EndMode
+
+Path
+   name=trace_top
+   point=(-0.0005,0.000935)
+   point=(0.0005,0.000935)
+   closed=false
+EndPath
+
+Boundary
+   name=trace_top
+   type=surface_impedance
+   material=copper
+   path=trace_top
+EndBoundary
+
+Path
+   name=trace_bottom
+   point=(-0.0005,0.000635)
+   point=(0.0005,0.000635)
+   closed=false
+EndPath
+
+Boundary
+   name=trace_bottom
+   type=surface_impedance
+   material=copper
+   path=trace_bottom
+EndBoundary
+
+Path
+   name=trace_left
+   point=(-0.0005,0.000635)
+   point=(-0.0005,0.000935)
+   closed=false
+EndPath
+
+Boundary
+   name=trace_left
+   type=surface_impedance
+   material=copper
+   path=trace_left
+EndBoundary
+
+Path
+   name=trace_right
+   point=(0.0005,0.000635)
+   point=(0.0005,0.000935)
+   closed=false
+EndPath
+
+Boundary
+   name=trace_right
+   type=surface_impedance
+   material=copper
+   path=trace_right
+EndBoundary
+
+Path
+   name=ground_plane
+   point=(-0.009,0)
+   point=(0.009,0)
+   closed=false
+EndPath
+
+Boundary
+   name=ground_plane
+   type=surface_impedance
+   material=copper
+   path=ground_plane
+EndBoundary
+
+Path
+   name=upper_groundplane
+   point=(-0.009,0.006635)
+   point=(0.009,0.006635)
+   closed=false
+EndPath
+
+Boundary
+   name=upper_groundplane
+   type=surface_impedance
+   material=copper
+   path=upper_groundplane
+EndBoundary
+
+Path
+   name=left_side
+   point=(-0.009,0)
+   point=(-0.009,0.006635)
+   closed=false
+EndPath
+
+Boundary
+   name=left_side
+   type=surface_impedance
+   material=copper
+   path=left_side
+EndBoundary
+
+Path
+   name=right_side
+   point=(0.009,0)
+   point=(0.009,0.006635)
+   closed=false
+EndPath
+
+Boundary
+   name=right_side
+   type=surface_impedance
+   material=copper
+   path=right_side
+EndBoundary
+
+Mode
+   mode=1
+   type=current
+   path=-trace_top
+   path+=trace_right
+   path+=trace_bottom
+   path-=trace_left
+EndMode
