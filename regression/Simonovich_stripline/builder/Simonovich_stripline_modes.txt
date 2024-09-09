@@ -1,0 +1,135 @@
+#OpenParEMmodes 1.0
+
+// Control
+//   build=Simonovich_stripline
+//   check_limits=true
+// EndControl
+// Strip
+//    name=Simonovich_stripline
+//    use_symmetry=false
+//    upper_material=prepreg
+//    upper_thickness=0.000301
+//    lower_material=core
+//    lower_thickness=0.000305
+//    left_side_gap=0.00486
+//    right_side_gap=0.00486
+//    trace_thickness=3.175e-05
+//    trace_width=0.000279
+//    trace_etch_angle=60
+//    default_conductor_material=PEC
+//    trace_material_bottom=copper_core
+//    trace_material_top=copper_prepreg
+//    trace_material_sides=copper_prepreg
+//    upper_groundplane_material=copper_prepreg
+//    lower_groundplane_material=copper_core
+// EndStrip
+
+File
+   name=generated_by_builder
+EndFile
+
+Path
+   name=voltage_line
+   point=(0,0)
+   point=(0,0.000305)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=voltage
+   path=voltage_line
+EndMode
+
+Path
+   name=trace_top
+   point=(-0.000121169128953229,0.00033675)
+   point=(0.000121169128953229,0.00033675)
+   closed=false
+EndPath
+
+Boundary
+   name=trace_top
+   type=surface_impedance
+   material=copper_prepreg
+   path=trace_top
+EndBoundary
+
+Path
+   name=trace_bottom
+   point=(-0.0001395,0.000305)
+   point=(0.0001395,0.000305)
+   closed=false
+EndPath
+
+Boundary
+   name=trace_bottom
+   type=surface_impedance
+   material=copper_core
+   path=trace_bottom
+EndBoundary
+
+Path
+   name=trace_left
+   point=(-0.0001395,0.000305)
+   point=(-0.000121169128953229,0.00033675)
+   closed=false
+EndPath
+
+Boundary
+   name=trace_left
+   type=surface_impedance
+   material=copper_prepreg
+   path=trace_left
+EndBoundary
+
+Path
+   name=trace_right
+   point=(0.0001395,0.000305)
+   point=(0.000121169128953229,0.00033675)
+   closed=false
+EndPath
+
+Boundary
+   name=trace_right
+   type=surface_impedance
+   material=copper_prepreg
+   path=trace_right
+EndBoundary
+
+Path
+   name=ground_plane
+   point=(-0.0049995,0)
+   point=(0.0049995,0)
+   closed=false
+EndPath
+
+Boundary
+   name=ground_plane
+   type=surface_impedance
+   material=copper_core
+   path=ground_plane
+EndBoundary
+
+Path
+   name=upper_groundplane
+   point=(-0.0049995,0.000606)
+   point=(0.0049995,0.000606)
+   closed=false
+EndPath
+
+Boundary
+   name=upper_groundplane
+   type=surface_impedance
+   material=copper_prepreg
+   path=upper_groundplane
+EndBoundary
+
+Mode
+   mode=1
+   type=current
+   path=+trace_top
+   path+=trace_right
+   path+=trace_bottom
+   path+=trace_left
+EndMode
