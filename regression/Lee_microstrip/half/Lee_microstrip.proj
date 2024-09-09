@@ -1,0 +1,39 @@
+#OpenParEM2Dproject 1.0
+
+// template settings: change as needed
+
+project.save.fields               false
+mesh.file                         Lee_microstrip.msh
+mesh.order                        4
+mesh.refinement.fraction          0.01
+mode.definition.file              Lee_microstrip_modes.txt
+materials.global.path             ../../
+materials.global.name             global_materials.txt
+materials.local.path              
+materials.local.name              
+refinement.frequency              all
+refinement.variable               |Zo|
+refinement.iteration.min          3
+refinement.iteration.max          50
+refinement.required.passes        3
+refinement.tolerance              1e-4
+frequency.plan.point              40e9
+solution.modes                    1
+solution.temperature              20
+solution.tolerance                1e-10
+solution.iteration.limit          30000
+solution.modes.buffer             0
+solution.impedance.definition     PV
+solution.impedance.calculation    modal
+solution.shift.invert             true
+solution.use.initial.guess        true
+solution.check.closed.loop        false
+output.show.refining.mesh         false
+output.show.postprocessing        false
+output.show.iterations            false
+output.show.license               false
+debug.show.impedance.details      false
+test.create.cases                 false
+
+field.point                        -0.001,0.0001
+

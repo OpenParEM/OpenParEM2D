@@ -1,0 +1,19 @@
+#OpenParEMmodes 1.0
+
+File
+   name=/home/briany/Desktop/OpenParEM2D/regression/Lee_microstrip/full_line_omit_current/Lee_microstrip.FCStd
+EndFile
+
+Path
+   name=V1
+   point=(0.00125,0.0)
+   point=(0.00125,0.00025)
+   closed=false
+EndPath
+
+Line
+   line=1
+   type=voltage
+   path=V1
+EndLine
+

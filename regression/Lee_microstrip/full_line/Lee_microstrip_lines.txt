@@ -1,0 +1,34 @@
+#OpenParEMmodes 1.0
+
+File
+   name=Lee_microstrip.FCStd
+EndFile
+
+Path
+   name=V1
+   point=(0.00125,0.0)
+   point=(0.00125,0.00025)
+   closed=false
+EndPath
+
+Path
+   name=line1
+   point=(0.001125,0.00025)
+   point=(0.001375,0.00025)
+   point=(0.001375,0.0003)
+   point=(0.001125,0.0003)
+   closed=true
+EndPath
+
+Line
+   line=1
+   type=voltage
+   path=V1
+EndLine
+
+Line
+   line=1
+   type=current
+   path=line1
+EndLine
+
