@@ -1,0 +1,28 @@
+#builder 1.0
+
+Control
+   build=Simonovich_stripline
+   check_limits=true
+EndControl
+
+Strip
+   name=Simonovich_stripline
+   use_symmetry=false
+   left_side_gap=0.00486
+   right_side_gap=0.00486
+   upper_thickness=0.000301
+   upper_material=prepreg
+   lower_thickness=0.000305
+   lower_material=core
+   trace_thickness=0.000032055
+   trace_width=0.000279
+   trace_etch_angle=60
+   default_conductor_material=PEC  // box left and right sides
+   trace_material_bottom=copper_core
+   trace_material_top=copper_prepreg
+   trace_material_sides=copper_prepreg
+   upper_groundplane_material=copper_prepreg
+   lower_groundplane_material=copper_core
+EndStrip
+
+

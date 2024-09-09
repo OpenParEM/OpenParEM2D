@@ -1,0 +1,74 @@
+#OpenParEMmodes 1.0
+
+// Control
+//   build=Lee_microstrip
+//   check_limits=true
+// EndControl
+// Strip
+//    name=Lee_microstrip
+//    use_symmetry=false
+//    upper_material=air
+//    upper_thickness=0.00225
+//    lower_material=Lee_semiconductor
+//    lower_thickness=0.00025
+//    left_side_gap=0.001125
+//    right_side_gap=0.001125
+//    trace_thickness=5e-05
+//    trace_width=0.00025
+//    trace_etch_angle=90
+//    default_conductor_material=PEC
+// EndStrip
+
+File
+   name=generated_by_builder
+EndFile
+
+Path
+   name=voltage_line
+   point=(0,0)
+   point=(0,0.00025)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=voltage
+   path=voltage_line
+EndMode
+
+Path
+   name=trace_top
+   point=(-0.000125,0.0003)
+   point=(0.000125,0.0003)
+   closed=false
+EndPath
+
+Path
+   name=trace_bottom
+   point=(-0.000125,0.00025)
+   point=(0.000125,0.00025)
+   closed=false
+EndPath
+
+Path
+   name=trace_left
+   point=(-0.000125,0.00025)
+   point=(-0.000125,0.0003)
+   closed=false
+EndPath
+
+Path
+   name=trace_right
+   point=(0.000125,0.00025)
+   point=(0.000125,0.0003)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=current
+   path=+trace_top
+   path+=trace_right
+   path+=trace_bottom
+   path+=trace_left
+EndMode
