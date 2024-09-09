@@ -7,6 +7,7 @@ EndControl
 
 CoupledStrip
    name=diffPair
+   solution_impedance_calculation=line
    left_side_gap=0.0085
    right_side_gap=0.0085
    upper_thickness=0.006

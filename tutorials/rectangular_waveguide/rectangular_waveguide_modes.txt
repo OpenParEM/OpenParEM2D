@@ -1,0 +1,19 @@
+#OpenParEMmodes 1.0
+
+File
+   name=/home/briany/Desktop/OpenParEM2D/tutorials/rectangular_waveguide/rectangular_waveguide.FCStd
+EndFile
+
+Path
+   name=v
+   point=(0.01143,0.0)
+   point=(0.01143,0.01016)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=voltage
+   path=+v
+EndMode
+

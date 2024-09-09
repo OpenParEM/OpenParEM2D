@@ -1,5 +1,6 @@
+SetFactory("OpenCASCADE");
 Merge "partially_filled_waveguide.brep";
 //+
-Physical Surface("teflon", 1) = {1};
+Physical Surface("freespace", 8) = {2};
 //+
-Physical Surface("air", 2) = {2};
+Physical Surface("teflon", 9) = {1};

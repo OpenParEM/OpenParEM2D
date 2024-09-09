@@ -3,11 +3,11 @@
 project.save.fields                false
 
 mesh.file                          ./diffPair.msh
-mesh.order                         5
+mesh.order                         3
 mesh.uniform_refinement.count      0
+mesh.refinement.fraction           0.01
 
 mode.definition.file               diffPair_modes.txt
-
 
 materials.global.path              ../../
 materials.global.name              global_materials.txt
@@ -15,14 +15,16 @@ materials.local.path               ../
 materials.local.name               local_materials.txt
 materials.check.limits             true
 
-refinement.frequency               all
+refinement.frequency               plan
 refinement.variable                |Zo| 
-refinement.iteration.min           3
-refinement.iteration.max           30
-refinement.required.passes         3
-refinement.tolerance               0.001,0.001
+refinement.iteration.min           1
+refinement.iteration.max           50
+refinement.required.passes         1
+refinement.tolerance               1e-3
 
-frequency.plan.point               52e9
+frequency.plan.point.refine        100e9
+frequency.plan.point.refine        52e9
+frequency.plan.point.refine        8e9
 
 solution.modes                     2
 solution.temperature               30

@@ -1,0 +1,33 @@
+#OpenParEMmaterials 1.0
+Material
+   name=PTFE
+   Temperature
+      temperature=any
+      Frequency
+         frequency=any
+         er=2.1
+         mur=1
+         tand=0.0004
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      generic numbers
+   EndSource
+EndMaterial
+Material
+   name=copper
+   Temperature
+      temperature=20
+      Frequency
+         frequency=any
+         er=1
+         mur=1
+         conductivity=5.813e7
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      David M. Pozar, "Microwave Engineering," Addison-Wesley Publishing Company, 1990, p.714.
+   EndSource
+EndMaterial

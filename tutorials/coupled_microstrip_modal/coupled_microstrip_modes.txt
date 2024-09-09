@@ -1,0 +1,68 @@
+#OpenParEMmodes 1.0
+
+File
+   name=/home/briany/Desktop/OpenParEM2D/tutorials/coupled_microstrip_modal/coupled_microstrip.FCStd
+EndFile
+
+Path
+   name=i1
+   point=(-0.0015,0.0)
+   point=(-0.0005,0.0)
+   point=(-0.0005,0.0003)
+   point=(-0.0015,0.0003)
+   closed=true
+EndPath
+
+Path
+   name=i2
+   point=(0.0005,0.0)
+   point=(0.0015,0.0)
+   point=(0.0015,0.0003)
+   point=(0.0005,0.0003)
+   closed=true
+EndPath
+
+Path
+   name=v1
+   point=(-0.001,-0.000635)
+   point=(-0.001,0.0)
+   closed=false
+EndPath
+
+Path
+   name=v2
+   point=(0.001,-0.000635)
+   point=(0.001,0.0)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=voltage
+   scale=0.5
+   path=+v1
+   path+=v2
+EndMode
+
+Mode
+   mode=2
+   type=voltage
+   path=+v1
+   path-=v2
+EndMode
+
+Mode
+   mode=1
+   type=current
+   path=+i1
+   path+=i2
+EndMode
+
+Mode
+   mode=2
+   type=current
+   scale=0.5
+   path=+i1
+   path-=i2
+EndMode
+

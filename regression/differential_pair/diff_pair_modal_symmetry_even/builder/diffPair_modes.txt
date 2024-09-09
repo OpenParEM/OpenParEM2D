@@ -81,8 +81,8 @@ EndBoundary
 Mode
    mode=1
    type=current
-   path=trace_top
-   path-=trace_right
-   path-=trace_bottom
+   path=+trace_top
+   path+=trace_right
+   path+=trace_bottom
    path+=trace_left
 EndMode

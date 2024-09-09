@@ -27,7 +27,7 @@ solution.modes                    5
 solution.temperature              20
 solution.tolerance                1e-12
 solution.iteration.limit          30000
-solution.modes.buffer             10 //6
+solution.modes.buffer             10 // 6
 solution.impedance.definition     none
 solution.impedance.calculation    modal
 solution.accurate.residual        false

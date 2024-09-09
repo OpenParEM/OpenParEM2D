@@ -19,7 +19,7 @@ refinement.variable            |gamma|
 refinement.iteration.min       1 
 refinement.iteration.max       20
 refinement.required.passes     1
-refinement.tolerance           1e-6
+refinement.tolerance           1e-3
 
 frequency.plan.linear          9e9,10e9,1e9
 

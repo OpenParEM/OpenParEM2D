@@ -4,7 +4,7 @@ project.save.fields               false
 
 mesh.file                         WR90_waveguide_half.msh
 mesh.order                        4
-mesh.uniform_refinement.count     2
+mesh.uniform_refinement.count     1
 
 mode.definition.file              WR90_waveguide_modes_half.txt
 
@@ -14,12 +14,12 @@ materials.local.path              ./
 materials.local.name           
 materials.check.limits            true
 
-refinement.frequency              all // none
+refinement.frequency              all
 refinement.variable               |gamma|
 refinement.iteration.min          1
-refinement.iteration.max          10 // 1
+refinement.iteration.max          30 
 refinement.required.passes        1
-refinement.tolerance              1e-8
+refinement.tolerance              1e-6
 
 frequency.plan.linear             9e9,10e9,1e9
 

@@ -4,8 +4,9 @@ project.save.fields               false
 
 mesh.file                         Simonovich_stripline.msh
 
-mesh.order                        5
+mesh.order                        2
 mesh.uniform_refinement.count     0
+mesh.refinement.fraction          0.01 
 
 mode.definition.file              Simonovich_stripline_modes.txt
 
@@ -20,16 +21,16 @@ refinement.frequency              high
 refinement.variable               alpha
 refinement.iteration.min          3
 refinement.iteration.max          50
-refinement.required.passes        3
-refinement.tolerance              0.0004
+refinement.required.passes        1
+refinement.tolerance              1e-4
 
-frequency.plan.linear             20e9,40e9,20e9
+frequency.plan.linear             20e9,50e9,30e9
 
 solution.modes                    1
 solution.temperature              20
-solution.tolerance                1e-13
-solution.iteration.limit          30000
-solution.modes.buffer             5
+solution.tolerance                1e-12
+solution.iteration.limit          100000
+solution.modes.buffer             0
 solution.impedance.definition     PI
 solution.impedance.calculation    modal
 solution.accurate.residual        false
@@ -41,7 +42,7 @@ output.show.refining.mesh         false
 output.show.postprocessing        false
 output.show.iterations            false
 
-test.create.cases                 true
+test.create.cases                 false
 test.show.audit                   false
 test.show.detailed.cases          false
 

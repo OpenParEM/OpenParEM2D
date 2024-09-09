@@ -39,9 +39,9 @@ output.show.refining.mesh         false
 output.show.postprocessing        false
 output.show.iterations            false
 
-test.create.cases                 true
-test.show.audit                   true
-test.show.detailed.cases          true
+test.create.cases                 false
+test.show.audit                   false
+test.show.detailed.cases          false
 
 debug.show.memory                 false
 debug.show.project                false

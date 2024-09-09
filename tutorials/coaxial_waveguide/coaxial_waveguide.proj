@@ -1,0 +1,17 @@
+#OpenParEM2Dproject 1.0
+project.save.fields            true
+mesh.file                      coaxial_waveguide.msh
+mesh.order                     3
+mode.definition.file           coaxial_waveguide_modes.txt
+materials.global.path          ./
+materials.global.name          //global_materials.txt
+materials.local.path           ./
+materials.local.name           local_materials.txt
+refinement.frequency           none
+frequency.plan.point           10e9
+solution.modes                 1
+solution.modes.buffer          0
+solution.impedance.definition  PV
+solution.impedance.calculation modal
+solution.temperature           20
+debug.show.impedance.details   true
