@@ -1,0 +1,45 @@
+#OpenParEM2Dproject 1.0
+
+// The two widely spaced lines with perfect symmetry have 4 degenerate modes:
+// single-ended on the left, single-ended on the right, common mode, and differential mode.
+// Due to slight numerical differences iteration to iteration and run to run, 
+// which two propagating modes are produced is somewhat random, consisting of pure modes
+// or superpositions of them.  Convergence is not possible.
+
+// To avoid this situation, the symmetry is broken by making one line slightly wider than
+// the other.  See builder.txt.
+
+project.save.fields               false
+mesh.file                         diffPair.msh
+mesh.order                        3
+mesh.refinement.fraction          0.01
+mode.definition.file              diffPair_lines.txt
+materials.global.path             ../../
+materials.global.name             global_materials.txt
+materials.local.path              ../
+materials.local.name              local_materials.txt
+refinement.frequency              plan
+refinement.variable               |Zo|
+refinement.iteration.min          1
+refinement.iteration.max          50
+refinement.required.passes        1
+refinement.tolerance              1e-3
+frequency.plan.point.refine       100e9
+frequency.plan.point.refine       52e9
+frequency.plan.point.refine       8e9
+solution.modes                    2
+solution.temperature              30
+solution.tolerance                1e-12
+solution.iteration.limit          30000
+solution.modes.buffer             0
+solution.impedance.definition     PI
+solution.impedance.calculation    line
+solution.shift.invert             true
+solution.use.initial.guess        true
+output.show.refining.mesh         false
+output.show.postprocessing        false
+output.show.iterations            false
+output.show.license               false
+test.create.cases                 false
+debug.show.impedance.details      false
+

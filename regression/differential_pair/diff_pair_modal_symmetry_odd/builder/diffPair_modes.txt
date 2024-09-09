@@ -1,0 +1,74 @@
+#OpenParEMmodes 1.0
+
+// Control
+//   build=diffPair
+//   check_limits=true
+// EndControl
+// Strip
+//    name=diffPair
+//    use_symmetry=false
+//    upper_material=air
+//    upper_thickness=0.006
+//    lower_material=alumina
+//    lower_thickness=0.000635
+//    left_side_gap=0.0085
+//    right_side_gap=0.0005
+//    trace_thickness=0.0003
+//    trace_width=0.001
+//    trace_etch_angle=90
+//    default_conductor_material=PEC
+// EndStrip
+
+File
+   name=generated_by_builder
+EndFile
+
+Path
+   name=voltage_line
+   point=(0,0)
+   point=(0,0.000635)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=voltage
+   path=voltage_line
+EndMode
+
+Path
+   name=trace_top
+   point=(-0.0005,0.000935)
+   point=(0.0005,0.000935)
+   closed=false
+EndPath
+
+Path
+   name=trace_bottom
+   point=(-0.0005,0.000635)
+   point=(0.0005,0.000635)
+   closed=false
+EndPath
+
+Path
+   name=trace_left
+   point=(-0.0005,0.000635)
+   point=(-0.0005,0.000935)
+   closed=false
+EndPath
+
+Path
+   name=trace_right
+   point=(0.0005,0.000635)
+   point=(0.0005,0.000935)
+   closed=false
+EndPath
+
+Mode
+   mode=1
+   type=current
+   path=+trace_top
+   path+=trace_right
+   path+=trace_bottom
+   path+=trace_left
+EndMode

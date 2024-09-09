@@ -1,0 +1,19 @@
+#OpenParEMmaterials 1.0
+
+Material
+   name=alumina
+   Temperature
+      temperature=any
+      Frequency
+         frequency=any
+         er=9.8
+         mur=1
+         tand=0
+         Rz=0
+      EndFrequency
+   EndTemperature
+   Source
+      Fig. 8 in Rigorous_analysis_of_the_propagation_characteristics_of_general_lossless_and_lossy_multiconductor_transmission_lines_in_multilayered_media.pdf
+   EndSource
+EndMaterial
+

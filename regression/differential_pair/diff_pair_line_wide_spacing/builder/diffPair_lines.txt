@@ -1,0 +1,126 @@
+#OpenParEMmodes 1.0
+
+// Control
+//   build=diffPair
+//   check_limits=true
+// EndControl
+// CoupledStrip
+//    name=diffPair
+//    upper_material=air
+//    solution_impedance_calculation=line
+//    upper_thickness=0.006
+//    lower_material=alumina
+//    lower_thickness=0.000635
+//    left_side_gap=0.0065
+//    right_side_gap=0.0065
+//    trace_left_width=0.001
+//    trace_right_width=0.00101
+//    trace_thickness=0.0003
+//    trace_air_gap=0.005
+//    trace_etch_angle=90
+//    default_conductor_material=PEC
+// EndCoupledStrip
+
+File
+   name=generated_by_builder
+EndFile
+
+Path
+   name=voltage_line_left
+   point=(-0.003,0)
+   point=(-0.003,0.000635)
+   closed=false
+EndPath
+
+Path
+   name=voltage_line_right
+   point=(0.003005,0)
+   point=(0.003005,0.000635)
+   closed=false
+EndPath
+
+Line
+   line=1
+   type=voltage
+   path=voltage_line_left
+EndLine
+
+Line
+   line=2
+   type=voltage
+   path=voltage_line_right
+EndLine
+
+Line
+   line=1
+   type=current
+   path=+trace_left_top
+   path+=trace_left_right_side
+   path+=trace_left_bottom
+   path+=trace_left_left_side
+EndLine
+
+Line
+   line=2
+   type=current
+   path=+trace_right_top
+   path+=trace_right_right_side
+   path+=trace_right_bottom
+   path+=trace_right_left_side
+EndLine
+
+Path
+   name=trace_left_top
+   point=(-0.0035,0.000935)
+   point=(-0.0025,0.000935)
+   closed=false
+EndPath
+
+Path
+   name=trace_right_top
+   point=(0.0025,0.000935)
+   point=(0.00351,0.000935)
+   closed=false
+EndPath
+
+Path
+   name=trace_left_bottom
+   point=(-0.0035,0.000635)
+   point=(-0.0025,0.000635)
+   closed=false
+EndPath
+
+Path
+   name=trace_right_bottom
+   point=(0.0025,0.000635)
+   point=(0.00351,0.000635)
+   closed=false
+EndPath
+
+Path
+   name=trace_left_left_side
+   point=(-0.0035,0.000635)
+   point=(-0.0035,0.000935)
+   closed=false
+EndPath
+
+Path
+   name=trace_left_right_side
+   point=(-0.0025,0.000635)
+   point=(-0.0025,0.000935)
+   closed=false
+EndPath
+
+Path
+   name=trace_right_left_side
+   point=(0.0025,0.000635)
+   point=(0.0025,0.000935)
+   closed=false
+EndPath
+
+Path
+   name=trace_right_right_side
+   point=(0.00351,0.000635)
+   point=(0.00351,0.000935)
+   closed=false
+EndPath
