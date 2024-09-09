@@ -1,0 +1,25 @@
+#OpenParEMmodes 1.0
+
+File
+   name=WR90_waveguide.FCStd
+EndFile
+
+Path
+   name=symmetry
+   point=(0.01143,0.0)
+   point=(0.01143,0.01016)
+   closed=false
+EndPath
+
+Boundary
+   name=symmetry
+   type=perfect_magnetic_conductor
+   path=symmetry
+EndBoundary
+
+Mode
+   mode=1
+   type=voltage
+   path=symmetry
+EndMode
+
