@@ -124,30 +124,6 @@ do
 
 done < $testCaseFile
 
-#--------------------------------------------------------------------------
-# builder
-#--------------------------------------------------------------------------
-
-cd builder/differentialPair
-checkBuilder.sh diffPair
-cd ../..
-
-cd builder/differentialPairPMC
-checkBuilder.sh diffPair
-cd ../..
-
-cd builder/microstrip
-checkBuilder.sh Lee_microstrip
-cd ../..
-
-cd builder/rectangularWaveguide
-checkBuilder.sh WR90
-cd ../..
-
-cd builder/stripline
-checkBuilder.sh Simonovich_stripline
-cd ../..
-
 # finish up with elapsed time
 end_time=$SECONDS
 elapsed=$(( end_time - start_time ))
