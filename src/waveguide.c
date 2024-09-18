@@ -20,15 +20,15 @@
 
 #include "waveguide.h"
 
-int RECTANGULAR_WAVEGUIDE=1;
+int RECTANGULAR_WAVEGUIDE=0;
 int HALF_RECTANGULAR_WAVEGUIDE=0;
-int PARTIALLY_FILLED=0;
+int PARTIALLY_FILLED=1;
 int COAX=0;
 int EIGHTH_COAX=0;
 
 int show_csv_data=1;
 int show_fields=0;
-int include_losses=1;
+int include_losses=0;
 int show_steps=0;
 
 // general settings - modified for COAX
@@ -142,18 +142,17 @@ double coax_impedance (double a, double b, double er)
 // Rectangular Waveguide
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-// er=1 only for now
-void rectWaveguide_fields (double freq, int m, int n, double x, double y, double beta, double alpha, double kx, double ky, double kc, double complex *scale,
+void rectWaveguide_fields (double freq, int m, int n, double x, double y, double er, double mur, double beta, double alpha, double kx, double ky, double kc, double complex *scale,
                            const char *project, int ifreq, int mode, int *casenum, char *wavetype)
 {
-   double pi,eps0,mu,w;
+   double pi,eps0,mu0,w;
    double complex B,Ex,Ey,Ez,Hx,Hy,Hz;
    double Emag_re,Ephi_re,Etheta_re,Emag_im,Ephi_im,Etheta_im;
    double Hmag_re,Hphi_re,Htheta_re,Hmag_im,Hphi_im,Htheta_im;
 
    pi=4.*atan(1.);
    eps0=8.8541878176e-12;
-   mu=4e-7*pi;
+   mu0=4e-7*pi;
    w=2*pi*freq;
 
    Ex=CMPLX(0,0);
@@ -167,8 +166,8 @@ void rectWaveguide_fields (double freq, int m, int n, double x, double y, double
    double complex kz=CMPLX(beta,-alpha);
 
    if (strcmp(wavetype,"TE") == 0) {
-      Ex=CMPLX(0,1)*w*mu*ky/(kc*kc)*B*ccos(kx*x)*csin(ky*y);
-      Ey=-CMPLX(0,1)*w*mu*kx/(kc*kc)*B*csin(kx*x)*ccos(ky*y);
+      Ex=CMPLX(0,1)*w*mu0*mur*ky/(kc*kc)*B*ccos(kx*x)*csin(ky*y);
+      Ey=-CMPLX(0,1)*w*mu0*mur*kx/(kc*kc)*B*csin(kx*x)*ccos(ky*y);
       Ez=CMPLX(0,0);  // TE to Z
 
       Hx=CMPLX(0,1)*kz*kx/(kc*kc)*B*csin(kx*x)*ccos(ky*y);
@@ -179,8 +178,8 @@ void rectWaveguide_fields (double freq, int m, int n, double x, double y, double
       Ey=-CMPLX(0,1)*kz*ky/(kc*kc)*B*csin(kx*x)*ccos(ky*y);
       Ez=B*csin(kx*x)*csin(ky*y);
 
-      Hx=CMPLX(0,1)*w*eps0*ky/(kc*kc)*B*csin(kx*x)*ccos(ky*y);
-      Hy=-CMPLX(0,1)*w*eps0*kx/(kc*kc)*B*ccos(kx*x)*csin(ky*y);
+      Hx=CMPLX(0,1)*w*eps0*er*ky/(kc*kc)*B*csin(kx*x)*ccos(ky*y);
+      Hy=-CMPLX(0,1)*w*eps0*er*kx/(kc*kc)*B*ccos(kx*x)*csin(ky*y);
       Hz=CMPLX(0,0);  // TM to Z
    } else {
       printf ("ERROR2275: Invalid wave type \"%s\".\n",wavetype);
@@ -246,12 +245,11 @@ void rectWaveguide_result_print_line (const char *project, int ifreq, int mode, 
    }
 }
 
-// all for air
 // all frequencies in Hz
 void rectWaveguide_gamma (struct rectWaveguide *a, double k, double eta, double freq, int m, int n, double impedance_scale,
                           const char *project, int ifreq, int mode, int *casenum)
 {
-   double pi,kx,ky,kc,fc,ko,mu0,eps0;
+   double pi,ko,kx,ky,kc,fc,mu0,eps0;
    double temp;
    double ZTE,lambda;
    double sigma,Rs;
@@ -335,59 +333,59 @@ void rectWaveguide_gamma (struct rectWaveguide *a, double k, double eta, double 
       if (!show_csv_data) printf ("# TE\n");
 
       x=a->width/5*2; y=a->height/5*2;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
 
       x=a->width/5*1; y=a->height/5*1;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
       x=a->width/5*2; y=a->height/5*1;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
       x=a->width/5*3; y=a->height/5*1;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
       x=a->width/5*4; y=a->height/5*1;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
 
       x=a->width/5*1; y=a->height/5*2;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
       x=a->width/5*2; y=a->height/5*2;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
       x=a->width/5*3; y=a->height/5*2;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
       x=a->width/5*4; y=a->height/5*2;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
 
       x=a->width/5*1; y=a->height/5*3;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
       x=a->width/5*2; y=a->height/5*3;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
       x=a->width/5*3; y=a->height/5*3;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
       x=a->width/5*4; y=a->height/5*3;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
 
       x=a->width/5*1; y=a->height/5*4;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
       x=a->width/5*2; y=a->height/5*4;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
       x=a->width/5*3; y=a->height/5*4;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
 
       x=a->width/5*4; y=a->height/5*4;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TE");
    }
 
    if ((HALF_RECTANGULAR_WAVEGUIDE && mode == 3) || (RECTANGULAR_WAVEGUIDE && mode == 5)) {
@@ -397,59 +395,59 @@ void rectWaveguide_gamma (struct rectWaveguide *a, double k, double eta, double 
       if (! show_csv_data) printf ("# TM\n");
 
       x=a->width/5*2; y=a->height/5*2;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
 
       x=a->width/5*1; y=a->height/5*1;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
       x=a->width/5*2; y=a->height/5*1;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
       x=a->width/5*3; y=a->height/5*1;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
       x=a->width/5*4; y=a->height/5*1;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
 
       x=a->width/5*1; y=a->height/5*2;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
       x=a->width/5*2; y=a->height/5*2;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
       x=a->width/5*3; y=a->height/5*2;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
       x=a->width/5*4; y=a->height/5*2;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
 
       x=a->width/5*1; y=a->height/5*3;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
       x=a->width/5*2; y=a->height/5*3;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
       x=a->width/5*3; y=a->height/5*3;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
       x=a->width/5*4; y=a->height/5*3;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
 
       x=a->width/5*1; y=a->height/5*4;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
       x=a->width/5*2; y=a->height/5*4;
-      rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
       x=a->width/5*3; y=a->height/5*4;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
 
       x=a->width/5*4; y=a->height/5*4;
-      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
+      if (RECTANGULAR_WAVEGUIDE) rectWaveguide_fields (freq, m, n, x, y, a->epsr, a->mur, beta, lossless_alpha, kx, ky, kc, &scale, project, ifreq, mode, casenum, "TM");
    }
 
    return;
@@ -775,6 +773,7 @@ int main ()
 //----------------------------------------------------------------------------------------------------------
 
    if (RECTANGULAR_WAVEGUIDE) {
+      //air:
       //Recommended Frequency Band:8.20 to 12.40 GHz
       //Cutoff Frequency of Lowest Order Mode:6.557 GHz
       //Cutoff Frequency of Upper Mode:13.114 GHz
@@ -784,12 +783,18 @@ int main ()
       WR90.width=0.02286;
       WR90.height=0.01016;
 
-      double er=1.0006;
+      // for air
+      WR90.epsr=1.0006;
+      WR90.mur=1;
+
+      // other
+      WR90.mur=2;
+
       double pi=4.*atan(1.);
       double mu0=4e-7*pi;
       double eps0=8.8541878176e-12;
       double k;
-      double eta=sqrt(mu0/(er*eps0));
+      double eta=sqrt(WR90.mur*mu0/(WR90.epsr*eps0));
 
       int ifreq,mode;
       int casenum=0;
@@ -797,7 +802,7 @@ int main ()
       double impedance_scale=1;
 
       /* //for sweeping through modes to get setups to get mode ordering
-      ifreq=1; frequency=9e9; k=2*pi*frequency*sqrt(mu0*er*eps0);
+      ifreq=1; frequency=9e9; k=2*pi*frequency*sqrt(a->mur*mu0*a->epsr*eps0);
       mode=0;
       m=0;
       while (m < 4) {
@@ -815,10 +820,10 @@ int main ()
 
       const char project[8]="WR90";
       ifreq=1;
-      frequency=11e9;
-      while (frequency < 15e9*(1+1e-12)) {
+      frequency=9e9;
+      while (frequency < 11e9*(1+1e-12)) {
 
-         k=2*pi*frequency*sqrt(mu0*er*eps0);
+         k=2*pi*frequency*sqrt(WR90.mur*mu0*WR90.epsr*eps0);
          mode=1;
 
          m=1; n=0;
@@ -858,12 +863,18 @@ int main ()
       WR90.width=0.02286;
       WR90.height=0.01016;
 
-      double er=1.0006;
+      // for air
+      WR90.epsr=1.0006;
+      WR90.mur=1;
+
+      // other
+      //WR90.mur=2;
+
       double pi=4.*atan(1.);
       double mu0=4e-7*pi;
       double eps0=8.8541878176e-12;
       double k;
-      double eta=sqrt(mu0/(er*eps0));
+      double eta=sqrt(WR90.mur*mu0/(WR90.epsr*eps0));
 
       int ifreq,mode;
       int casenum=0;
@@ -871,7 +882,7 @@ int main ()
       double impedance_scale=2;   // PMC boundary is used to cut the problem in half
 
       /* //for sweeping through modes to get setups to get mode ordering
-      ifreq=1; frequency=9e9; k=2*pi*frequency*sqrt(mu0*er*eps0);
+      ifreq=1; frequency=9e9; k=2*pi*frequency*sqrt(a->mur*mu0*a->epsr*eps0);
       mode=0;
       m=0;
       while (m < 4) {
@@ -892,7 +903,7 @@ int main ()
       frequency=9e9;
       while (frequency < 10e9*(1+1e-12)) {
 
-         k=2*pi*frequency*sqrt(mu0*er*eps0);
+         k=2*pi*frequency*sqrt(WR90.mur*mu0*WR90.epsr*eps0);
          mode=1;
 
          m=1; n=0;
@@ -936,6 +947,8 @@ int main ()
       Harrington.mur1=1;
       Harrington.mur2=1;
 
+      //Harrington.mur1=2;
+
       int TM=0;
       int TE=1;
 
@@ -962,7 +975,7 @@ int main ()
       */
 
       ifreq=1; frequency=6e9;
-      while (frequency < 15e9*(1+1e-12)) {
+      while (frequency < 9e9*(1+1e-12)) {
 
          m=1; n=1; mode=1;
          partiallyFilledRectWaveguide_gamma (&Harrington,frequency,m,n,TM,"Harrington",ifreq,mode,&casenum);

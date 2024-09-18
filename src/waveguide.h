@@ -27,6 +27,7 @@
 
 struct rectWaveguide {
    double width, height;
+   double epsr,mur;
 };
 
 struct partiallyFilledRectWaveguide {
