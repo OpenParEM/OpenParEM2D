@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
 //    OpenParEM2D - A fullwave 2D electromagnetic simulator.                  //
-//    Copyright (C) 2024 Brian Young                                          //
+//    Copyright (C) 2025 Brian Young                                          //
 //                                                                            //
 //    This program is free software: you can redistribute it and/or modify    //
 //    it under the terms of the GNU General Public License as published by    //
@@ -22,6 +22,8 @@
 // Do this in C so that it can be passed to eigensolve.c
 
 #include "project.h"
+
+void prefix ();
 
 char* removeNewLineChar (char *a) {
    int i;
@@ -1578,7 +1580,7 @@ PetscErrorCode load_project_file (const char *filename, struct projectData *data
    if (rank == 0) failedLoad=ierr;
    ierr=MPI_Bcast (&failedLoad,1,MPI_INT,0,PETSC_COMM_WORLD);
    if (failedLoad) {
-      prefix(); PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2278: Failed to load project.\n",indent,indent); 
+      prefix(); PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2147: Failed to load project.\n",indent,indent); 
       return 1;
    }
 

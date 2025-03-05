@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
 //    OpenParEM2D - A fullwave 2D electromagnetic simulator.                  //
-//    Copyright (C) 2024 Brian Young                                          //
+//    Copyright (C) 2025 Brian Young                                          //
 //                                                                            //
 //    This program is free software: you can redistribute it and/or modify    //
 //    it under the terms of the GNU General Public License as published by    //
@@ -72,7 +72,7 @@ void help () {
    PetscPrintf(PETSC_COMM_WORLD,"       -h          : Print this help text\n");
    PetscPrintf(PETSC_COMM_WORLD,"       filename    : Filename of an OpenParEM setup file.\n");
    PetscPrintf(PETSC_COMM_WORLD,"\nOpenParEM2D is a full-wave 2D electromagnetic solver.\n");
-   PetscPrintf(PETSC_COMM_WORLD,"Version 1.0.\n");
+   PetscPrintf(PETSC_COMM_WORLD,"Version 2.0.\n");
 }
 
 // load the mesh - either serial or parallel
@@ -258,6 +258,7 @@ void delete_stale_files (const char *baseName)
       delete_file(baseName,"","_results.csv");
       delete_file(baseName,"","_fields.csv");
       delete_file(baseName,"","_prototype_test_cases.csv");
+      delete_file(baseName,"","_test_prototype_test_cases.csv");
    }
    MPI_Barrier(PETSC_COMM_WORLD);
 }

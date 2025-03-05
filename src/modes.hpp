@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
 //    OpenParEM2D - A fullwave 2D electromagnetic simulator.                  //
-//    Copyright (C) 2024 Brian Young                                          //
+//    Copyright (C) 2025 Brian Young                                          //
 //                                                                            //
 //    This program is free software: you can redistribute it and/or modify    //
 //    it under the terms of the GNU General Public License as published by    //
@@ -32,6 +32,10 @@
 #include "misc.hpp"
 #include "sourcefile.hpp"
 #include "OpenParEMmaterials.hpp"
+
+extern "C" void prefix ();
+extern "C" char* get_prefix_text ();
+extern "C" void set_prefix_text (char *);
 
 using namespace std;
 using namespace mfem;
@@ -152,7 +156,7 @@ class Boundary
       long unsigned int get_path_size () {return pathIndexList.size();}
       long unsigned int get_path (long unsigned int i) {return pathIndexList[i];}
       void push (long unsigned int a) {pathIndexList.push_back(a);}
-      struct EdgeAttribute is_segmentOnPath (int, double, double, double, double, vector<Path *> *);
+      struct EdgeAttribute is_segmentOnPath (int, struct point, struct point, vector<Path *> *);
       void set_attribute (int i) {attribute.set_int_value(i);}
       void markMeshBoundaries (Mesh *, ParMesh *, BorderDatabase *, vector<Path *> *);
       bool is_surface_impedance ();

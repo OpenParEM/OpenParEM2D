@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
 //    OpenParEM2D - A fullwave 2D electromagnetic simulator.                  //
-//    Copyright (C) 2024 Brian Young                                          //
+//    Copyright (C) 2025 Brian Young                                          //
 //                                                                            //
 //    This program is free software: you can redistribute it and/or modify    //
 //    it under the terms of the GNU General Public License as published by    //
@@ -23,7 +23,7 @@
 
 #include "mfem.hpp"
 #include "mesh.hpp"
-#include "petscsys.h"
+#include <slepceps.h>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -64,6 +64,9 @@ extern "C" void matrixMultiply(lapack_complex_double *, lapack_complex_double *,
 extern "C" int is_modal_impedance (char *);
 extern "C" int is_line_impedance (char *);
 extern "C" int is_impedance_calculation (char *);
+extern "C" void prefix ();
+extern "C" char* get_prefix_text ();
+extern "C" void set_prefix_text (char *);
 
 void findPoints(ParMesh *, DenseMatrix &, Array<int>&, Array<IntegrationPoint>&, int);
 int GetGlobalNE (ParMesh *);

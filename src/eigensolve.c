@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
 //    OpenParEM2D - A fullwave 2D electromagnetic simulator.                  //
-//    Copyright (C) 2024 Brian Young                                          //
+//    Copyright (C) 2025 Brian Young                                          //
 //                                                                            //
 //    This program is free software: you can redistribute it and/or modify    //
 //    it under the terms of the GNU General Public License as published by    //
@@ -369,10 +369,6 @@ int postProcess (struct projectData *projData, char *resultsDir, EPS *eps, doubl
    VecSetSizes(Efield,PETSC_DECIDE,EtSize+EzSize);
    ierr=VecDuplicateVecs(Efield,nconv,&Efields); CHKERRQ(ierr);
 
-   VecCreate(PETSC_COMM_WORLD,&Hfield);
-   VecSetType(Hfield,VECSTANDARD);
-   VecSetSizes(Hfield,PETSC_DECIDE,EtSize+EzSize);
-
    // get the eigenpairs then keep only the ones with non-null eigenvectors
 
    nullEigenvalueCount=0;
@@ -550,6 +546,9 @@ int postProcess (struct projectData *projData, char *resultsDir, EPS *eps, doubl
       // save E and H
       saveFields(resultsDir,&Efields[i],&Hfield,i);
 
+      // allocated in Hsolve with VecConcatenate
+      ierr=VecDestroy(&Hfield); CHKERRQ(ierr);
+
       i++;
    }
 
@@ -563,7 +562,6 @@ int postProcess (struct projectData *projData, char *resultsDir, EPS *eps, doubl
 
    // clean up
    ierr=VecDestroy(&Efield); CHKERRQ(ierr);
-   ierr=VecDestroy(&Hfield); CHKERRQ(ierr);
    if (Efields) {ierr=VecDestroyVecs(nconv,&Efields); CHKERRQ(ierr);}
    if (gamma2s) {ierr=PetscFree(gamma2s); CHKERRQ(ierr);}
 

@@ -1,6 +1,6 @@
 #OpenParEM2Dproject 1.0
 
-project.save.fields               true // false
+project.save.fields               false
 
 mesh.file                         Simonovich_stripline.msh
 

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
 //    OpenParEM2D - A fullwave 2D electromagnetic simulator.                  //
-//    Copyright (C) 2024 Brian Young                                          //
+//    Copyright (C) 2025 Brian Young                                          //
 //                                                                            //
 //    This program is free software: you can redistribute it and/or modify    //
 //    it under the terms of the GNU General Public License as published by    //
@@ -666,8 +666,6 @@ bool getFieldValues (int numPoints, ParMesh *pmesh, DenseMatrix *points, ParGrid
 complex<double> Fields::calculateLineIntegral (fem2D *fem, Boundary *boundary, BoundaryDatabase *boundaryDatabase, BorderDatabase *borderDatabase, bool field)
 {
    long unsigned int max=-1;
-   double x1,y1,x2,y2;
-   double length, nhatx, nhaty;
    ParGridFunction *grid_t_re, *grid_t_im;
    vector<complex<double>> fieldValuesX,fieldValuesY;
    double xi1,yi1,xi2,yi2,segmentLength;
@@ -717,22 +715,19 @@ complex<double> Fields::calculateLineIntegral (fem2D *fem, Boundary *boundary, B
       long unsigned int limit=path->get_points_size();
       if (path->is_closed()) limit++;
 
-      x2=path->get_point_x(0);
-      y2=path->get_point_y(0);
+      struct point p1;
+      struct point p2=path->get_point_value(0);
 
       long unsigned int j=1;
       while (j < limit) {
 
-         x1=x2;
-         y1=y2;
-
-         x2=path->get_point_x(j);
-         y2=path->get_point_y(j);
+         p1=point_copy(p2);
+         p2=path->get_point_value(j);
 
          // get a unit vector in the direction of the supplied line
-         length=sqrt((y2-y1)*(y2-y1)+(x2-x1)*(x2-x1));
-         nhatx=(x2-x1)/length;
-         nhaty=(y2-y1)/length;
+         struct point p2mp1=point_subtraction(p2,p1);
+         double length=point_magnitude(p2mp1);
+         struct point nhat=point_scale(1/length,p2mp1);
 
          if (on_border) {
 
@@ -762,8 +757,8 @@ complex<double> Fields::calculateLineIntegral (fem2D *fem, Boundary *boundary, B
             }
 
             Vector unit(2);
-            unit.Elem(0)=nhatx;
-            unit.Elem(1)=nhaty;
+            unit.Elem(0)=nhat.x;
+            unit.Elem(1)=nhat.y;
             VectorConstantCoefficient unitVec(unit);
 
             ParLinearForm lf(fem->fespace_ND);
@@ -787,11 +782,11 @@ complex<double> Fields::calculateLineIntegral (fem2D *fem, Boundary *boundary, B
 
             // get points along the integration line
             DenseMatrix points(2,fem->pointsCount);
-            double theta=atan2(y2-y1,x2-x1);
+            double theta=atan2(p2mp1.y,p2mp1.x);
             int i=0;
             while (i < fem->pointsCount) {
-               points.Elem(0,i)=x1+cos(theta)*length*(double)i/((double)(fem->pointsCount-1));
-               points.Elem(1,i)=y1+sin(theta)*length*(double)i/((double)(fem->pointsCount-1));
+               points.Elem(0,i)=p1.x+cos(theta)*length*(double)i/((double)(fem->pointsCount-1));
+               points.Elem(1,i)=p1.y+sin(theta)*length*(double)i/((double)(fem->pointsCount-1));
                i++;
             }
 
@@ -821,8 +816,8 @@ complex<double> Fields::calculateLineIntegral (fem2D *fem, Boundary *boundary, B
                valueX=(fieldValuesX[i]+fieldValuesX[i+1])/2;
                valueY=(fieldValuesY[i]+fieldValuesY[i+1])/2;
 
-               if (reverse) integral-=(valueX*nhatx+valueY*nhaty)*segmentLength;
-               else         integral+=(valueX*nhatx+valueY*nhaty)*segmentLength;
+               if (reverse) integral-=(valueX*nhat.x+valueY*nhat.y)*segmentLength;
+               else         integral+=(valueX*nhat.x+valueY*nhat.y)*segmentLength;
 
                i++;
             }

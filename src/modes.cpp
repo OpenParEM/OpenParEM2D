@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
 //    OpenParEM2D - A fullwave 2D electromagnetic simulator.                  //
-//    Copyright (C) 2024 Brian Young                                          //
+//    Copyright (C) 2025 Brian Young                                          //
 //                                                                            //
 //    This program is free software: you can redistribute it and/or modify    //
 //    it under the terms of the GNU General Public License as published by    //
@@ -296,7 +296,7 @@ bool Boundary::load(string *indent, inputFile *inputs, bool is_boundary, int att
    return fail;
 }
 
-struct EdgeAttribute Boundary::is_segmentOnPath (int border_element, double x1, double y1, double x2, double y2, vector<Path *> *pathList)
+struct EdgeAttribute Boundary::is_segmentOnPath (int border_element, struct point p1, struct point p2, vector<Path *> *pathList)
 {
    long unsigned int max=-1;
    long unsigned int i=0;
@@ -312,16 +312,16 @@ struct EdgeAttribute Boundary::is_segmentOnPath (int border_element, double x1, 
    attribute.y2=DBL_MAX;
 
    while (i < pathIndexList.size()) {
-      long unsigned int segment_index=(*pathList)[pathIndexList[i]]->is_segmentOnLine(x1,y1,x2,y2);
+      long unsigned int segment_index=(*pathList)[pathIndexList[i]]->is_segmentOnLine(p1,p2);
       if (segment_index != max) {
          attribute.border_element=border_element;
          attribute.boundary=get_attribute();
          attribute.path=i;
          attribute.segment=segment_index;
-         attribute.x1=(*pathList)[pathIndexList[i]]->get_point_x(segment_index);
-         attribute.y1=(*pathList)[pathIndexList[i]]->get_point_y(segment_index);
-         attribute.x2=(*pathList)[pathIndexList[i]]->get_point_x(segment_index+1);
-         attribute.y2=(*pathList)[pathIndexList[i]]->get_point_y(segment_index+1);
+         attribute.x1=(*pathList)[pathIndexList[i]]->get_point_value(segment_index).x;
+         attribute.y1=(*pathList)[pathIndexList[i]]->get_point_value(segment_index).y;
+         attribute.x2=(*pathList)[pathIndexList[i]]->get_point_value(segment_index+1).x;
+         attribute.y2=(*pathList)[pathIndexList[i]]->get_point_value(segment_index+1).y;
          return attribute;
       }
       i++;
@@ -542,23 +542,27 @@ bool Boundary::check(string *indent)
 bool Boundary::align (string *indent, vector<Path *> *pathList, double *area, bool check_closed_loop)
 {
    bool fail=false;
-   bool start_new_path;
-   double path_area;
    long unsigned int path_index;
    Path *path;
-   double x0,y0,xend,yend;
+   struct point pt0,ptend;
    vector<long unsigned int> pathComponents;
-   vector<bool> used;
 
    if (pathIndexList.size() == 0) {fail=true; return fail;}
 
+   pt0.dim=2; pt0.z=0;
+   ptend.dim=2; ptend.z=0;
+
+   // initialized the used markers
+   vector<bool> used;
    long unsigned int i=0;
    while (i < pathIndexList.size()) {
       used.push_back(false);
       i++;
    }
 
+   // initializee areas
    *area=0;
+   double path_area=0;
 
    // add the closed paths
    i=0;
@@ -579,7 +583,7 @@ bool Boundary::align (string *indent, vector<Path *> *pathList, double *area, bo
    // do the rest by linking the pieces together
    // cycle until all paths are used
 
-   start_new_path=true;
+   bool start_new_path=true;
    path_area=0;
 
    i=0;
@@ -590,27 +594,25 @@ bool Boundary::align (string *indent, vector<Path *> *pathList, double *area, bo
       long unsigned int j=0;
       while (j < used.size()) {
          if (!used[j]) {
+
+            Path *tpj=(*pathList)[pathIndexList[j]];
+
             if (start_new_path) {
 
                path_area=0;
 
                // pick a path with a dangling end, if that exists
 
-               Path *tpj=(*pathList)[pathIndexList[j]];
                int match_start_count=0;
                int match_end_count=0;
                long unsigned int k=0;
                while (k < used.size()) {
                   if (!used[k] && k != j) {
                      Path *tpk=(*pathList)[pathIndexList[k]];
-                     if (double_compare(tpk->get_point_x(0),tpj->get_point_x(0),1e-12) &&
-                         double_compare(tpk->get_point_y(0),tpj->get_point_y(0),1e-12)) match_start_count++;
-                     if (double_compare(tpk->get_point_x(0),tpj->get_point_x(tpj->get_points_size()-1),1e-12) &&
-                         double_compare(tpk->get_point_y(0),tpj->get_point_y(tpj->get_points_size()-1),1e-12)) match_end_count++;
-                     if (double_compare(tpk->get_point_x(tpk->get_points_size()-1),tpj->get_point_x(0),1e-12) &&
-                         double_compare(tpk->get_point_y(tpk->get_points_size()-1),tpj->get_point_y(0),1e-12)) match_start_count++;
-                     if (double_compare(tpk->get_point_x(tpk->get_points_size()-1),tpj->get_point_x(tpj->get_points_size()-1),1e-12) &&
-                         double_compare(tpk->get_point_y(tpk->get_points_size()-1),tpj->get_point_y(tpj->get_points_size()-1),1e-12)) match_end_count++;
+                     if (point_comparison(tpk->get_point_value(0),tpj->get_point_value(0),1e-12)) match_start_count++;
+                     if (point_comparison(tpk->get_point_value(0),tpj->get_point_value(tpj->get_points_size()-1),1e-12)) match_end_count++;
+                     if (point_comparison(tpk->get_point_value(tpk->get_points_size()-1),tpj->get_point_value(0),1e-12)) match_start_count++;
+                     if (point_comparison(tpk->get_point_value(tpk->get_points_size()-1),tpj->get_point_value(tpj->get_points_size()-1),1e-12)) match_end_count++;
                   }
                   k++;
                }
@@ -630,6 +632,8 @@ bool Boundary::align (string *indent, vector<Path *> *pathList, double *area, bo
                   path=(*pathList)[pathIndexList[path_index]];
                   path->reverseOrder();
                   used[path_index]=true;
+//                  start_new_path=false;
+//                  ptend=path->get_point_value(path->get_points_size()-1);
                   break;
                }
 
@@ -637,26 +641,26 @@ bool Boundary::align (string *indent, vector<Path *> *pathList, double *area, bo
                   path_index=j;
                   path=(*pathList)[pathIndexList[path_index]];
                   used[path_index]=true;
+//                  start_new_path=false;
+//                  ptend=path->get_point_value(0);
                   break;
                }
 
             } else {
-               Path *tpj=(*pathList)[pathIndexList[j]];
-
-               if (double_compare(tpj->get_point_x(0),xend,1e-12) &&
-                   double_compare(tpj->get_point_y(0),yend,1e-12)) {
+               if (point_comparison(tpj->get_point_value(0),ptend,1e-12)) {
                   path_index=j;
                   path=tpj;
                   used[path_index]=true;
+//                  ptend=path->get_point_value(path->get_points_size()-1);
                   break;
                }
 
-               if (double_compare(tpj->get_point_x(tpj->get_points_size()-1),xend,1e-12) &&
-                   double_compare(tpj->get_point_y(tpj->get_points_size()-1),yend,1e-12)) {
+               if (point_comparison(tpj->get_point_value(tpj->get_points_size()-1),ptend,1e-12)) {
                   path_index=j;
                   path=tpj;
                   path->reverseOrder();
                   used[path_index]=true;
+//                  ptend=path->get_point_value(0);
                   break;
                }
             }
@@ -696,7 +700,7 @@ bool Boundary::align (string *indent, vector<Path *> *pathList, double *area, bo
          }
 
          if (count_forward*count_reverse != 0) {
-            prefix(); PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2280: %s block at line %d has mixed segment directions.\n",
+            prefix(); PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2146: %s block at line %d has mixed segment directions.\n",
                                                    indent->c_str(),indent->c_str(),get_block_type().c_str(),startLine);
             fail=true;
          }
@@ -709,17 +713,16 @@ bool Boundary::align (string *indent, vector<Path *> *pathList, double *area, bo
 
       if (start_new_path) {
          start_new_path=false;
-         x0=path->get_point_x(0);
-         y0=path->get_point_y(0);
+         pt0=path->get_point_value(0);
+//         ptend=path->get_point_value(path->get_points_size()-1);
       }
 
-      xend=path->get_point_x(path->get_points_size()-1);
-      yend=path->get_point_y(path->get_points_size()-1);
+      ptend=path->get_point_value(path->get_points_size()-1);
 
       path_area+=path->area();
 
       // check if this loop is completed by comparing the end vs. the start
-      if (double_compare(x0,xend,1e-12) && double_compare(y0,yend,1e-12)) {
+      if (point_comparison(pt0,ptend,1e-12)) {
 
          // reverse path if clockwise
          if (path_area < 0) {
@@ -744,7 +747,7 @@ bool Boundary::align (string *indent, vector<Path *> *pathList, double *area, bo
          }
 
          if (!fail && count_forward*count_reverse != 0) {
-            prefix(); PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2279: %s block at line %d has mixed segment directions.\n",
+            prefix(); PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2187: %s block at line %d has mixed segment directions.\n",
                                                    indent->c_str(),indent->c_str(),get_block_type().c_str(),startLine);
             fail=true;
          }
@@ -759,7 +762,7 @@ bool Boundary::align (string *indent, vector<Path *> *pathList, double *area, bo
 
    // topology failure
    if (i == pathIndexList.size()+1) {
-      prefix(); PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2277: %s block at line %d topology error for path %ld.\n",
+      prefix(); PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2148: %s block at line %d topology error for path %ld.\n",
                                               indent->c_str(),indent->c_str(),get_block_type().c_str(),startLine,i+1);
       fail=true;
    }
@@ -777,183 +780,6 @@ bool Boundary::align (string *indent, vector<Path *> *pathList, double *area, bo
 
    return fail;
 }
-
-/*
-// original all-in-one algorithm
-bool Boundary::align (string *indent, vector<Path *> *pathList, double *area, bool check_closed_loop)
-{
-   bool fail=false;
-   bool reversed;
-   bool get_next_unused_path=false;
-   double xtest,ytest,x1,y1,x2,y2,xstart=0,ystart=0;
-
-cout << "using old Boundary::align" << endl;
-
-   vector<bool> used;
-   long unsigned int i=0;
-   while (i < pathIndexList.size()) {
-      used.push_back(false);
-      i++;
-   }
-
-   *area=0;
-   Path *path=(*pathList)[pathIndexList[0]];
-   reversed=reverseList[0];
-   if (reversed) {
-      xstart=path->get_point_x(path->get_points_size()-1);
-      ystart=path->get_point_y(path->get_points_size()-1);
-   } else {
-      xstart=path->get_point_x(0);
-      ystart=path->get_point_y(0);
-   }
-   used[0]=true;
-
-   long unsigned int watchdog=0;
-   while (1) {
-
-      watchdog++;
-      if (watchdog == used.size()*10) break;
-      if (reversed) {
-         long unsigned int j=path->get_points_size()-1;
-         while (j > 0) {
-            x1=path->get_point_x(j);
-            y1=path->get_point_y(j);
-            x2=path->get_point_x(j-1);
-            y2=path->get_point_y(j-1);
-            (*area)+=x1*y2-x2*y1;
-            j--;
-         }
-
-         if (path->get_closed()) {
-            x1=path->get_point_x(0);
-            y1=path->get_point_y(0);
-            x2=path->get_point_x(path->get_points_size()-1);
-            y2=path->get_point_y(path->get_points_size()-1);
-            (*area)+=x1*y2-x2*y1;
-         }
-      } else {
-         long unsigned int j=0;
-         while (j < path->get_points_size()-1) {
-            x1=path->get_point_x(j);
-            y1=path->get_point_y(j);
-            x2=path->get_point_x(j+1);
-            y2=path->get_point_y(j+1);
-            (*area)+=x1*y2-x2*y1;
-            j++;
-         }
-
-         if (path->get_closed()) {
-            x1=path->get_point_x(path->get_points_size()-1);
-            y1=path->get_point_y(path->get_points_size()-1);
-            x2=path->get_point_x(0);
-            y2=path->get_point_y(0);
-            (*area)+=x1*y2-x2*y1;
-         }
-      }
-      if (path->get_closed()) {
-         path=nullptr;
-         get_next_unused_path=true;
-      } else {
-         path=nullptr;
-
-         // check if closed
-         if (double_compare(xstart,x2,1e-12) && double_compare(ystart,y2,1e-12)) get_next_unused_path=true;
-         else {
-
-            // find connecting path
-            long unsigned int i=0;
-            while (i < used.size()) {
-               if (!used[i]) {
-                  Path *test_path=(*pathList)[pathIndexList[i]];
-                  if (!test_path->get_closed()) {
-
-                     // check start point
-                     xtest=test_path->get_point_x(0);
-                     ytest=test_path->get_point_y(0);
-                     if (double_compare(xtest,x2,1e-12) && double_compare(ytest,y2,1e-12)) {
-                        if (reverseList[i]) {
-                           PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2146: %s block at line %d has path %ld reversed.\n",
-                                                        indent->c_str(),indent->c_str(),get_block_type().c_str(),startLine,i+1);
-                           fail=true;
-                        }
-                        path=test_path;
-                        used[i]=true;
-                        reversed=false;
-                        break;
-                     }
-
-                     // check end point
-                     xtest=test_path->get_point_x(test_path->get_points_size()-1);
-                     ytest=test_path->get_point_y(test_path->get_points_size()-1);
-                     if (double_compare(xtest,x2,1e-12) && double_compare(ytest,y2,1e-12)) {
-                        if (!reverseList[i]) {
-                           PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2147: %s block at line %d has path %ld reversed.\n",
-                                                        indent->c_str(),indent->c_str(),get_block_type().c_str(),startLine,i+1);
-                           fail=true;
-                        }
-                        path=test_path;
-                        used[i]=true;
-                        reversed=true;
-                        break;
-                     }
-
-                  }
-               }
-               i++;
-            }
-            // nothing to connect to to close the path
-            if (!path) {
-               if (check_closed_loop) {
-                  PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2148: %s block at line %d is not closed.\n",
-                                                indent->c_str(),indent->c_str(),get_block_type().c_str(),startLine);
-                  fail=true;
-                  break;
-               } else get_next_unused_path=true;  // the area is not defined for a non-closed loop, so the computed area is a figure-of-merit
-            }
-         }
-      }
-
-      if (get_next_unused_path) {
-         get_next_unused_path=false;
-
-         long unsigned int i=0;
-         while (i < used.size()) {
-            if (!used[i]) {
-               path=(*pathList)[pathIndexList[i]];
-               reversed=reverseList[i];
-               if (reversed) {
-                  xstart=path->get_point_x(path->get_points_size()-1);
-                  ystart=path->get_point_y(path->get_points_size()-1);
-               } else {
-                  xstart=path->get_point_x(0);
-                  ystart=path->get_point_y(0);
-               }
-               used[i]=true;
-               break;
-            }
-            i++;
-         }
-
-         // done - no more paths
-         if (!path) break;
-      }
-   }
-
-   // check for unused paths - should not occur
-   i=0;
-   while (i < used.size()) {
-      if (!used[i]) {
-         PetscPrintf(PETSC_COMM_WORLD,"%s%sERROR2187: %s block at line %d topology error for path %ld.\n",
-                                                     indent->c_str(),indent->c_str(),get_block_type().c_str(),startLine,i+1);
-         fail=true;
-      }
-      i++;
-   }
-
-   (*area)/=2;
-   return fail;
-}
-*/
 
 // For currents, paths must be counterclockwise for postive currents in the z-direction.
 // Optionally, closed paths can be required.
@@ -1020,8 +846,10 @@ void Boundary::markMeshBoundaries (Mesh *mesh, ParMesh *pmesh, BorderDatabase *b
             vertex0=pmesh->GetVertex(vertices[0]);
             vertex1=pmesh->GetVertex(vertices[1]);
          }
+         struct point p1; p1.dim=2; p1.x=vertex0[0]; p1.y=vertex0[1];
+         struct point p2; p2.dim=2; p2.x=vertex1[0]; p2.y=vertex1[1];
 
-         test_attribute=is_segmentOnPath(i,vertex0[0],vertex0[1],vertex1[0],vertex1[1],pathList);
+         test_attribute=is_segmentOnPath(i,p1,p2,pathList);
 
          if (test_attribute.boundary != max) {
             int current_bdrAttribute=-1;
@@ -1621,7 +1449,7 @@ void BoundaryDatabase::subdivide_paths ()
    while (i < pathList.size()) {
       long unsigned int j=0;
       while (j < pathList.size()) {
-         if (i != j) pathList[i]->subdivide2D(pathList[j]);
+         if (i != j) pathList[i]->subdivide(pathList[j]);
          j++;
       }
       i++;

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
-//    OpenParEM2D - A fullwave 2D electromagnetic simulator.                  //
-//    Copyright (C) 2024 Brian Young                                          //
+//    OpenParEM3D - A fullwave 2D electromagnetic simulator.                  //
+//    Copyright (C) 2025 Brian Young                                          //
 //                                                                            //
 //    This program is free software: you can redistribute it and/or modify    //
 //    it under the terms of the GNU General Public License as published by    //
@@ -286,27 +286,27 @@ void convergence (struct projectData *projData, KSPConvergedReason reason)
       if (reason < 0) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"                  NOT CONVERGED: ");}
       else {prefix(); PetscPrintf(PETSC_COMM_WORLD,"                  Converged: ");}
 
-      if (reason == KSP_CONVERGED_ITERATING) PetscPrintf(PETSC_COMM_WORLD,"CONVERGED_ITERATING");
-      if (reason == KSP_CONVERGED_RTOL_NORMAL) PetscPrintf(PETSC_COMM_WORLD,"RTOL_NORMAL");
-      if (reason == KSP_CONVERGED_ATOL_NORMAL) PetscPrintf(PETSC_COMM_WORLD,"ATOL_NORMAL");
-      if (reason == KSP_CONVERGED_RTOL) PetscPrintf(PETSC_COMM_WORLD,"RTOL");
-      if (reason == KSP_CONVERGED_ATOL) PetscPrintf(PETSC_COMM_WORLD,"ATOL");
-      if (reason == KSP_CONVERGED_ITS) PetscPrintf(PETSC_COMM_WORLD,"ITS");
-      if (reason == KSP_CONVERGED_NEG_CURVE) PetscPrintf(PETSC_COMM_WORLD,"NEG_CURVE");
-      if (reason == KSP_CONVERGED_STEP_LENGTH) PetscPrintf(PETSC_COMM_WORLD,"STEP_LENGTH");
-      if (reason == KSP_CONVERGED_HAPPY_BREAKDOWN) PetscPrintf(PETSC_COMM_WORLD,"HAPPY_BREAKDOWN");
-      if (reason == KSP_DIVERGED_NULL) PetscPrintf(PETSC_COMM_WORLD,"NULL");
-      if (reason == KSP_DIVERGED_ITS) PetscPrintf(PETSC_COMM_WORLD,"ITS");
-      if (reason == KSP_DIVERGED_DTOL) PetscPrintf(PETSC_COMM_WORLD,"DTOL");
-      if (reason == KSP_DIVERGED_BREAKDOWN) PetscPrintf(PETSC_COMM_WORLD,"BREAKDOWN - Generic breakdown during solution.");
-      if (reason == KSP_DIVERGED_BREAKDOWN_BICG) PetscPrintf(PETSC_COMM_WORLD,"BREAKDOWN_BICG");
-      if (reason == KSP_DIVERGED_NONSYMMETRIC) PetscPrintf(PETSC_COMM_WORLD,"NONSYMMETRIC");
-      if (reason == KSP_DIVERGED_INDEFINITE_PC) PetscPrintf(PETSC_COMM_WORLD,"INDEFINITE_PC");
-      if (reason == KSP_DIVERGED_NANORINF) PetscPrintf(PETSC_COMM_WORLD,"NANORINF");
-      if (reason == KSP_DIVERGED_INDEFINITE_MAT) PetscPrintf(PETSC_COMM_WORLD,"INDEFINITE_MAT");
-      if (reason == KSP_DIVERGED_PC_FAILED) PetscPrintf(PETSC_COMM_WORLD,"PC_FAILED - Could not build or use the requested preconditioner.");
+      if (reason == KSP_CONVERGED_ITERATING) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"CONVERGED_ITERATING");}
+      if (reason == KSP_CONVERGED_RTOL_NORMAL) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"RTOL_NORMAL");}
+      if (reason == KSP_CONVERGED_ATOL_NORMAL) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"ATOL_NORMAL");}
+      if (reason == KSP_CONVERGED_RTOL) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"RTOL");}
+      if (reason == KSP_CONVERGED_ATOL) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"ATOL");}
+      if (reason == KSP_CONVERGED_ITS) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"ITS");}
+      if (reason == KSP_CONVERGED_NEG_CURVE) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"NEG_CURVE");}
+      if (reason == KSP_CONVERGED_STEP_LENGTH) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"STEP_LENGTH");}
+      if (reason == KSP_CONVERGED_HAPPY_BREAKDOWN) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"HAPPY_BREAKDOWN");}
+      if (reason == KSP_DIVERGED_NULL) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"NULL");}
+      if (reason == KSP_DIVERGED_ITS) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"ITS");}
+      if (reason == KSP_DIVERGED_DTOL) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"DTOL");}
+      if (reason == KSP_DIVERGED_BREAKDOWN) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"BREAKDOWN - Generic breakdown during solution.");}
+      if (reason == KSP_DIVERGED_BREAKDOWN_BICG) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"BREAKDOWN_BICG");}
+      if (reason == KSP_DIVERGED_NONSYMMETRIC) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"NONSYMMETRIC");}
+      if (reason == KSP_DIVERGED_INDEFINITE_PC) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"INDEFINITE_PC");}
+      if (reason == KSP_DIVERGED_NANORINF) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"NANORINF");}
+      if (reason == KSP_DIVERGED_INDEFINITE_MAT) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"INDEFINITE_MAT");}
+      if (reason == KSP_DIVERGED_PC_FAILED) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"PC_FAILED - Could not build or use the requested preconditioner.");}
    } else {
-      if (reason < 0) PetscPrintf(PETSC_COMM_WORLD,"           Hfield NOT CONVERGED");
+      if (reason < 0) {prefix(); PetscPrintf(PETSC_COMM_WORLD,"           Hfield NOT CONVERGED");}
    }
 }
 
@@ -601,12 +601,10 @@ int Hsolve (struct projectData *projData, Mat *Mt, Mat *Cz, Mat *Zt, Mat *Mz, Ma
    // combine Ht and Hz into one vector
    //*******************************************************************************************
 
-   // Hfield is already allocated
-
    Vec vecList[2];
    vecList[0]=Ht;
    vecList[1]=Hz;
-   ierr=VecConcatenate(2,vecList,Hfield,NULL);
+   ierr=VecConcatenate(2,vecList,Hfield,NULL);  // allocates memory
 
    // cleanup
    ierr=VecDestroy(&Et); CHKERRQ(ierr);
