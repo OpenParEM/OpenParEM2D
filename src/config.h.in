@@ -1,0 +1,246 @@
+/* config.h.in.  Generated from configure.ac by autoheader.  */
+
+/* define if the compiler supports basic C++17 syntax */
+#undef HAVE_CXX17
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `c' library (-lc). */
+#undef HAVE_LIBC
+
+/* Define to 1 if you have the `cmumps' library (-lcmumps). */
+#undef HAVE_LIBCMUMPS
+
+/* Define to 1 if you have the `dl' library (-ldl). */
+#undef HAVE_LIBDL
+
+/* Define to 1 if you have the `dmumps' library (-ldmumps). */
+#undef HAVE_LIBDMUMPS
+
+/* Define to 1 if you have the `esmumps' library (-lesmumps). */
+#undef HAVE_LIBESMUMPS
+
+/* Define to 1 if you have the `fblas' library (-lfblas). */
+#undef HAVE_LIBFBLAS
+
+/* Define to 1 if you have the `flapack' library (-lflapack). */
+#undef HAVE_LIBFLAPACK
+
+/* Define to 1 if you have the `gcc_s' library (-lgcc_s). */
+#undef HAVE_LIBGCC_S
+
+/* Define to 1 if you have the `gfortran' library (-lgfortran). */
+#undef HAVE_LIBGFORTRAN
+
+/* Define to 1 if you have the `HYPRE' library (-lHYPRE). */
+#undef HAVE_LIBHYPRE
+
+/* Define to 1 if you have the `lapack64' library (-llapack64). */
+#undef HAVE_LIBLAPACK64
+
+/* Define to 1 if you have the `lapacke64' library (-llapacke64). */
+#undef HAVE_LIBLAPACKE64
+
+/* Define to 1 if you have the `m' library (-lm). */
+#undef HAVE_LIBM
+
+/* Define to 1 if you have the `metis' library (-lmetis). */
+#undef HAVE_LIBMETIS
+
+/* Define to 1 if you have the `mfem' library (-lmfem). */
+#undef HAVE_LIBMFEM
+
+/* Define to 1 if you have the `mpi' library (-lmpi). */
+#undef HAVE_LIBMPI
+
+/* Define to 1 if you have the `mpi_mpifh' library (-lmpi_mpifh). */
+#undef HAVE_LIBMPI_MPIFH
+
+/* Define to 1 if you have the `mpi_usempif08' library (-lmpi_usempif08). */
+#undef HAVE_LIBMPI_USEMPIF08
+
+/* Define to 1 if you have the `mpi_usempi_ignore_tkr' library
+   (-lmpi_usempi_ignore_tkr). */
+#undef HAVE_LIBMPI_USEMPI_IGNORE_TKR
+
+/* Define to 1 if you have the `mpi++' library (-lmpi++). */
+#undef HAVE_LIBMPI__
+
+/* Define to 1 if you have the `mumps_common' library (-lmumps_common). */
+#undef HAVE_LIBMUMPS_COMMON
+
+/* Define to 1 if you have the `OpenParEMCommon' library (-lOpenParEMCommon).
+   */
+#undef HAVE_LIBOPENPAREMCOMMON
+
+/* Define to 1 if you have the `petscdm' library (-lpetscdm). */
+#undef HAVE_LIBPETSCDM
+
+/* Define to 1 if you have the `petscksp' library (-lpetscksp). */
+#undef HAVE_LIBPETSCKSP
+
+/* Define to 1 if you have the `petscmat' library (-lpetscmat). */
+#undef HAVE_LIBPETSCMAT
+
+/* Define to 1 if you have the `petscsnes' library (-lpetscsnes). */
+#undef HAVE_LIBPETSCSNES
+
+/* Define to 1 if you have the `petscsys' library (-lpetscsys). */
+#undef HAVE_LIBPETSCSYS
+
+/* Define to 1 if you have the `petsctao' library (-lpetsctao). */
+#undef HAVE_LIBPETSCTAO
+
+/* Define to 1 if you have the `petscts' library (-lpetscts). */
+#undef HAVE_LIBPETSCTS
+
+/* Define to 1 if you have the `petscvec' library (-lpetscvec). */
+#undef HAVE_LIBPETSCVEC
+
+/* Define to 1 if you have the `pord' library (-lpord). */
+#undef HAVE_LIBPORD
+
+/* Define to 1 if you have the `ptesmumps' library (-lptesmumps). */
+#undef HAVE_LIBPTESMUMPS
+
+/* Define to 1 if you have the `pthread' library (-lpthread). */
+#undef HAVE_LIBPTHREAD
+
+/* Define to 1 if you have the `ptscotch' library (-lptscotch). */
+#undef HAVE_LIBPTSCOTCH
+
+/* Define to 1 if you have the `ptscotcherr' library (-lptscotcherr). */
+#undef HAVE_LIBPTSCOTCHERR
+
+/* Define to 1 if you have the `ptscotchparmetisv3' library
+   (-lptscotchparmetisv3). */
+#undef HAVE_LIBPTSCOTCHPARMETISV3
+
+/* Define to 1 if you have the `quadmath' library (-lquadmath). */
+#undef HAVE_LIBQUADMATH
+
+/* Define to 1 if you have the `rt' library (-lrt). */
+#undef HAVE_LIBRT
+
+/* Define to 1 if you have the `scalapack' library (-lscalapack). */
+#undef HAVE_LIBSCALAPACK
+
+/* Define to 1 if you have the `scotch' library (-lscotch). */
+#undef HAVE_LIBSCOTCH
+
+/* Define to 1 if you have the `scotcherr' library (-lscotcherr). */
+#undef HAVE_LIBSCOTCHERR
+
+/* Define to 1 if you have the `slepceps' library (-lslepceps). */
+#undef HAVE_LIBSLEPCEPS
+
+/* Define to 1 if you have the `slepclme' library (-lslepclme). */
+#undef HAVE_LIBSLEPCLME
+
+/* Define to 1 if you have the `slepcmfn' library (-lslepcmfn). */
+#undef HAVE_LIBSLEPCMFN
+
+/* Define to 1 if you have the `slepcnep' library (-lslepcnep). */
+#undef HAVE_LIBSLEPCNEP
+
+/* Define to 1 if you have the `slepcpep' library (-lslepcpep). */
+#undef HAVE_LIBSLEPCPEP
+
+/* Define to 1 if you have the `slepcsvd' library (-lslepcsvd). */
+#undef HAVE_LIBSLEPCSVD
+
+/* Define to 1 if you have the `slepcsys' library (-lslepcsys). */
+#undef HAVE_LIBSLEPCSYS
+
+/* Define to 1 if you have the `smumps' library (-lsmumps). */
+#undef HAVE_LIBSMUMPS
+
+/* Define to 1 if you have the `stdc++' library (-lstdc++). */
+#undef HAVE_LIBSTDC__
+
+/* Define to 1 if you have the `X11' library (-lX11). */
+#undef HAVE_LIBX11
+
+/* Define to 1 if you have the `zmumps' library (-lzmumps). */
+#undef HAVE_LIBZMUMPS
+
+/* Define to 1 if your system has a GNU libc compatible `malloc' function, and
+   to 0 otherwise. */
+#undef HAVE_MALLOC
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the `pow' function. */
+#undef HAVE_POW
+
+/* Define to 1 if your system has a GNU libc compatible `realloc' function,
+   and to 0 otherwise. */
+#undef HAVE_REALLOC
+
+/* Define to 1 if you have the `sqrt' function. */
+#undef HAVE_SQRT
+
+/* Define to 1 if you have the <stddef.h> header file. */
+#undef HAVE_STDDEF_H
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to 1 if the system has the type `_Bool'. */
+#undef HAVE__BOOL
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Version number of package */
+#undef VERSION
+
+/* Define to rpl_malloc if the replacement function should be used. */
+#undef malloc
+
+/* Define to rpl_realloc if the replacement function should be used. */
+#undef realloc
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#undef size_t
