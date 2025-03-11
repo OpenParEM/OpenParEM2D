@@ -930,7 +930,7 @@ int eigensolve (struct projectData *projData, int use_initial_guess, double freq
             // sum across the initial guesses from all modes - tip from the SLEPc manual
             // This does not work with with shift-and-invert: Can produce failed runs, run-to-run variability, and sensitivity to solution.tolerance.
             if (i == 0) {ierr=VecSetValues(initial_guess,TtHeight+TzHeight,TtTz_locations,dof,INSERT_VALUES); CHKERRQ(ierr);}
-            else ierr=VecSetValues(initial_guess,TtHeight+TzHeight,TtTz_locations,dof,ADD_VALUES); CHKERRQ(ierr);
+            else {ierr=VecSetValues(initial_guess,TtHeight+TzHeight,TtTz_locations,dof,ADD_VALUES); CHKERRQ(ierr);}
 
             PetscFree(dof);
             initial_guess_count++;
