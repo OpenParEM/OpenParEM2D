@@ -140,7 +140,7 @@ AC_TYPE_SIZE_T
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
-AC_CHECK_FUNCS([pow sqrt, getcwd strdup strtoull])
+AC_CHECK_FUNCS([pow sqrt getcwd strdup strtoull])
 
 # force use of c++17
 m4_include([ax_cxx_compile_stdcxx.m4])
