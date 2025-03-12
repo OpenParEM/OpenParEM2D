@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
+AC_INIT([OpenParEM2D], [2.0], [support@openparem.org])
 AM_INIT_AUTOMAKE([-Wall foreign])
 AC_CONFIG_SRCDIR([fem2D.cpp])
 AC_CONFIG_HEADERS([config.h])
