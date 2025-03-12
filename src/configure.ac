@@ -21,88 +21,114 @@ AC_ARG_VAR(EIGEN_DIR,[includes for blas.h and others in $EIGEN_DIR])
 AC_ARG_VAR(METIS_DIR,[libmetis.a in $METIS_DIR])
 
 # Checks for libraries.
-AC_CHECK_LIB([c], [malloc])
-AC_CHECK_LIB([m], [cos])
-AC_CHECK_LIB([quadmath], [acosq])
-AC_CHECK_LIB([X11], [XCreateSimpleWindow])
-AC_CHECK_LIB([rt], [clock_getres])
-AC_CHECK_LIB([pthread], [pthread_mutex_init])
-AC_CHECK_LIB([dl], [dlvsym])
+AC_CHECK_LIB([c], [malloc], ,AC_MSG_ERROR([cannot link to libc.a; check config.log]))
+AC_CHECK_LIB([m], [cos], ,AC_MSG_ERROR([cannot link to libm.a; check config.log]))
+AC_CHECK_LIB([quadmath], [acosq], ,AC_MSG_ERROR([cannot link to libquadmath.a; check config.log]))
+AC_CHECK_LIB([X11], [XCreateSimpleWindow], ,AC_MSG_ERROR([cannot link to libX11.a; check config.log]))
+AC_CHECK_LIB([rt], [clock_getres], ,AC_MSG_ERROR([cannot link to librt.a; check config.log]))
+AC_CHECK_LIB([pthread], [pthread_mutex_init], ,AC_MSG_ERROR([cannot link to libpthread.a; check config.log]))
+AC_CHECK_LIB([dl], [dlvsym], ,AC_MSG_ERROR([cannot link to libdl.a; check config.log]))
 
 CXXFLAGS="$CXXFLAGS -I/usr/lib/x86_64-linux-gnu/openmpi/include"
 CFLAGS="$CFLAGS -I/usr/lib/x86_64-linux-gnu/openmpi/include"
-AC_CHECK_LIB([mpi], [MPI_Init])
-AC_CHECK_LIB([mpi_mpifh], [mpi_init_])
-AC_CHECK_LIB([mpi++], [mpi_init_])
-AC_CHECK_LIB([mpi_usempif08], [mpi_init_])
-AC_CHECK_LIB([mpi_usempi_ignore_tkr], [mpi_init_])
+AC_CHECK_LIB([mpi], [MPI_Init], ,AC_MSG_ERROR([cannot link to libmpi.a; check config.log]))
+AC_CHECK_LIB([mpi_mpifh], [mpi_init_], ,AC_MSG_ERROR([cannot link to libmpi_mpifh.a; check config.log]))
+AC_CHECK_LIB([mpi++], [mpi_init_], ,AC_MSG_ERROR([cannot link to libmpi++.a; check config.log]))
+AC_CHECK_LIB([mpi_usempif08], [mpi_init_], ,AC_MSG_ERROR([cannot link to libmpi_usempif08.a; check config.log]))
+AC_CHECK_LIB([mpi_usempi_ignore_tkr], [mpi_init_], ,AC_MSG_ERROR([cannot link to libmpi_usempi_ignore_tkr.a; check config.log]))
 
 LDFLAGS="$LDFLAGS -L/usr/lib/x86_64-linux-gnu"
 CXXFLAGS="$CXXFLAGS -I$EIGEN_DIR"
 CFLAGS="$CFLAGS -I$EIGEN_DIR"
-AC_CHECK_LIB([lapack64], [ztgsyl_])
-AC_CHECK_LIB([lapacke64], [LAPACKE_zlagsy])
+AC_CHECK_LIB([lapack64], [ztgsyl_], ,AC_MSG_ERROR([cannot link to liblapack64.a; check config.log]))
+AC_CHECK_LIB([lapacke64], [LAPACKE_zlagsy], ,AC_MSG_ERROR([cannot link to liblapacke64.a; check config.log]))
 
 LDFLAGS="$LDFLAGS -L$HYPRE_DIR/src/hypre/lib"
 CXXFLAGS="$CXXFLAGS -I$HYPRE_DIR/src/hypre/include"
 CFLAGS="$CFLAGS -I$HYPRE_DIR/src/hypre/include"
-AC_CHECK_LIB([HYPRE], [hypre_ParCSRMatrixCreate])
+AC_CHECK_LIB([HYPRE], [hypre_ParCSRMatrixCreate], ,AC_MSG_ERROR([cannot link to libHYPRE.a; check config.log]))
 
 LDFLAGS="$LDFLAGS -L$METIS_DIR"
-AC_CHECK_LIB([metis], [METIS_PartGraphRecursive])
+AC_CHECK_LIB([metis], [METIS_PartGraphRecursive], ,AC_MSG_ERROR([cannot link to libmetis.a; check config.log]))
 
 LDFLAGS="$LDFLAGS -L/usr/lib/gcc/x86_64-linux-gnu/9/"
-AC_CHECK_LIB([stdc++], [_ZNSt9bad_allocD2Ev])
-AC_CHECK_LIB([gfortran], [_gfortran_rand])
-AC_CHECK_LIB([gcc_s], [__clzdi2])
+AC_CHECK_LIB([gfortran], [_gfortran_rand], ,AC_MSG_ERROR([cannot link to libgfortran.a; check config.log]))
+AC_CHECK_LIB([gcc_s], [__clzdi2], ,AC_MSG_ERROR([cannot link to libgcc_s.a; check config.log]))
+
+AC_LANG([C++])
+LIBS="$LIBS -lstdc++"
+AC_RUN_IFELSE([AC_LANG_PROGRAM([[
+    using namespace std; ]], [[ double *a=new double ]])],
+       [       AC_MSG_RESULT([checking for new in -lstdc++... yes])
+               AC_DEFINE_UNQUOTED([HAVE_LIBSTDC__], [1], [Set to 1 when libstdc++ is found])
+       ],
+       [       AC_MSG_RESULT([checking for new in -lstdc++... no])
+               AC_MSG_ERROR([cannot link to libstdc++.a; check config.log])
+       ],
+       []
+)
+AC_LANG([C])
 
 LDFLAGS="$LDFLAGS -L$PETSC_DIR/$PETSC_ARCH/lib"
 CXXFLAGS="$CXXFLAGS -I$PETSC_DIR/include -I$PETSC_DIR/$PETSC_ARCH/include"
 CFLAGS="$CFLAGS -I$PETSC_DIR/include -I$PETSC_DIR/$PETSC_ARCH/include"
-AC_CHECK_LIB([fblas], [cswap_])
-AC_CHECK_LIB([flapack], [cungqr_])
-AC_CHECK_LIB([scalapack], [pbchkvect])
-AC_CHECK_LIB([scotcherr], [SCOTCH_errorPrint])
-AC_CHECK_LIB([ptscotcherr], [SCOTCH_errorPrint])
-AC_CHECK_LIB([scotch], [scotchfstratinit_])
-AC_CHECK_LIB([ptscotch], [scotchfdgraphorderinit_])
-AC_CHECK_LIB([ptscotchparmetisv3], [scotch_parmetis_v3_partkway])
-AC_CHECK_LIB([pord], [printFactorMtx])
-AC_CHECK_LIB([esmumps], [esmumps])
-AC_CHECK_LIB([ptesmumps], [esmumpsv])
-AC_CHECK_LIB([mumps_common], [mumps_abort_])
-AC_CHECK_LIB([cmumps], [cmumps_root_solve_])
-AC_CHECK_LIB([dmumps], [dmumps_gather_root_])
-AC_CHECK_LIB([smumps], [smumps_gather_root_])
-AC_CHECK_LIB([zmumps], [zmumps_gather_root_])
-AC_CHECK_LIB([petscsys], [PetscObjectComm])
-AC_CHECK_LIB([petscvec], [vecsum_])
-AC_CHECK_LIB([petscmat], [matcreateaij_])
-AC_CHECK_LIB([petsctao], [MatSMFResetRowColumn])
-AC_CHECK_LIB([petscsnes], [SNESLineSearchCreate_Shell])
-AC_CHECK_LIB([petscdm], [DMFieldCreateDS])
-AC_CHECK_LIB([petscksp], [PCFieldSplitSetOffDiagUseAmat])
-AC_CHECK_LIB([petscts], [dmplexlandauijacobian_])
+AC_CHECK_LIB([fblas], [cswap_], ,AC_MSG_ERROR([cannot link to libfblas.a; check config.log]))
+AC_CHECK_LIB([flapack], [cungqr_], ,AC_MSG_ERROR([cannot link to libflapack.a; check config.log]))
+AC_CHECK_LIB([scalapack], [pbchkvect], ,AC_MSG_ERROR([cannot link to libscalapack.a; check config.log]))
+AC_CHECK_LIB([scotcherr], [SCOTCH_errorPrint], ,AC_MSG_ERROR([cannot link to libscotcherr.a; check config.log]))
+AC_CHECK_LIB([ptscotcherr], [SCOTCH_errorPrint], ,AC_MSG_ERROR([cannot link to libptscotcherr.a; check config.log]))
+AC_CHECK_LIB([scotch], [scotchfstratinit_], ,AC_MSG_ERROR([cannot link to libscotch.a; check config.log]))
+AC_CHECK_LIB([ptscotch], [scotchfdgraphorderinit_], ,AC_MSG_ERROR([cannot link to libptscotch.a; check config.log]))
+AC_CHECK_LIB([ptscotchparmetisv3], [scotch_parmetis_v3_partkway], ,AC_MSG_ERROR([cannot link to libptscotchparmetisv3.a; check config.log]))
+AC_CHECK_LIB([pord], [printFactorMtx], ,AC_MSG_ERROR([cannot link to libpord.a; check config.log]))
+AC_CHECK_LIB([esmumps], [esmumps], ,AC_MSG_ERROR([cannot link to libesmumps.a; check config.log]))
+AC_CHECK_LIB([ptesmumps], [esmumpsv], ,AC_MSG_ERROR([cannot link to libptesmumps.a; check config.log]))
+AC_CHECK_LIB([mumps_common], [mumps_abort_], ,AC_MSG_ERROR([cannot link to libmumps_common.a; check config.log]))
+AC_CHECK_LIB([cmumps], [cmumps_root_solve_], ,AC_MSG_ERROR([cannot link to libcmumps.a; check config.log]))
+AC_CHECK_LIB([dmumps], [dmumps_gather_root_], ,AC_MSG_ERROR([cannot link to libdmumps.a; check config.log]))
+AC_CHECK_LIB([smumps], [smumps_gather_root_], ,AC_MSG_ERROR([cannot link to libsmumps.a; check config.log]))
+AC_CHECK_LIB([zmumps], [zmumps_gather_root_], ,AC_MSG_ERROR([cannot link to libzmumps.a; check config.log]))
+AC_CHECK_LIB([petscsys], [PetscObjectComm], ,AC_MSG_ERROR([cannot link to libpetscsys.a; check config.log]))
+AC_CHECK_LIB([petscvec], [vecsum_], ,AC_MSG_ERROR([cannot link to libpetscvec.a; check config.log]))
+AC_CHECK_LIB([petscmat], [matcreateaij_], ,AC_MSG_ERROR([cannot link to libpetscmat.a; check config.log]))
+AC_CHECK_LIB([petsctao], [MatSMFResetRowColumn], ,AC_MSG_ERROR([cannot link to libpetsctao.a; check config.log]))
+AC_CHECK_LIB([petscsnes], [SNESLineSearchCreate_Shell], ,AC_MSG_ERROR([cannot link to libpetscsnes.a; check config.log]))
+AC_CHECK_LIB([petscdm], [DMFieldCreateDS], ,AC_MSG_ERROR([cannot link to libpetscdm.a; check config.log]))
+AC_CHECK_LIB([petscksp], [PCFieldSplitSetOffDiagUseAmat], ,AC_MSG_ERROR([cannot link to libpetscksp.a; check config.log]))
+AC_CHECK_LIB([petscts], [dmplexlandauijacobian_], ,AC_MSG_ERROR([cannot link to libpetscts.a; check config.log]))
 
 LDFLAGS="$LDFLAGS -L$SLEPC_DIR/$PETSC_ARCH/lib"
 CXXFLAGS="$CXXFLAGS -I$SLEPC_DIR/include -I$SLEPC_DIR/$PETSC_ARCH/include"
 CFLAGS="$CFLAGS -I$SLEPC_DIR/include -I$SLEPC_DIR/$PETSC_ARCH/include"
-AC_CHECK_LIB([slepcsys], [STPostSolve_Sinvert])
-AC_CHECK_LIB([slepclme], [LMECreate_Krylov])
-AC_CHECK_LIB([slepceps], [EPSCreate_KrylovSchur])
-AC_CHECK_LIB([slepcmfn], [MFNCreate_Krylov])
-AC_CHECK_LIB([slepcpep], [PEPSTOARSetDimensions])
-AC_CHECK_LIB([slepcnep], [NEPSolve_NArnoldi])
-AC_CHECK_LIB([slepcsvd], [SVDSetUp_LAPACK])
+AC_CHECK_LIB([slepcsys], [STPostSolve_Sinvert], ,AC_MSG_ERROR([cannot link to libslepcsys.a; check config.log]))
+AC_CHECK_LIB([slepclme], [LMECreate_Krylov], ,AC_MSG_ERROR([cannot link to libslepclme.a; check config.log]))
+AC_CHECK_LIB([slepceps], [EPSCreate_KrylovSchur], ,AC_MSG_ERROR([cannot link to libslepceps.a; check config.log]))
+AC_CHECK_LIB([slepcmfn], [MFNCreate_Krylov], ,AC_MSG_ERROR([cannot link to libslepcmfn.a; check config.log]))
+AC_CHECK_LIB([slepcpep], [PEPSTOARSetDimensions], ,AC_MSG_ERROR([cannot link to libslepcpep.a; check config.log]))
+AC_CHECK_LIB([slepcnep], [NEPSolve_NArnoldi], ,AC_MSG_ERROR([cannot link to libslepcnep.a; check config.log]))
+AC_CHECK_LIB([slepcsvd], [SVDSetUp_LAPACK], ,AC_MSG_ERROR([cannot link to libslepcsvd.a; check config.log]))
 
+AC_LANG([C++])
 LDFLAGS="$LDFLAGS -L$MFEM_DIR"
 CXXFLAGS="$CXXFLAGS -I$MFEM_DIR -I$MFEM_DIR/linalg"
-AC_CHECK_LIB([mfem], [_ZN4mfem11DenseMatrix3NegEv])
+LIBS="$LIBS -lmfem -lHYPRE -lmetis"
+AC_RUN_IFELSE([AC_LANG_PROGRAM([[
+    #include "mfem.hpp"
+    using namespace mfem; ]], [[ HypreParMatrix *mat; ]])],
+       [       AC_MSG_RESULT([checking for HypreParMatrix in -lmfem... yes])
+               AC_DEFINE_UNQUOTED([HAVE_LIBMFEM], [1], [Set to 1 when libmfem.a is found])
+       ],
+       [       AC_MSG_RESULT([checking for HypreParMatrix in -lmfem... no])
+               AC_MSG_ERROR([cannot link to libmfem.a; check config.log])
+       ],
+       []
+)
+AC_LANG([C])
 
 LDFLAGS="$LDFLAGS -L$HOME/lib"
 CXXFLAGS="$CXXFLAGS -I../../OpenParEMCommon/src"
 CFLAGS="$CXXFLAGS -I../../OpenParEMCommon/src"
-AC_CHECK_LIB([OpenParEMCommon], [prefix])
+AC_CHECK_LIB([OpenParEMCommon], [prefix], ,AC_MSG_ERROR([cannot link to libOpenParEMCommon.a; check config.log]))
 
 # Checks for header files.
 AC_CHECK_HEADERS([stddef.h stdlib.h unistd.h])
@@ -114,7 +140,7 @@ AC_TYPE_SIZE_T
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
-AC_CHECK_FUNCS([pow sqrt])
+AC_CHECK_FUNCS([pow sqrt, getcwd strdup strtoull])
 
 # force use of c++17
 m4_include([ax_cxx_compile_stdcxx.m4])
