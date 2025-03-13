@@ -21,6 +21,9 @@ AC_ARG_VAR(EIGEN_DIR,[includes for blas.h and others in $EIGEN_DIR])
 AC_ARG_VAR(METIS_DIR,[libmetis.a in $METIS_DIR])
 
 # Checks for libraries.
+
+AC_LANG([C])
+
 AC_CHECK_LIB([c], [malloc], ,AC_MSG_ERROR([cannot link to libc.a; check config.log]))
 AC_CHECK_LIB([m], [cos], ,AC_MSG_ERROR([cannot link to libm.a; check config.log]))
 AC_CHECK_LIB([quadmath], [acosq], ,AC_MSG_ERROR([cannot link to libquadmath.a; check config.log]))
@@ -28,6 +31,9 @@ AC_CHECK_LIB([X11], [XCreateSimpleWindow], ,AC_MSG_ERROR([cannot link to libX11.
 AC_CHECK_LIB([rt], [clock_getres], ,AC_MSG_ERROR([cannot link to librt.a; check config.log]))
 AC_CHECK_LIB([pthread], [pthread_mutex_init], ,AC_MSG_ERROR([cannot link to libpthread.a; check config.log]))
 AC_CHECK_LIB([dl], [dlvsym], ,AC_MSG_ERROR([cannot link to libdl.a; check config.log]))
+
+LDFLAGS="$LDFLAGS -L$METIS_DIR"
+AC_CHECK_LIB([metis], [METIS_PartGraphVKway], ,AC_MSG_ERROR([cannot link to libmetis.a; check config.log]))
 
 CXXFLAGS="$CXXFLAGS -I/usr/lib/x86_64-linux-gnu/openmpi/include"
 CFLAGS="$CFLAGS -I/usr/lib/x86_64-linux-gnu/openmpi/include"
@@ -47,9 +53,6 @@ LDFLAGS="$LDFLAGS -L$HYPRE_DIR/src/hypre/lib"
 CXXFLAGS="$CXXFLAGS -I$HYPRE_DIR/src/hypre/include"
 CFLAGS="$CFLAGS -I$HYPRE_DIR/src/hypre/include"
 AC_CHECK_LIB([HYPRE], [hypre_ParCSRMatrixCreate], ,AC_MSG_ERROR([cannot link to libHYPRE.a; check config.log]))
-
-LDFLAGS="$LDFLAGS -L$METIS_DIR"
-AC_CHECK_LIB([metis], [METIS_PartGraphRecursive], ,AC_MSG_ERROR([cannot link to libmetis.a; check config.log]))
 
 LDFLAGS="$LDFLAGS -L/usr/lib/gcc/x86_64-linux-gnu/9/"
 AC_CHECK_LIB([gfortran], [_gfortran_rand], ,AC_MSG_ERROR([cannot link to libgfortran.a; check config.log]))
