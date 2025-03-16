@@ -31,7 +31,6 @@
 #include <cstdlib>
 #include <filesystem>
 #include <string>
-#include <lapacke.h>
 #include "modes.hpp"
 #include "project.h"
 #include "convergence.hpp"
@@ -41,6 +40,9 @@
 
 using namespace std;
 using namespace mfem;
+
+#define lapack_int int
+#define lapack_complex_double complex<double>
 
 void test_is_point_on_line ();
 extern "C" void matrixPrint(lapack_complex_double *, lapack_int);

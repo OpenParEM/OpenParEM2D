@@ -17,7 +17,6 @@ AC_ARG_VAR(HYPRE_DIR,[libHYPRE.a in $HYPRE_DIR/src/hypre/lib; includes in $HYPRE
 AC_ARG_VAR(PETSC_DIR,[libpetscsys.a + others in $PETSC_DIR/$PETSC_ARCH/lib; includes in $PETSC_DIR/include and $PETSC_DIR/$PETSC_ARCH/include])
 AC_ARG_VAR(PETSC_ARCH)
 AC_ARG_VAR(SLEPC_DIR,[libslepcsys.a + others in $SLEPC_DIR/$PETSC_ARCH/lib; includes in $SLEPC_DIR/include $SLEPC_DIR/$PETSC_ARCH/include])
-AC_ARG_VAR(EIGEN_DIR,[includes for blas.h and others in $EIGEN_DIR])
 AC_ARG_VAR(METIS_DIR,[libmetis.a in $METIS_DIR])
 
 # Checks for libraries.
@@ -27,7 +26,6 @@ AC_LANG([C])
 AC_CHECK_LIB([c], [malloc], ,AC_MSG_ERROR([cannot link to libc.a; check config.log]))
 AC_CHECK_LIB([m], [cos], ,AC_MSG_ERROR([cannot link to libm.a; check config.log]))
 AC_CHECK_LIB([quadmath], [acosq], ,AC_MSG_ERROR([cannot link to libquadmath.a; check config.log]))
-AC_CHECK_LIB([X11], [XCreateSimpleWindow], ,AC_MSG_ERROR([cannot link to libX11.a; check config.log]))
 AC_CHECK_LIB([rt], [clock_getres], ,AC_MSG_ERROR([cannot link to librt.a; check config.log]))
 AC_CHECK_LIB([pthread], [pthread_mutex_init], ,AC_MSG_ERROR([cannot link to libpthread.a; check config.log]))
 AC_CHECK_LIB([dl], [dlvsym], ,AC_MSG_ERROR([cannot link to libdl.a; check config.log]))
@@ -43,12 +41,6 @@ AC_CHECK_LIB([mpi++], [mpi_init_], ,AC_MSG_ERROR([cannot link to libmpi++.a; che
 AC_CHECK_LIB([mpi_usempif08], [mpi_init_], ,AC_MSG_ERROR([cannot link to libmpi_usempif08.a; check config.log]))
 AC_CHECK_LIB([mpi_usempi_ignore_tkr], [mpi_init_], ,AC_MSG_ERROR([cannot link to libmpi_usempi_ignore_tkr.a; check config.log]))
 
-LDFLAGS="$LDFLAGS -L/usr/lib/x86_64-linux-gnu"
-CXXFLAGS="$CXXFLAGS -I$EIGEN_DIR"
-CFLAGS="$CFLAGS -I$EIGEN_DIR"
-AC_CHECK_LIB([lapack64], [ztgsyl_], ,AC_MSG_ERROR([cannot link to liblapack64.a; check config.log]))
-AC_CHECK_LIB([lapacke64], [LAPACKE_zlagsy], ,AC_MSG_ERROR([cannot link to liblapacke64.a; check config.log]))
-
 LDFLAGS="$LDFLAGS -L$HYPRE_DIR/src/hypre/lib"
 CXXFLAGS="$CXXFLAGS -I$HYPRE_DIR/src/hypre/include"
 CFLAGS="$CFLAGS -I$HYPRE_DIR/src/hypre/include"
@@ -56,7 +48,6 @@ AC_CHECK_LIB([HYPRE], [hypre_ParCSRMatrixCreate], ,AC_MSG_ERROR([cannot link to 
 
 LDFLAGS="$LDFLAGS -L/usr/lib/gcc/x86_64-linux-gnu/9/"
 AC_CHECK_LIB([gfortran], [_gfortran_rand], ,AC_MSG_ERROR([cannot link to libgfortran.a; check config.log]))
-AC_CHECK_LIB([gcc_s], [__clzdi2], ,AC_MSG_ERROR([cannot link to libgcc_s.a; check config.log]))
 
 AC_LANG([C++])
 LIBS="$LIBS -lstdc++"

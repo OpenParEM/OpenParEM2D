@@ -39,7 +39,6 @@
 #include <string>
 #include <chrono>
 #include <unistd.h>
-#include <lapacke.h>
 #include "modes.hpp"
 #include "results.hpp"
 #include "convergence.hpp"
