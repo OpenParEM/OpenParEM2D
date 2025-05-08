@@ -1,4 +1,7 @@
 # OpenParEM2D
+
+DEPRECATED - Replaced by OpenParEM
+
 **Open** **Par**allel **E**lectro**m**agnetic **2D** – A free, open-source electromagnetic simulator for 2D waveguides and transmission lines.
 
 [OpenParEM2D](https://openparem.org) solves waveguides and transmission lines with arbitrary cross sections and conductor counts for the propagation constants, losses (dielectric, conductor, and surface roughness), characteristic impedances, and fields of the dominant and higher-order modes.  It is a full-wave solver simultaneously solving all of Maxwell's equations, so the solutions are good to arbitrarily high frequencys with a problem-dependent limit on lower frequencies.
